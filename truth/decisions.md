@@ -1,0 +1,37 @@
+---
+status: active
+owner: John Peng (hardware), Steve Lu (software)
+last_reviewed: 2026-10-08
+---
+
+# Decision Log
+
+Append-only. Newest at the bottom. Never edit a past entry's decision. If something changes, add a new entry and mark the old one `superseded by D-XXX`.
+
+Format: ID, date, decision, why, source. Status is `active` unless noted.
+
+| ID | Date | Decision | Why | Source | Status |
+|---|---|---|---|---|---|
+| D-001 | 2026-09-27 | Tether is Cove with a gripper on both ends. It walks inchworm-style: one end anchors, the other moves. | Cove's joint chain is symmetric, so either end can be the base. Inspired by GITAI IN1. | [kickoff deck](../assets/2026-09-27-tether-kickoff.pptx) | active |
+| D-002 | 2026-10-06 | Use the "straighter but offset" joint layout. Full diagonal is rejected. | Full diagonal is too unbalanced and screws would fail. Offset gives more joint freedom without needing full 360 everywhere. | [mech layout](../meetings/2026-10-06-mech-layout.md) | active |
+| D-003 | 2026-10-06 | The middle joint gets continuous 360° rotation. | Cove's joint range was too limited and IK couldn't reach some poses. | [mech layout](../meetings/2026-10-06-mech-layout.md) | active |
+| D-004 | 2026-10-06 | Batteries ride on each module: 3 sizes, 5 to 6 total. End modules share sizes pairwise, middle module has its own. 5,000 mAh for main modules, ~2 h runtime target. Spinning parts mount batteries outside with a spacer; stationary parts mount inside, hard-mounted to the motor. | Each module powers its own motors, so no power crosses joints between modules. | [mech layout](../meetings/2026-10-06-mech-layout.md) | active |
+| D-005 | 2026-10-06 | Symmetric servo claw on each end. It folds into a circular docking connector housing. The claw motor belongs to the claw module, so each end always needs a claw module attached. | Same part on both ends. Docking geometry can enforce orientation, which removes a rotation motor. | [mech layout](../meetings/2026-10-06-mech-layout.md) | active |
+| D-006 | 2026-10-06 | 5 modules, one ESP per module, fully wireless between modules. No wiring crosses modules. Each battery feeds its own motor driver. | Follows from per-module batteries (D-004). | [mech layout](../meetings/2026-10-06-mech-layout.md) | superseded by D-020 (module count). Wireless-only still holds. |
+| D-007 | 2026-10-05 | Electrical prototype is breadboard only. No custom PCB yet. All power and comms electronics on one breadboard per module. | Move fast before the design settles. | [team scheduling](../meetings/2026-10-05-team-scheduling.md) | active |
+| D-008 | 2026-10-05 | No BMS. Motors connect directly to the battery because they have built-in min-voltage shutoff. A DC-DC converter steps down for the ESPs, not a separate battery. ESP antenna stays exposed at the top. | Motors already protect against undervoltage. | [team scheduling](../meetings/2026-10-05-team-scheduling.md) | active. Supersedes "battery + BMS" in the kickoff deck. |
+| D-009 | 2026-10-05 | Trent is embedded software lead. | Iris is too busy with RPL / Triple L. | [team scheduling](../meetings/2026-10-05-team-scheduling.md) | active |
+| D-010 | 2026-10-06 | NRF ESB for slow sensor data streaming. BLE ruled out. | Low bandwidth is enough for sensor data. | [mech layout](../meetings/2026-10-06-mech-layout.md) | superseded by D-019 (ESB is now the fallback) |
+| D-011 | 2026-10-06 | Build one arm module first as an MVP, then replicate. Jack owns the first module. | De-risk one module before building five. | [mech layout](../meetings/2026-10-06-mech-layout.md) | active |
+| D-012 | 2026-10-08* | Motion capture is the primary localization method. SLAM ruled out (too noisy in dark, leafy outdoor conditions). ToF/LiDAR ruled out (point clouds are overkill). AprilTags kept as a backup for end-effector docking alignment. | Cameras are small enough to place around the environment. | [mocap localization](../meetings/2026-10-08-mocap-localization.md) | active |
+| D-013 | 2026-10-08* | All compute is offboard. No onboard compute on the robot. | Robot is battery powered. | [mocap localization](../meetings/2026-10-08-mocap-localization.md) | active. Supersedes "onboard compute in a closed package" in the kickoff deck. |
+| D-014 | 2026-10-08* | Locomotion uses motion planning. No RL at this stage. Manipulation is secondary. VLA/VLM ideas are deprioritized. | Walking is the primary goal and planning is enough for it. | [mocap localization](../meetings/2026-10-08-mocap-localization.md) | active |
+| D-015 | 2026-10-08* | Trent and Jason own mocap setup and the low-level comms layer. Iris may move from ROS to electrical. | Everyone else is on mech/electrical. | [mocap localization](../meetings/2026-10-08-mocap-localization.md) | active |
+| D-016 | 2026-10-05 | Collect member availability in person, not from scheduling tools. | Availability was underreported in the tools. | [team scheduling](../meetings/2026-10-05-team-scheduling.md) | active |
+| D-017 | 2026-10-06 | Recurring team meetings: Fridays 5 PM and Sundays. | Establish a regular cadence. | [mech layout](../meetings/2026-10-06-mech-layout.md) | active |
+| D-018 | 2026-10-08* | Mocap source priority: (1) borrow IYA/Avalon system via Ming, (2) ask WISP team, (3) build or source open-source mocap, (4) fall back to encoders (drifted last time). | IYA likely says no, so a fallback is needed regardless. | [mocap localization](../meetings/2026-10-08-mocap-localization.md) | active, IYA answer expected Monday |
+| D-019 | 2026-10-08 | Test inter-module wireless with ESP-NOW first. Use NRF ESB later only if ESP-NOW falls short. | Resolves the ESP-NOW vs ESB conflict between the 10-06 and 10-08 meetings. | John Peng, resolving open questions | active |
+| D-020 | 2026-10-08 | 3 wireless modules, not 5. The separate end-effector modules are eliminated. | Latest plan as of the 10-08 meeting. | John Peng, resolving open questions | active. Supersedes the module count in D-006. |
+| D-021 | 2026-10-08 | Trust the URDF for joint axes: Z-Y-Z-Y-Z-Y-Z. The kickoff deck's Z-X-Z-X-Z-X-Z is wrong or a different convention. | The URDF is what the sim and code use. | John Peng, resolving open questions | active |
+
+\* Meeting date unconfirmed. See the meeting note header.
