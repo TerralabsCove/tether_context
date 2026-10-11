@@ -29,3 +29,4 @@ Every current doc, one line each. Start here.
 
 - [tether](https://github.com/TerralabsCove/tether): COVE2 sim. See `PROJECT_SUMMARY.md`, `docs/VALIDATION_PLAN.md`, `docs/EDITOR_ARCHITECTURE.md`.
 - [cove-controls](https://github.com/TerralabsCove/cove-controls): Cove controls code and URDF
+- [tethersmall](https://github.com/TerralabsCove/tethersmall): two-motor ESP-NOW + Damiao testbed; RL policy over ESP-NOW. See `docs/ESPNOW_BRINGUP.md` and the [2026-10-11 note](notes/2026-10-11-john-tethersmall-rl-over-espnow.md).

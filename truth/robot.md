@@ -1,14 +1,14 @@
 ---
 status: active
 owner: John Peng (hardware)
-last_reviewed: 2026-10-08
+last_reviewed: 2026-10-11
 ---
 
 # Robot: Cove and Tether
 
 Every fact here carries a tag. **[verified]** means measured on hardware with a recorded artifact. **[as built]** means true of the physical Cove but not measured against the model. **[decided]** means a design decision with a log entry. **[assumed]** means used in sim or planning but not checked.
 
-Nothing is **[verified]** yet. Gate G0 is what changes that.
+Nothing about Cove or Tether is **[verified]** yet. Gate G0 is what changes that. The first measured artifacts are from the tethersmall testbed below.
 
 ## Cove (spring 2026, the starting point)
 
@@ -44,6 +44,21 @@ Nothing is **[verified]** yet. Gate G0 is what changes that.
 | Control approach | Motion planning, no RL for now | decided D-014 |
 | Electronics build | Breadboard, no PCB yet | decided D-007 |
 | End-effector battery | Not yet specced | open |
+
+## tethersmall testbed (2026-10-11)
+
+Two Cove pitch modules (DM10010) and their brackets, with no other joints, driven by an RL policy on a Mac over ESP-NOW. It is the Tether wireless architecture in miniature. Details live with the code: [docs/ESPNOW_BRINGUP.md](https://github.com/TerralabsCove/tethersmall/blob/main/docs/ESPNOW_BRINGUP.md). Artifacts: [deploy/hardware_logs/](https://github.com/TerralabsCove/tethersmall/tree/main/deploy/hardware_logs).
+
+| Item | Value | Tag |
+|---|---|---|
+| Link | Mac → USB → master XIAO ESP32-C3 → ESP-NOW broadcast (channel 11, 1 Mbit/s) → slave XIAO ESP32-C3 / ESP32-C6 → CAN 1 Mbit/s → Damiao (MIT mode) | as built |
+| Safety on each slave | 2.5 rad/s target slew, 200 ms watchdog (goes limp), overspeed cut at 3.5 rad/s, 12 Nm torque cap | as built |
+| Command delivery, each command sent twice | 91–94 % on a bench; losses are bursty | verified (hardware_logs, bench tests) |
+| Command→state round trip | p50 13 ms, p95 ~70 ms, max ~210 ms | verified (run-20261011-013601) |
+| Channel choice | Channel 1 lost 10–34 % of one slave's packets to nearby Wi-Fi; channel 11 lost 0 % | verified (bench measurement, 2026-10-11; numbers in ESPNOW_BRINGUP.md) |
+| Damiao position wrap | A motor's position reading can jump by 2π. One motor's straight pose sat next to its wrap; firmware now tracks turns | verified (observed on motor A) |
+| Policy on hardware | 20 s with no faults; B−A phase +89.9° (sim +86°), amplitudes 0.45 / 0.59 rad (sim 0.49 / 0.57) | verified (run-20261011-013601) |
+| Forward progress | ~0.20 m in 20 s, limited by cable drag. Not a policy result. | as built (observed, not instrumented) |
 
 ## Simulation model
 

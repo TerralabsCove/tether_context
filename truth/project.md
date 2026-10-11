@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng, Steve Lu
-last_reviewed: 2026-10-08
+last_reviewed: 2026-10-11
 ---
 
 # Tether: Project Overview
@@ -12,11 +12,12 @@ Tether is a Terra Labs project for fall 2026. It turns **Cove**, the 7-DOF arm t
 
 In code the robot is called **COVE2**. "Tether" and "COVE2" refer to the same robot.
 
-## Where things stand (as of 2026-10-08)
+## Where things stand (as of 2026-10-11)
 
 - **Cove** is built and moves. It is the hardware starting point.
 - **Tether in software:** the sim (COVE2 Robot Studio) can plan collision-free walking, a ladder climb, and a loop around a table on Cove's model. See [the tether repo](https://github.com/TerralabsCove/tether).
 - **Tether in hardware:** the mechanical layout is chosen (D-002, D-003). The arm is now 3 wireless modules (D-020), and the first module is being built as an MVP (D-011). Electrical is on breadboards (D-007).
+- **ESP-NOW + Damiao testbed (tethersmall), 2026-10-11:** an RL policy on a Mac drove two Damiao motors through per-module ESP32s over ESP-NOW (offboard compute, wireless modules, ESP-NOW first: D-013, D-020, D-019). It ran 20 s with no faults and reproduced the sim gait. The link works but has little margin. See [robot.md](robot.md#tethersmall-testbed-2026-10-11) and [the note](../notes/2026-10-11-john-tethersmall-rl-over-espnow.md). Whether this changes D-014 (no RL) is an [open conflict](open-questions.md#conflicts-between-sources).
 - **Direction changes since kickoff:** compute moved fully offboard (D-013). The BMS was dropped (D-008). RL is not needed for now; locomotion uses motion planning (D-014).
 
 ## Goals, in priority order
@@ -35,7 +36,7 @@ From the kickoff deck and the repo's validation plan. Rough timing from kickoff:
 | G1 | Kinematic feasibility | software | done in sim |
 | G2 | Scripted dynamics | software | started |
 | G3 | Contact + robustness (RL now deprioritized, D-014) | software | not started |
-| G4 | Hardware bench tests: gripper pull-off, battery, slip ring / cable rotation, comms, motor watchdogs | hardware | not started |
+| G4 | Hardware bench tests: gripper pull-off, battery, slip ring / cable rotation, comms, motor watchdogs | hardware | comms and motor watchdogs exercised on the tethersmall testbed (2026-10-11); the rest not started |
 | G5 | Integrated locomotion: first supported steps on the real robot, compared against sim logs | both | not started |
 
 Full gate definitions live in the code repo: `docs/VALIDATION_PLAN.md` in [tether](https://github.com/TerralabsCove/tether).
@@ -57,4 +58,5 @@ Full gate definitions live in the code repo: `docs/VALIDATION_PLAN.md` in [tethe
 | Every decision and why | [decisions.md](decisions.md) |
 | What's unresolved | [open-questions.md](open-questions.md) |
 | Sim codebase snapshot | `PROJECT_SUMMARY.md` in the tether repo |
+| ESP-NOW + Damiao testbed (RL over ESP-NOW) | [tethersmall repo](https://github.com/TerralabsCove/tethersmall), `docs/ESPNOW_BRINGUP.md` |
 | Kickoff deck | [assets/2026-09-27-tether-kickoff.pptx](../assets/2026-09-27-tether-kickoff.pptx) |

@@ -1,7 +1,7 @@
 ---
 status: active
 owner: anyone
-last_reviewed: 2026-10-08
+last_reviewed: 2026-10-11
 ---
 
 # Glossary
@@ -27,10 +27,13 @@ last_reviewed: 2026-10-08
 | IYA / Avalon | Group whose mocap system we hope to borrow. Contact via Ming. |
 | WISP | Another team that may use mocap. |
 | ESP | ESP32-family microcontroller. One per module. |
-| Xiao | Seeed XIAO, a small microcontroller board. Which variant we have is not recorded. |
+| Xiao | Seeed XIAO, a small microcontroller board. tethersmall uses XIAO ESP32-C3 (needs its U.FL antenna) and XIAO ESP32-C6 (on-board antenna). Which variant Tether's modules will use is not recorded. |
 | ESP-NOW | Espressif's low-latency wireless protocol between ESPs. |
 | NRF ESB | Nordic's Enhanced ShockBurst wireless protocol. |
 | BMS | Battery management system. Dropped for Tether (D-008). |
 | Damiao | The actuator brand used on Cove. |
+| tethersmall | Two-motor testbed from Cove parts, used to test an RL policy and the module firmware over ESP-NOW. [Repo](https://github.com/TerralabsCove/tethersmall). |
+| Master / slave (ESP-NOW) | In tethersmall: the master ESP32 sits on the computer's USB and relays frames; each slave ESP32 drives one module's motors over CAN. |
+| MIT mode | Damiao control mode: the motor runs its own PD loop toward a position target with gains sent in each command. |
 | TerraGM | Terra Labs general meeting. |
 | Granola | The app that records and summarizes our meetings. |
