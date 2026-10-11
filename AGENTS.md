@@ -37,3 +37,4 @@ Never create new top-level folders. Never delete files. Move superseded files to
 
 - [TerralabsCove/tether](https://github.com/TerralabsCove/tether): the COVE2 sim and code. Code-coupled docs live there.
 - [TerralabsCove/cove-controls](https://github.com/TerralabsCove/cove-controls): Cove's controls code and URDF.
+- [TerralabsCove/tethersmall](https://github.com/TerralabsCove/tethersmall): two-motor ESP-NOW + Damiao testbed (RL policy, module firmware, hardware logs). Start at `docs/ESPNOW_BRINGUP.md`.
