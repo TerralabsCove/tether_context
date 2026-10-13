@@ -6,7 +6,7 @@ Every current doc, one line each. Start here.
 
 - [truth/project.md](truth/project.md): what Tether is, goals, roadmap, where things stand
 - [truth/robot.md](truth/robot.md): Cove as built and Tether's design, with verified vs assumed tags
-- [truth/decisions.md](truth/decisions.md): every decision, why, and where it was made (D-001 to D-023)
+- [truth/decisions.md](truth/decisions.md): every decision, why, and where it was made (D-001 to D-025)
 - [truth/open-questions.md](truth/open-questions.md): unresolved questions and risks to watch
 - [truth/team.md](truth/team.md): who does what, meeting schedule
 - [truth/glossary.md](truth/glossary.md): terms and acronyms

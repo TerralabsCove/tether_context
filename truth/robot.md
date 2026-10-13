@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng (hardware)
-last_reviewed: 2026-10-12
+last_reviewed: 2026-10-13
 ---
 
 # Robot: Cove and Tether
@@ -33,8 +33,8 @@ Nothing about Cove or Tether is **[verified]** yet. Gate G0 is what changes that
 | Joint layout | "Straighter but offset", not full diagonal | decided D-002 |
 | Middle joint | Continuous 360° | decided D-003 |
 | Modules | 3 wireless modules, one ESP brain each. No separate end-effector modules. | decided D-020 |
-| Drive motors | Each module controls one small and one big Damiao motor, for six drive motors total. Each pair uses a private local CAN bus. | decided D-022 |
-| Master motor IDs | Small: slave `0x07`, feedback `0x17`. Big: slave `0x04`, feedback `0x14`. Left and right motor IDs are not yet scanned. | decided D-022 |
+| Drive motors | Eight total. Master ID 0 controls two. Left ID 1 and right ID 2 control three each. Every module uses a private local CAN bus. The type and role of each remote module's third motor are not yet recorded. | decided D-024 |
+| Master motor IDs | Small: slave `0x07`, feedback `0x17`. Big: slave `0x04`, feedback `0x14`. All six left and right motor identities are not yet scanned. | decided D-022, D-024 |
 | Inter-module wiring | None. Fully wireless. | decided D-006 |
 | Inter-module link | ESP-NOW first, NRF ESB as fallback (BLE ruled out) | decided D-019 |
 | Batteries | Layout planned for 5 modules, needs rework for 3 (see open questions). 3 sizes, 5–6 total, 5,000 mAh main modules, ~2 h runtime target, ~$50 per small battery | decided D-004 |

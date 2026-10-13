@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng (hardware), Steve Lu (software)
-last_reviewed: 2026-10-12
+last_reviewed: 2026-10-13
 ---
 
 # Decision Log
@@ -33,7 +33,9 @@ Format: ID, date, decision, why, source. Status is `active` unless noted.
 | D-019 | 2026-10-08 | Test inter-module wireless with ESP-NOW first. Use NRF ESB later only if ESP-NOW falls short. | Resolves the ESP-NOW vs ESB conflict between the 10-06 and 10-08 meetings. | John Peng, resolving open questions | active |
 | D-020 | 2026-10-08 | 3 wireless modules, not 5. The separate end-effector modules are eliminated. | Latest plan as of the 10-08 meeting. | John Peng, resolving open questions | active. Supersedes the module count in D-006. |
 | D-021 | 2026-10-08 | Trust the URDF for joint axes: Z-Y-Z-Y-Z-Y-Z. The kickoff deck's Z-X-Z-X-Z-X-Z is wrong or a different convention. | The URDF is what the sim and code use. | John Peng, resolving open questions | active |
-| D-022 | 2026-10-12 | Each of the three wireless modules controls one small and one big Damiao motor over its own local CAN bus. The master module uses slave IDs `0x07` (small) and `0x04` (big), with feedback IDs `0x17` and `0x14`. The four motors on the left and right modules remain unassigned until they are scanned. | Keeps the left and right modules symmetric and avoids inventing CAN IDs before hardware identification. | Irisy, embedded controls bench configuration | active |
-| D-023 | 2026-10-12 | Radio protocol version 2 addresses two motors per module: slot `0` is small and slot `1` is big. Commands, telemetry, sequence tracking, limits, enable state, estop state, and command watchdogs are per motor. Both motors share their module's TWAI bus, so bus-off is module-wide. | Makes the six-motor topology independently controllable without adding another ESP or CAN interface per module. | Irisy, embedded controls implementation | active |
+| D-022 | 2026-10-12 | Each of the three wireless modules controls one small and one big Damiao motor over its own local CAN bus. The master module uses slave IDs `0x07` (small) and `0x04` (big), with feedback IDs `0x17` and `0x14`. The four motors on the left and right modules remain unassigned until they are scanned. | Keeps the left and right modules symmetric and avoids inventing CAN IDs before hardware identification. | Irisy, embedded controls bench configuration | superseded by D-024 for motor counts. The master IDs remain active. |
+| D-023 | 2026-10-12 | Radio protocol version 2 addresses two motors per module: slot `0` is small and slot `1` is big. Commands, telemetry, sequence tracking, limits, enable state, estop state, and command watchdogs are per motor. Both motors share their module's TWAI bus, so bus-off is module-wide. | Makes the six-motor topology independently controllable without adding another ESP or CAN interface per module. | Irisy, embedded controls implementation | superseded by D-025 |
+| D-024 | 2026-10-13 | The master module (ID 0) controls two motors. The symmetric left and right modules (IDs 1 and 2) control three motors each, for eight motors total. All motors on a module share that module's private local CAN bus. The third motor's type and all six remote motor CAN identities remain unknown until the hardware is identified and scanned. | Corrects the earlier assumption that every module has two motors without inventing details about the newly identified third motor. | Irisy, topology correction | active. Supersedes the motor counts in D-022. |
+| D-025 | 2026-10-13 | Radio protocol version 3 provides three addressable motor slots and advertises a node-specific active count: two slots on master ID 0 and three slots on node IDs 1 and 2. Commands, telemetry, safety state, limits, and watchdogs remain per motor; CAN bus-off remains module-wide. | Supports the asymmetric 2+3+3 topology while rejecting commands for nonexistent slots and preventing silent interoperability with two-slot protocol-v2 firmware. | Irisy, embedded controls implementation | active. Supersedes D-023. |
 
 \* Meeting date unconfirmed. See the meeting note header.
