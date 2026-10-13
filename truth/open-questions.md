@@ -32,7 +32,7 @@ When two sources disagree, list it here and let a PM decide.
 8. **Wire routing inside a module.** Per-module batteries remove cables between modules. Joints within a module, especially the continuous middle joint (D-003), may still need a slip ring. Owner: mech.
 9. **Docking alignment hole.** The AprilTag backup needs a centered hole in the end effector. Needs a meeting with the mechanical designers. Owner: John.
 10. **Does the docking geometry lock orientation?** A triangle or pinned shape could remove a rotation motor. Owner: mech.
-11. **Left and right motor identities.** Identify the type and mechanical role of all three motors on each remote module. Scan each motor and record its slave ID, feedback ID, model, PMAX, VMAX, and TMAX. IDs must be distinct within a module's local CAN bus; do not assign them by assumption. Owner: embedded, electrical.
+11. **Motor feedback identities and limits.** The slave IDs and remote slot roles are assigned in D-028. Scan the six remote motors and record each feedback ID, model, PMAX, VMAX, and TMAX. Confirm the master `0x04` motor still replies on feedback ID `0x14`. IDs must be distinct within a module's local CAN bus; do not derive feedback IDs by assumption. Owner: embedded, electrical.
 
 ## Software
 

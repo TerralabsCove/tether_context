@@ -16,9 +16,9 @@ remain in the control repositories.
 - **[as built]** The laptop talks to master ID 0 through its Wi-Fi SoftAP and
   UDP port 4210.
 - **[as built]** The master sends full-state commands to nodes over ESP-NOW.
-- **[decided D-024]** Master ID 0 contains two motors. Remote module IDs 1 and
-  2 contain three motors each, for eight total. The type and mechanical role
-  of each remote module's third motor have not yet been recorded.
+- **[decided D-026, D-028]** Master ID 0 contains one motor. Remote module IDs
+  1 and 2 contain three motors each, for seven total. Remote slots have the
+  same big / near-master / far-end semantics on both sides.
 - **[assumed]** Each module talks to its local motors over a private 1 Mbit/s
   Classical CAN bus. No motor shares a wired CAN bus across modules.
 - **[as built]** CAN IDs only need to be unique within one local bus. IDs may
@@ -41,14 +41,13 @@ remain in the control repositories.
 
 | Node | Motor | Slave CAN ID | Feedback/master ID | PMAX | VMAX | TMAX | Status |
 |---:|---|---:|---:|---:|---:|---:|---|
-| 0 | small | `0x07` | `0x17` | 12.5 | 10 | 28 | **[verified]** scan and feedback; assigned to master |
-| 0 | big | `0x04` | `0x14` | 12.5 | 20 | 200 | **[as built]** current bridge configuration; assigned to master |
-| 1 | small | unknown | unknown | read from motor | read from motor | read from motor | **[assumed]** not scanned |
-| 1 | big | unknown | unknown | read from motor | read from motor | read from motor | **[assumed]** not scanned |
-| 1 | third (type unknown) | unknown | unknown | read from motor | read from motor | read from motor | **[assumed]** not scanned |
-| 2 | small | unknown | unknown | read from motor | read from motor | read from motor | **[assumed]** not scanned |
-| 2 | big | unknown | unknown | read from motor | read from motor | read from motor | **[assumed]** not scanned |
-| 2 | third (type unknown) | unknown | unknown | read from motor | read from motor | read from motor | **[assumed]** not scanned |
+| 0 | slot 0, only motor | `0x04` | `0x14` | 12.5 | 20 | 200 | **[verified]** prior scan and inspection; assigned by D-028 |
+| 1 | slot 0, big | `0x02` | unknown | read from motor | read from motor | read from motor | **[decided D-028]** feedback and limits unscanned |
+| 1 | slot 1, near master | `0x05` | unknown | read from motor | read from motor | read from motor | **[decided D-028]** feedback and limits unscanned |
+| 1 | slot 2, far/end | `0x01` | unknown | read from motor | read from motor | read from motor | **[decided D-028]** feedback and limits unscanned |
+| 2 | slot 0, big | `0x06` | unknown | read from motor | read from motor | read from motor | **[decided D-028]** feedback and limits unscanned |
+| 2 | slot 1, near master | `0x03` | unknown | read from motor | read from motor | read from motor | **[decided D-028]** feedback and limits unscanned |
+| 2 | slot 2, far/end | `0x07` | unknown | read from motor | read from motor | read from motor | **[decided D-028]** feedback and limits unscanned |
 
 The firmware reads PMAX, VMAX, and TMAX from motor registers 21–23 before it
 allows enable. Static values are bridge inputs and commissioning references,
@@ -76,7 +75,7 @@ not a substitute for reading the connected motor.
 - **[verified]** The deployment Arduino firmware compiles for
   `XIAO_ESP32C6` with Arduino-ESP32 `4.0.0-RC1` and ESP-IDF 6.1.
 - **[verified]** Protocol version 3 provides three motor slots. Master ID 0
-  uses two slots; remote IDs 1 and 2 use all three. It compiles for a XIAO
+  uses one slot; remote IDs 1 and 2 use all three. It compiles for a XIAO
   ESP32-C6 master, a three-motor XIAO ESP32-C6 node, and an ESP32-S3 master.
   The simulator verifies node-specific slot counts, independent sequences, and
   watchdogs. Physical multi-motor-on-one-bus behavior is not yet verified.
@@ -110,7 +109,7 @@ cutoff accessible.
 - The Arduino edition is the current deployment path. It includes
   SoftAP/UDP laptop control, unicast MAC provisioning, discovery, presence,
   both watchdogs, and direct TWAI motor control. Protocol version 3 selects
-  slots `0` and `1` on the master and slots `0` through `2` on each remote
+  slot `0` on the master and slots `0` through `2` on each remote
   node, with independent command and telemetry state for every motor on a
   module's shared TWAI bus.
 - The native IDF edition is archived under `tether_controls/archive`. It is a
