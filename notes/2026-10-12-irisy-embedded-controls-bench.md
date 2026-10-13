@@ -1,7 +1,7 @@
 ---
 status: draft
 owner: Irisy
-last_reviewed: 2026-10-12
+last_reviewed: 2026-10-13
 ---
 
 # Embedded controls bench
@@ -16,12 +16,11 @@ remain in the control repositories.
 - **[as built]** The laptop talks to master ID 0 through its Wi-Fi SoftAP and
   UDP port 4210.
 - **[as built]** The master sends full-state commands to nodes over ESP-NOW.
-- **[assumed]** Each of the three modules contains one small and one big
-  Damiao motor. Master ID 0 controls its pair directly over TWAI while also
-  coordinating remote module IDs 1 and 2 over ESP-NOW. This six-motor layout
-  is user-specified but not yet hardware-verified.
-- **[assumed]** Each module talks to its two local motors over a private
-  1 Mbit/s Classical CAN bus. No motor shares a wired CAN bus across modules.
+- **[decided D-024]** Master ID 0 contains two motors. Remote module IDs 1 and
+  2 contain three motors each, for eight total. The type and mechanical role
+  of each remote module's third motor have not yet been recorded.
+- **[assumed]** Each module talks to its local motors over a private 1 Mbit/s
+  Classical CAN bus. No motor shares a wired CAN bus across modules.
 - **[as built]** CAN IDs only need to be unique within one local bus. IDs may
   overlap across modules because the three CAN buses are electrically separate.
 - **[assumed]** Final modules are XIAO ESP32-C6 boards with 3.3 V CAN
@@ -46,8 +45,10 @@ remain in the control repositories.
 | 0 | big | `0x04` | `0x14` | 12.5 | 20 | 200 | **[as built]** current bridge configuration; assigned to master |
 | 1 | small | unknown | unknown | read from motor | read from motor | read from motor | **[assumed]** not scanned |
 | 1 | big | unknown | unknown | read from motor | read from motor | read from motor | **[assumed]** not scanned |
+| 1 | third (type unknown) | unknown | unknown | read from motor | read from motor | read from motor | **[assumed]** not scanned |
 | 2 | small | unknown | unknown | read from motor | read from motor | read from motor | **[assumed]** not scanned |
 | 2 | big | unknown | unknown | read from motor | read from motor | read from motor | **[assumed]** not scanned |
+| 2 | third (type unknown) | unknown | unknown | read from motor | read from motor | read from motor | **[assumed]** not scanned |
 
 The firmware reads PMAX, VMAX, and TMAX from motor registers 21–23 before it
 allows enable. Static values are bridge inputs and commissioning references,
@@ -74,10 +75,11 @@ not a substitute for reading the connected motor.
 
 - **[verified]** The deployment Arduino firmware compiles for
   `XIAO_ESP32C6` with Arduino-ESP32 `4.0.0-RC1` and ESP-IDF 6.1.
-- **[verified]** Protocol version 2 and the shared-TWAI two-motor firmware
-  compile for XIAO ESP32-C6 master, XIAO ESP32-C6 node, and ESP32-S3 targets.
-  The simulator verifies independent motor sequences and watchdogs. Physical
-  two-motor-on-one-bus behavior is not yet verified.
+- **[verified]** Protocol version 3 provides three motor slots. Master ID 0
+  uses two slots; remote IDs 1 and 2 use all three. It compiles for a XIAO
+  ESP32-C6 master, a three-motor XIAO ESP32-C6 node, and an ESP32-S3 master.
+  The simulator verifies node-specific slot counts, independent sequences, and
+  watchdogs. Physical multi-motor-on-one-bus behavior is not yet verified.
 - **[verified]** On 2026-10-12, Espressif's latest stable Arduino core is
   3.3.12 and its latest prerelease is 4.0.0-RC1. This project requires the
   prerelease because the stable line does not expose the supported IDF 6.1
@@ -107,9 +109,10 @@ cutoff accessible.
   snapshot; it is not a second production source.
 - The Arduino edition is the current deployment path. It includes
   SoftAP/UDP laptop control, unicast MAC provisioning, discovery, presence,
-  both watchdogs, and direct TWAI motor control. Protocol version 2 selects
-  motor slot `0` (small) or `1` (big), with independent command and telemetry
-  state for both motors on each module's shared TWAI bus.
+  both watchdogs, and direct TWAI motor control. Protocol version 3 selects
+  slots `0` and `1` on the master and slots `0` through `2` on each remote
+  node, with independent command and telemetry state for every motor on a
+  module's shared TWAI bus.
 - The native IDF edition is archived under `tether_controls/archive`. It is a
   read-only historical reference and not a deployment option.
 - The standalone serial monitor proxy was removed. The supported temporary
