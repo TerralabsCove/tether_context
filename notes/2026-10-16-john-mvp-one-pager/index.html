@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tether MVP Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* Values copied from the Figma template "MVP Review One-Pager" (816 x 1056). */
+  :root {
+    --teal: #187D82;
+    --teal-2: #39AFA3;
+    --teal-line: #7FBFC0;
+    --ink: #151515;
+    --muted: #8A8F90;
+    --box: #EFEFEF;
+    --dark: #161616;
+    --green: #9DDAA3;
+  }
+  @page { size: 8.5in 11in; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: #d9dcdc; }
+  body { font-family: "Instrument Sans", sans-serif; color: var(--ink); }
+  .page {
+    width: 816px; height: 1056px; margin: 24px auto; padding: 30px 40px 0;
+    background: #fff; overflow: hidden;
+  }
+  @media print {
+    html { background: #fff; }
+    .page { margin: 0; }
+  }
+  .mono { font-family: "DM Mono", monospace; }
+
+  .top { display: flex; justify-content: space-between; align-items: center; height: 18px; }
+  .top img { height: 16px; width: auto; display: block; }
+  .top .date { font-size: 8px; color: var(--muted); }
+
+  h1 { margin-top: 14px; font-size: 30px; line-height: 30px; font-weight: 600; color: var(--teal); letter-spacing: -0.01em; }
+
+  section { border-top: 2px solid var(--teal); }
+  section.vision { margin-top: 16px; }
+  section.technical { margin-top: 20px; }
+  .sec-head { display: flex; align-items: baseline; gap: 6px; padding-top: 9px; height: 29px; }
+  .sec-head .num { font-size: 12px; color: var(--teal-2); }
+  .sec-head h2 { font-size: 16px; font-weight: 600; color: var(--teal); }
+
+  .row { display: flex; gap: 20px; margin-top: 10px; align-items: flex-start; }
+  .row + .row { margin-top: 18px; }
+  .visual { width: 430px; flex: none; }
+  .text { width: 286px; flex: none; font-size: 11px; line-height: 16.5px; }
+  .text p + p { margin-top: 6px; }
+  .text b { font-weight: 600; }
+  .text .goal { font-weight: 600; color: var(--teal); }
+  .text.offset { padding-top: 23px; }
+  h3 { font-size: 14px; line-height: 17px; font-weight: 600; margin-bottom: 6px; }
+
+  .slot {
+    position: relative; border-radius: 10px; overflow: hidden;
+    background: var(--box); border: 1px solid var(--teal-line);
+  }
+  .slot.dark { background: var(--dark); border-color: var(--teal-2); }
+  .tag {
+    font-family: "DM Mono", monospace; font-size: 7.5px; line-height: 1; color: var(--teal);
+    background: #fff; border-radius: 4px; padding: 4px 6px; white-space: nowrap;
+  }
+
+  /* vision: climb sequence */
+  .climb { height: 270px; padding: 10px 12px; display: flex; flex-direction: column; justify-content: center; gap: 10px; }
+  .climb .head { font-family: "DM Mono", monospace; font-size: 7.5px; color: var(--muted); }
+  .climb .frames { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; flex: 1; min-height: 0; }
+  .climb figure { position: relative; border-radius: 6px; overflow: hidden; background: #eef1f4; }
+  .climb figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .climb figure .tag { position: absolute; top: 6px; left: 6px; }
+  .climb .caption { display: flex; justify-content: space-between; align-items: center; font-family: "DM Mono", monospace; font-size: 7.5px; color: var(--teal); }
+  .climb .caption .arrow { flex: 1; height: 1px; margin: 0 8px; background: linear-gradient(90deg, var(--teal-line), var(--teal)); }
+
+  /* hardware: CAD shots */
+  .cad { height: 244px; padding: 8px; display: grid; grid-template-columns: 78px 1fr; gap: 8px; }
+  .cad figure { position: relative; border-radius: 6px; overflow: hidden; background: #fff; }
+  .cad figure img { width: 100%; height: 100%; display: block; }
+  .cad .arm img { object-fit: contain; padding: 22px 6px 6px; }
+  .cad .module img { object-fit: cover; object-position: 50% 45%; }
+  .cad figure > .tag { position: absolute; top: 6px; left: 6px; background: var(--box); }
+  .legend { position: absolute; right: 6px; bottom: 6px; display: flex; flex-direction: column; gap: 3px; }
+  .legend .tag { display: flex; align-items: center; gap: 5px; color: var(--ink); box-shadow: 0 0 0 1px rgba(0,0,0,.06); }
+  .legend i { width: 8px; height: 8px; border-radius: 2px; display: block; }
+
+  .comms { height: 244px; }
+  .comms svg { display: block; }
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="top">
+    <img src="logo-terralabs.png" alt="terralabs.">
+    <span class="date mono">mvp review · 10/16/2026</span>
+  </div>
+
+  <h1>tether.</h1>
+
+  <section class="vision">
+    <div class="sec-head"><span class="num mono">01</span><h2>vision.</h2></div>
+    <div class="row">
+      <div class="visual">
+        <div class="slot climb">
+          <div class="head">sim · proof of concept: one way tether moves through a set</div>
+          <div class="frames">
+            <figure><img style="object-position:0% 50%" src="vision-1.png" alt="Sim: Tether folded at the bottom rung"><span class="tag">01</span></figure>
+            <figure><img style="object-position:100% 50%" src="vision-2.png" alt="Sim: free claw swings out toward the next rung"><span class="tag">02</span></figure>
+            <figure><img style="object-position:72% 50%" src="vision-3.png" alt="Sim: anchored on the second rung, reaching higher"><span class="tag">03</span></figure>
+            <figure><img style="object-position:100% 50%" src="vision-4.png" alt="Sim: anchored on the third rung"><span class="tag">04</span></figure>
+          </div>
+          <div class="caption"><span>one claw anchors</span><span class="arrow"></span><span>the other reaches the next hold</span><span class="arrow"></span><span>swap, repeat</span></div>
+        </div>
+      </div>
+      <div class="text">
+        <p>Tether is a redesign of the 7-DOF robot arm we built last semester. It becomes an inchworm robot with a claw on both ends.</p>
+        <p>One end grips while the other swings to the next hold, then they swap. It needs no fixed base and no cable to a wall.</p>
+        <p><b>On Demo Day</b>, Tether moves through the demo set: climbing stairs, crossing between holds, or whatever the set calls for. The sim's ladder climb is a proof of concept of how it moves, not the final set.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="technical">
+    <div class="sec-head"><span class="num mono">02</span><h2>technical.</h2></div>
+
+    <div class="row">
+      <div class="visual">
+        <h3>hardware</h3>
+        <div class="slot cad">
+          <figure class="arm"><img src="hardware-arm.webp" alt="CAD: the full arm, three modules end to end"><span class="tag">full arm</span></figure>
+          <figure class="module">
+            <img src="hardware-module.webp" alt="CAD close-up of one module">
+            <span class="tag">one module, close up</span>
+            <div class="legend">
+              <span class="tag"><i style="background:#2F4C93"></i>Damiao motor</span>
+              <span class="tag"><i style="background:#D8D5CC"></i>structure</span>
+              <span class="tag"><i style="background:#4B4B49"></i>battery</span>
+            </div>
+          </figure>
+        </div>
+      </div>
+      <div class="text offset">
+        <p><span class="goal">Move with no fixed base →</span> one chain of seven Damiao motors (blue) with a claw on each end. One claw holds the robot in place while the other moves.</p>
+        <p><span class="goal">Joints that spin freely →</span> no wires cross any joint. Wires or slip rings would limit rotation, so the robot is fully wireless and no cables show. The middle joint spins 360°.</p>
+        <p><span class="goal">No power cables through joints →</span> three modules (left, middle, right). Each has its own 6S LiPo (dark grey) inside its structural link (light grey) and its own ESP32&#8209;C5.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="visual">
+        <h3>software</h3>
+        <div class="slot comms">
+          <svg width="430" height="244" viewBox="0 0 430 244" role="img" aria-label="Communication: offboard computer and master ESP32-C5, ESP-NOW to three slave ESP32-C5s on the robot modules, CAN to motors">
+            <defs>
+              <marker id="ah" viewBox="0 0 6 6" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0 0 L6 3 L0 6 z" fill="#151515"/>
+              </marker>
+            </defs>
+            <g font-family="Instrument Sans, sans-serif" font-size="9" fill="#151515" text-anchor="middle">
+              <rect x="8" y="108" width="414" height="128" fill="none" stroke="#151515" stroke-width="1" stroke-dasharray="3 2"/>
+
+              <g fill="#fff" stroke="#151515" stroke-width="1">
+                <rect x="16" y="10" width="86" height="32"/>
+                <rect x="137" y="10" width="156" height="32"/>
+                <rect x="328" y="10" width="86" height="32"/>
+                <rect x="157" y="58" width="116" height="28"/>
+                <rect x="16" y="124" width="104" height="40"/>
+                <rect x="163" y="124" width="104" height="40"/>
+                <rect x="310" y="124" width="104" height="40"/>
+                <rect x="18" y="188" width="100" height="24"/>
+                <rect x="165" y="188" width="100" height="24"/>
+                <rect x="312" y="188" width="100" height="24"/>
+              </g>
+
+              <text x="59" y="24" font-weight="600">Set IR cameras</text>
+              <text x="59" y="36">track LEDs on robot</text>
+              <text x="215" y="24" font-weight="600">Offboard computer</text>
+              <text x="215" y="36">localization, path planning</text>
+              <text x="371" y="24" font-weight="600">Claw cameras</text>
+              <text x="371" y="36">docking</text>
+
+              <text x="215" y="70" font-weight="600">Master ESP32-C5</text>
+              <text x="215" y="81">at the computer</text>
+
+              <text x="68" y="138" font-weight="600">Left module</text>
+              <text x="68" y="149">ESP32-C5 (slave)</text>
+              <text x="68" y="160">gyroscope</text>
+              <text x="215" y="138" font-weight="600">Middle module</text>
+              <text x="215" y="149">ESP32-C5 (slave)</text>
+              <text x="215" y="160">gyroscope</text>
+              <text x="362" y="138" font-weight="600">Right module</text>
+              <text x="362" y="149">ESP32-C5 (slave)</text>
+              <text x="362" y="160">gyroscope</text>
+
+              <text x="68" y="203">3 motors + encoders</text>
+              <text x="215" y="203">1 motor + encoder</text>
+              <text x="362" y="203">3 motors + encoders</text>
+
+              <g stroke="#151515" stroke-width="1" fill="none">
+                <path d="M215 87 V98 M68 98 H362"/>
+              </g>
+              <g stroke="#151515" stroke-width="1" fill="none" marker-end="url(#ah)">
+                <path d="M102 26 H136"/>
+                <path d="M328 26 H294"/>
+                <path d="M68 98 V123"/>
+                <path d="M215 98 V123"/>
+                <path d="M362 98 V123"/>
+              </g>
+              <g stroke="#151515" stroke-width="1" fill="none" marker-start="url(#ah)" marker-end="url(#ah)">
+                <path d="M215 43 V57"/>
+                <path d="M68 165 V187"/>
+                <path d="M215 165 V187"/>
+                <path d="M362 165 V187"/>
+              </g>
+
+              <g font-size="8" text-anchor="start">
+                <text x="221" y="53">joint targets, sensor data</text>
+                <text x="221" y="95">ESP-NOW, both ways</text>
+                <text x="74" y="179">CAN</text>
+                <text x="221" y="179">CAN</text>
+                <text x="368" y="179">CAN</text>
+                <text x="14" y="230">on the robot</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="text offset">
+        <p><span class="goal">Find itself in the dark →</span> IR cameras fixed around the set track small IR LEDs hidden on each module. The lab's mocap can't move; tags fail in the dark and look bad.</p>
+        <p><span class="goal">Know its shape, grip precisely →</span> encoders and a gyroscope on every segment fill in between camera frames; a camera on each claw lines up each grip.</p>
+        <p><span class="goal">Keep the robot small →</span> all compute is offboard. Stage 1 runs pre-planned paths; RL and VLAs may follow.</p>
+        <p><span class="goal">Run three modules as one arm →</span> a master ESP32&#8209;C5 at the computer talks to each module's ESP32&#8209;C5 over ESP-NOW. Each module drives its motors over CAN.</p>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
