@@ -1,7 +1,7 @@
 ---
 status: active
 owner: anyone
-last_reviewed: 2026-10-11
+last_reviewed: 2026-10-19
 ---
 
 # Glossary
@@ -27,7 +27,7 @@ last_reviewed: 2026-10-11
 | IYA / Avalon | Group whose mocap system we hope to borrow. Contact via Ming. |
 | WISP | Another team that may use mocap. |
 | ESP | ESP32-family microcontroller. One per module. |
-| Xiao | Seeed XIAO, a small microcontroller board. tethersmall uses XIAO ESP32-C3 (needs its U.FL antenna) and XIAO ESP32-C6 (on-board antenna). Which variant Tether's modules will use is not recorded. |
+| Xiao | Seeed XIAO, a small microcontroller board. tethersmall uses XIAO ESP32-C3 (needs its U.FL antenna) and XIAO ESP32-C6 (on-board antenna). Tether's modules and master use XIAO ESP32-C5 (D-029), which has a U.FL connector and no on-board antenna. |
 | ESP-NOW | Espressif's low-latency wireless protocol between ESPs. |
 | NRF ESB | Nordic's Enhanced ShockBurst wireless protocol. |
 | BMS | Battery management system. Dropped for Tether (D-008). |

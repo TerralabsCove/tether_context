@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng, Steve Lu
-last_reviewed: 2026-10-13
+last_reviewed: 2026-10-19
 ---
 
 # Open Questions
@@ -13,6 +13,7 @@ When one is answered, move it to [decisions.md](decisions.md) as a new entry and
 When two sources disagree, list it here and let a PM decide.
 
 - **RL vs D-014.** D-014 (10-08 meeting) says locomotion uses motion planning, with no RL at this stage. On 2026-10-11 an RL policy drove the tethersmall testbed over ESP-NOW ([note](../notes/2026-10-11-john-tethersmall-rl-over-espnow.md)). Is tethersmall only a link and firmware testbed that leaves D-014 standing, or does it reopen RL for Tether? Owner: John, Steve.
+- **Master radio location.** D-026 and the [embedded bench note](../notes/2026-10-12-irisy-embedded-controls-bench.md) put the master ESP on the robot as node ID 0 with one motor, reached by the laptop over the master's SoftAP. The [2026-10-16 plan](../notes/2026-10-16-john-mvp-one-pager.md) and the [antenna plan](../notes/2026-10-19-john-esp32c5-antenna-rf-plan.md) put the master at the offboard computer, as tethersmall did. The antenna placement and near-far handling differ between the two. Owner: John, Trent.
 
 ## Localization
 
@@ -40,6 +41,7 @@ When two sources disagree, list it here and let a PM decide.
 13. **Packet loss and redundancy.** The comms layer must make the 3 wireless modules act as one arm in ROS. What's the design? Owner: Trent, Jason.
     Input from tethersmall (2026-10-11): ESP-NOW broadcast with each command sent twice, newest-sequence-wins on the module, 200 Hz state streaming, and watchdog/slew limits on the ESP. It delivered 91–94 % of commands, and the losses come in bursts. See [robot.md](robot.md#tethersmall-testbed-2026-10-11).
 14. **Is ESP-NOW's margin enough for Tether?** D-019 says to fall back to NRF ESB only if ESP-NOW falls short. On tethersmall it works but sits at the edge: RTT p95 ~70 ms, outages up to ~200 ms. Master placement and an external antenna are untested. Owner: Trent, John.
+    With the C5 (D-029): 5 GHz channel 149–165 (or 36–48) vs 2.4 GHz channel 11, ESP-NOW rate on 5 GHz, antenna type, and mounting next to the aluminum links are all unmeasured. The [antenna and RF plan](../notes/2026-10-19-john-esp32c5-antenna-rf-plan.md) has the test matrix. Note the firmware currently defaults to channel 1, which tethersmall measured as lossy.
 15. **Three or more ESP-NOW nodes on one channel.** tethersmall had two slaves. Tether needs three modules (D-020) plus the offboard side, and node count affects collisions and loss. Owner: Trent.
 
 # Risks to Watch

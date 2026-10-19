@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng (hardware), Steve Lu (software)
-last_reviewed: 2026-10-13
+last_reviewed: 2026-10-19
 ---
 
 # Decision Log
@@ -40,5 +40,6 @@ Format: ID, date, decision, why, source. Status is `active` unless noted.
 | D-026 | 2026-10-13 | The master module (ID 0) controls one motor. The symmetric left and right modules (IDs 1 and 2) control three motors each, for seven motors total. All motors on a module share that module's private local CAN bus. | Corrects the master motor count while retaining the three-motor side modules. | Irisy, topology correction | active. Supersedes D-024. |
 | D-027 | 2026-10-13 | Radio protocol version 3 provides three addressable motor slots with node-specific active counts: one slot on master ID 0 and three slots on node IDs 1 and 2. Commands, telemetry, safety state, limits, and watchdogs remain per motor; CAN bus-off remains module-wide. | Supports the 1+3+3 topology and rejects commands for nonexistent slots. The packet layout is unchanged from D-025, so no protocol version bump is required. | Irisy, embedded controls implementation | active. Supersedes D-025. |
 | D-028 | 2026-10-13 | Master ID 0 slot 0 uses slave ID `0x04`. On both remote nodes, slot 0 is the big motor, slot 1 is the motor closer to the master, and slot 2 is the farther/end motor. Node 1 slave IDs are `0x02`, `0x05`, and `0x01`; node 2 slave IDs are `0x06`, `0x03`, and `0x07`, respectively. | Gives the symmetric side modules the same software slot semantics while preserving the specified physical CAN identities. Feedback IDs and limits still require scanning. | Irisy, motor assignment | active |
+| D-029 | 2026-10-19 | Every Tether radio is a Seeed XIAO ESP32-C5 (dual-band 2.4 / 5 GHz Wi-Fi 6): the three module ESPs and the master ESP. This replaces the XIAO ESP32-C6 assumed in the embedded bench work. ESP-NOW remains the link (D-019). Band and channel are not decided; they are chosen by measurement. | The C5 can run ESP-NOW on 5 GHz, where the Wi-Fi interference that caused tethersmall's 2.4 GHz losses is absent. | John Peng, 2026-10-19, [antenna and RF plan](../notes/2026-10-19-john-esp32c5-antenna-rf-plan.md) | active |
 
 \* Meeting date unconfirmed. See the meeting note header.
