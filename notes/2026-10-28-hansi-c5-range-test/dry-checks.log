@@ -1,0 +1,32 @@
+# tethersmall dry checks (no arm motion), 2026-10-28. Copied from the session terminal output.
+# calibrate.py output shows the last line of 5 s; every line in that window was identical.
+
+## python deploy/calibrate.py --port COM20 --straightline --seconds 5 show
+raw A  +3.078 B  +1.116 C  +3.137 rad   calibrated q A    +1.2 B    +1.0 C    +4.1 deg
+
+## python deploy/calibrate.py --port COM20 --standup --seconds 5 show
+raw A  +3.078 B  +1.116 C  +3.137 rad   calibrated q A    +1.2 B    +1.0 C    +4.1 deg
+
+## python deploy/straightline/runner.py --sim --sim-link wireless
+stopped: duration after 300 ticks (policy)
+start  (deg): [-21.1 -65.2 -86.3]
+final  (deg): [0.37 0.92 0.72]  -> straight within 2.9 deg: YES, settled at 2.00 s
+coordination: max distance from the straight joint-space path 6.7 deg (evaluation passes <= 8.6 deg)  [encoder readings, as received]
+sim: true joint error 2.41 deg, arm off a straight line by 8.3 mm, obs parity max err 1.9e-09
+
+## python deploy/standup/runner.py --sim --sim-link wireless   (RL policy)
+stopped: duration after 300 ticks (policy)
+start  (deg): [-55.6  33.3 -62. ]
+final  (deg): [ 0.71  0.55 -0.31]  -> straight within 2.9 deg: YES, settled at 1.56 s
+coordination: max distance from the straight joint-space path 11.1 deg (evaluation passes <= 8.6 deg)  [encoder readings, as received]
+sim: true joint error 2.90 deg, arm off a straight line by 3.9 mm, obs parity max err 1.9e-09
+
+## python deploy/standup/runner.py --sim --sim-link wireless --controller ramp
+stopped: duration after 300 ticks (ramp)
+start  (deg): [-55.6  33.3 -62. ]
+final  (deg): [0.35 0.38 0.07]  -> straight within 2.9 deg: YES, settled at 2.18 s
+coordination: max distance from the straight joint-space path 2.9 deg (evaluation passes <= 8.6 deg)  [encoder readings, as received]
+sim: true joint error 2.54 deg, arm off a straight line by 3.4 mm, obs parity max err 1.9e-09
+
+## python -m pytest -q
+70 passed in 22.48s

@@ -107,3 +107,19 @@ own antenna affects all three equally. The difference is on the slave side. Like
 To tell these apart: swap the antenna between board 11 and board 12. If the weak signal moves with the antenna,
 the antenna or its cable is the cause. If it stays with board 12, the placement is. Then rotate the antennas of
 boards 12 and 13 one at a time while watching RSSI in `link_check.py --listen 30`.
+
+## Dry checks before a hardware run (no arm motion) [verified]
+
+Run in [tethersmall](https://github.com/TerralabsCove/tethersmall) `e4f6095` after the link tests. Raw output:
+[dry-checks.log](2026-10-28-hansi-c5-range-test/dry-checks.log).
+
+| check | result |
+|---|---|
+| `calibrate.py show`, straight-line and stand-up configs (listens only) | All three motors report, steady for 5 s. Both configs hold the same 2026-10-19 calibration; the arm reads +1.2 / +1.0 / +4.1° (0x02 / 0x04 / 0x06). |
+| Straight-line runner, simulator, wireless link | Straight, settled 2.00 s, path deviation 6.7° (pass ≤ 8.6°). |
+| Stand-up runner, simulator, `--controller ramp` | Straight, settled 2.18 s, path deviation 2.9° (pass). |
+| Stand-up runner, simulator, RL policy | Straight, settled 1.56 s, path deviation 11.1° (**fails** coordination). Consistent with the policy's 86 % coordinated rate in tethersmall `docs/STANDUP.md`, which recommends the ramp. |
+| tethersmall pytest | 70 passed. |
+
+The calibration was measured with the C6 boards. It should still hold, because the angles come from the motors'
+encoders and the motors did not change. [assumed]
