@@ -51,3 +51,54 @@ motor A: RTT p50 12.8 p95 19.9 max 29.3 ms (1377 acked) | state age p50 8 p95 14
 motor B: RTT p50 13.0 p95 21.6 max 33.3 ms (1370 acked) | state age p50 8 p95 15 ms
 motor C: RTT p50 12.6 p95 19.9 max 29.8 ms (1375 acked) | state age p50 8 p95 14 ms
 raw (rad): [3.078, 1.116, 3.137]  calibrated (deg): [1.2, 1.0, 4.1]
+
+## 3 m repeat run 1, no wall, laptop on battery (--listen 3 --seconds 30)
+master answered: True
+--- listen only
+motor A: status 0x00 raw q +3.078 age 4 ms tau -0.05 rssi -49
+motor B: status 0x00 raw q +1.116 age 4 ms tau -0.05 rssi -62
+motor C: status 0x00 raw q +3.137 age 4 ms tau -0.05 rssi -51
+diag: {'seconds': 3.03, 'espnow_callbacks': 180913, 'bad_frames': 0, 'rx_state_a': 61261, 'rx_state_b': 59115, 'queue_drops': 69199, 'usb_short_writes': 7621, 'rx_state_c': 60537, 'rx_state_hz': [20249.0, 19539.7, 20009.7]}
+--- after 1391 damp commands
+motor A: status 0x00 raw q +3.078 age 7 ms tau -0.05 rssi -51
+motor B: status 0x00 raw q +1.116 age 7 ms tau -0.05 rssi -64
+motor C: status 0x00 raw q +3.137 age 7 ms tau -0.05 rssi -47
+diag: {'seconds': 33.03, 'espnow_callbacks': 198855, 'bad_frames': 0, 'rx_state_a': 67252, 'rx_state_b': 65071, 'queue_drops': 69199, 'usb_short_writes': 7621, 'rx_state_c': 66532, 'rx_state_hz': [2036.0, 1970.0, 2014.2]}
+motor A: RTT p50 12.3 p95 19.3 max 28.0 ms (1386 acked) | state age p50 7 p95 15 ms
+motor B: RTT p50 12.4 p95 19.5 max 28.0 ms (1385 acked) | state age p50 7 p95 15 ms
+motor C: RTT p50 12.4 p95 19.5 max 27.9 ms (1385 acked) | state age p50 8 p95 15 ms
+raw (rad): [3.078, 1.116, 3.137]  calibrated (deg): [1.2, 1.0, 4.1]
+
+## 3 m repeat run 2, no wall, laptop on battery (--listen 3 --seconds 30)
+master answered: True
+--- listen only
+motor A: status 0x00 raw q +3.078 age 12 ms tau +0.05 rssi -52
+motor B: status 0x00 raw q +1.116 age 12 ms tau -0.05 rssi -62
+motor C: status 0x00 raw q +3.137 age 12 ms tau -0.05 rssi -48
+diag: {'seconds': 1.99, 'espnow_callbacks': 1200, 'bad_frames': 0, 'rx_state_a': 400, 'rx_state_b': 400, 'queue_drops': 0, 'usb_short_writes': 0, 'rx_state_c': 400, 'rx_state_hz': [200.5, 200.5, 200.5]}
+--- after 1390 damp commands
+motor A: status 0x00 raw q +3.078 age 8 ms tau -0.05 rssi -53
+motor B: status 0x00 raw q +1.116 age 8 ms tau +0.05 rssi -63
+motor C: status 0x00 raw q +3.137 age 9 ms tau +0.05 rssi -49
+diag: {'seconds': 31.99, 'espnow_callbacks': 19158, 'bad_frames': 0, 'rx_state_a': 6395, 'rx_state_b': 6369, 'queue_drops': 0, 'usb_short_writes': 0, 'rx_state_c': 6394, 'rx_state_hz': [199.9, 199.1, 199.9]}
+motor A: RTT p50 12.3 p95 19.2 max 24.2 ms (1380 acked) | state age p50 8 p95 15 ms
+motor B: RTT p50 12.3 p95 19.3 max 25.3 ms (1380 acked) | state age p50 7 p95 14 ms
+motor C: RTT p50 12.3 p95 19.5 max 23.8 ms (1379 acked) | state age p50 8 p95 15 ms
+raw (rad): [3.078, 1.116, 3.137]  calibrated (deg): [1.2, 1.0, 4.1]
+
+## 3 m repeat run 3, no wall, laptop on battery (--listen 3 --seconds 30)
+master answered: True
+--- listen only
+motor A: status 0x00 raw q +3.078 age 0 ms tau -0.05 rssi -54
+motor B: status 0x00 raw q +1.116 age 0 ms tau -0.05 rssi -64
+motor C: status 0x00 raw q +3.137 age 0 ms tau -0.05 rssi -49
+diag: {'seconds': 2.01, 'espnow_callbacks': 1200, 'bad_frames': 0, 'rx_state_a': 400, 'rx_state_b': 400, 'queue_drops': 0, 'usb_short_writes': 0, 'rx_state_c': 400, 'rx_state_hz': [199.3, 199.3, 199.3]}
+--- after 1386 damp commands
+motor A: status 0x00 raw q +3.078 age 8 ms tau +0.05 rssi -54
+motor B: status 0x00 raw q +1.116 age 8 ms tau -0.05 rssi -62
+motor C: status 0x00 raw q +3.137 age 8 ms tau +0.05 rssi -47
+diag: {'seconds': 32.0, 'espnow_callbacks': 19038, 'bad_frames': 0, 'rx_state_a': 6367, 'rx_state_b': 6293, 'queue_drops': 0, 'usb_short_writes': 0, 'rx_state_c': 6378, 'rx_state_hz': [199.0, 196.6, 199.3]}
+motor A: RTT p50 12.6 p95 19.4 max 28.0 ms (1361 acked) | state age p50 8 p95 14 ms
+motor B: RTT p50 12.4 p95 19.3 max 34.5 ms (1361 acked) | state age p50 8 p95 14 ms
+motor C: RTT p50 12.5 p95 19.4 max 27.9 ms (1361 acked) | state age p50 8 p95 14 ms
+raw (rad): [3.078, 1.116, 3.137]  calibrated (deg): [1.2, 1.0, 4.1]

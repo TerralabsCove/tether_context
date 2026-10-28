@@ -47,6 +47,33 @@ Raw output: [link-check.log](2026-10-28-hansi-c5-range-test/link-check.log). Sta
 The gateway reported no bad frames in any test. Its queue-drop and short-USB-write counters only rose while no
 program had the port open, never during a test.
 
+## Repeatability at 3 m, no wall: three back-to-back runs [verified]
+
+Same setup, 30 s each, run one after another. Raw output: the "3 m repeat" sections of
+[link-check.log](2026-10-28-hansi-c5-range-test/link-check.log).
+
+| run | motor | acked | RTT p50 / p95 / max (ms) | state age p50 / p95 (ms) | RSSI (dBm) | status reports received |
+|---|---|---|---|---|---|---|
+| 1 | 0x02 | 1386/1391 (99.6 %) | 12.3 / 19.3 / 28.0 | 7 / 15 | −49 to −51 | 199.7 /s |
+| 1 | 0x04 | 1385/1391 (99.6 %) | 12.4 / 19.5 / 28.0 | 7 / 15 | −62 to −64 | 198.5 /s |
+| 1 | 0x06 | 1385/1391 (99.6 %) | 12.4 / 19.5 / 27.9 | 8 / 15 | −47 to −51 | 199.8 /s |
+| 2 | 0x02 | 1380/1390 (99.3 %) | 12.3 / 19.2 / 24.2 | 8 / 15 | −52 to −53 | 199.8 /s |
+| 2 | 0x04 | 1380/1390 (99.3 %) | 12.3 / 19.3 / 25.3 | 7 / 14 | −62 to −63 | 199.0 /s |
+| 2 | 0x06 | 1379/1390 (99.2 %) | 12.3 / 19.5 / 23.8 | 8 / 15 | −48 to −49 | 199.8 /s |
+| 3 | 0x02 | 1361/1386 (98.2 %) | 12.6 / 19.4 / 28.0 | 8 / 14 | −54 | 198.9 /s |
+| 3 | 0x04 | 1361/1386 (98.2 %) | 12.4 / 19.3 / 34.5 | 8 / 14 | −62 to −64 | 196.4 /s |
+| 3 | 0x06 | 1361/1386 (98.2 %) | 12.5 / 19.4 / 27.9 | 8 / 14 | −47 to −49 | 199.3 /s |
+
+- **RTT is very consistent:** p50 12.3–12.6 ms and p95 19.2–19.5 ms across all nine motor-runs (spread 0.3 ms).
+  The max varies more, 23.8–34.5 ms, as single outliers do.
+- **Ack rate varies most:** 99.6 %, 99.3 % and 98.2 %. In each run all three motors lost the same number of
+  commands (±1). That points to losses before the commands split per motor (laptop → gateway USB, or the
+  gateway's send), not on one radio path. [assumed: not traced]
+- **Status reports:** 196–200 /s per motor, so at most 2 % lost on the slave → gateway path.
+- **RSSI is stable within this session** (±3 dB per motor), but differs from the earlier 3 m run in the table above:
+  0x06 went from −54/−55 to −47/−51 dBm and 0x04 from −54/−57 to −62/−64. The setup was not re-measured between
+  sessions, so the laptop's exact position or angle likely differed.
+
 ## Findings
 
 - **Latency does not depend on range here [verified]:** RTT p50 stayed at 12–13 ms and p95 at 19–22 ms from the
@@ -55,14 +82,18 @@ program had the port open, never during a test.
 - **Range shows up as signal and lost frames, not delay [verified]:** at 5–6 m through a wall, 0x04 is at
   −82 dBm and 0x06 dipped to −88 dBm, close to the C5's 5 GHz sensitivity (−92.5 dBm typical, per the
   [RF plan](2026-10-19-john-esp32c5-antenna-rf-plan.md)). 5–10 % of their status reports were lost.
-- **0x04 and 0x06 are 13–18 dB weaker than 0x02 at every distance [verified],** including on the bench. The cause
-  is not known (see below).
+- **0x04 is the weakest radio in every test [verified]:** 4–19 dB below 0x02, including on the bench. 0x06 was
+  12–21 dB below 0x02 on the bench, 6–24 dB below through the wall, about 5 dB below at the first 3 m test, and
+  0–7 dB *above* 0x02 in the three repeat runs. So 0x06's gap depends on position; 0x04's does not go away. The cause is
+  not known (see below).
 - **Recommendation [assumed]:** keep the gateway within about 3 m with line of sight for policy runs. 5–6 m through
   a wall works for a check, but leaves little margin for 0x04 and 0x06.
 
 ## Why 0x04 and 0x06 are weaker [assumed, not tested]
 
-The gap is already there on the bench, so it is not distance. Since RSSI is measured at the gateway, the gateway's
+The gap is already there on the bench, so it is not distance. 0x06 matching 0x02 in the repeat runs fits
+orientation or placement (cause 1 or 2) for 0x06; 0x04 staying weak in every position points more toward its
+antenna, cable or mount (cause 2 or 3). Since RSSI is measured at the gateway, the gateway's
 own antenna affects all three equally. The difference is on the slave side. Likely causes, in order:
 
 1. **Antenna orientation.** The FPC antennas are flat. Seen edge-on, or with their long axis pointing at the
