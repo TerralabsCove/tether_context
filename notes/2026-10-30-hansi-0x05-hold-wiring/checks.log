@@ -85,3 +85,64 @@ scan: id 0x05 answered 1 time(s): TMAX 28.0 from can id 0x015
 motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
 hold: esc_id 0x05 mst_id 0x15  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
 hold 0x05: q  -1.736 rad  tau  -0.01  p_des  -1.736  status 0x00  HOLDING
+
+# ===== After the split rewire: board 11's CAN pair split at the transceiver to 0x02 and 0x05 =====
+
+## Board 11 (COM21), ten hard resets. Boot 1 shown; boots 2-10 were identical except tau -0.01/-0.02.
+tethersmall node A (motor 0)  mac 10:BD:A3:CA:2F:C0  channel 36 (radio 36)  CAN tx 9 rx 10 (twai-fd)
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+scan: id 0x05 answered 1 time(s): TMAX 28.0 from can id 0x015
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x05 mst_id 0x15  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x05: q  -1.727 rad  tau  -0.02  p_des  -1.727  status 0x00  HOLDING
+
+## Board 11, wiggle_watch.py COM21 30, no handling
+--- after rewire, idle summary: 60 hold lines, 0 not HOLDING/0x00; 0x05 q range -1.727 .. -1.727 rad; 0x02 lines 60, tx_err 0 -> 0
+
+## Board 13 (COM22), ten hard resets. Boot 1 shown; boots 2-10 were identical except tau -0.01/+0.01.
+tethersmall node C (motor 2)  mac 10:BD:A3:CA:23:D8  channel 36 (radio 36)  CAN tx 9 rx 10 (twai-fd)
+scan: id 0x03 answered 1 time(s): TMAX 28.0 from can id 0x013
+scan: id 0x06 answered 1 time(s): TMAX 200.0 from can id 0x016
+motor: esc_id 0x06 mst_id 0x16  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x03 mst_id 0x13  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x03: q  +2.674 rad  tau  -0.01  p_des  +2.674  status 0x00  HOLDING
+
+## All slaves connected: first scan of each board. 0x05 missing; it also failed two more board 11 rescans.
+=== COM21
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: no small motor on this bus
+=== COM23
+tethersmall node B (motor 1)  mac 10:BD:A3:C7:EC:1C  channel 36 (radio 36)  CAN tx 9 rx 10 (twai-fd)
+scan: id 0x04 answered 1 time(s): TMAX 200.0 from can id 0x014
+motor: esc_id 0x04 mst_id 0x14  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: no small motor on this bus
+=== COM22
+scan: id 0x03 answered 1 time(s): TMAX 28.0 from can id 0x013
+scan: id 0x06 answered 1 time(s): TMAX 200.0 from can id 0x016
+hold: esc_id 0x03 mst_id 0x13  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x03: q  +2.676 rad  tau  -0.01  p_des  +2.676  status 0x00  HOLDING
+
+## Gateway link_check.py --port COM20 --listen 3 --seconds 10, same time (A/B/C = 0x02/0x04/0x06)
+motor A: RTT p50 11.8 p95 18.7 max 22.1 ms (474 acked) | state age p50 8 p95 14 ms
+motor B: RTT p50 12.1 p95 19.4 max 25.0 ms (473 acked) | state age p50 8 p95 14 ms
+motor C: RTT p50 11.9 p95 19.2 max 22.8 ms (470 acked) | state age p50 8 p95 14 ms
+diag: {'seconds': 12.01, 'espnow_callbacks': 7186, 'bad_frames': 0, 'rx_state_a': 2400, 'rx_state_b': 2395, 'queue_drops': 0, 'usb_short_writes': 0, 'rx_state_c': 2391, 'rx_state_hz': [199.8, 199.4, 199.0]}
+
+## Rescan of all slaves after that: all five motors found
+=== COM21
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+scan: id 0x05 answered 1 time(s): TMAX 28.0 from can id 0x015
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x05 mst_id 0x15  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x05: q  +0.046 rad  tau  -0.01  p_des  +0.046  status 0x00  HOLDING
+=== COM23
+scan: id 0x04 answered 1 time(s): TMAX 200.0 from can id 0x014
+motor: esc_id 0x04 mst_id 0x14  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: no small motor on this bus
+=== COM22
+scan: id 0x03 answered 1 time(s): TMAX 28.0 from can id 0x013
+scan: id 0x06 answered 1 time(s): TMAX 200.0 from can id 0x016
+motor: esc_id 0x06 mst_id 0x16  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x03 mst_id 0x13  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x03: q  +2.680 rad  tau  -0.01  p_des  +2.680  status 0x00  HOLDING

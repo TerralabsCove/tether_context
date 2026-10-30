@@ -46,7 +46,35 @@ pressed for 45 s. A CAN dropout would show status 0xF0 (no reply for 50 ms), a p
 **Ten hard resets.** 0x02 and 0x05 were both found on all 10 boots, each on the first probe. 0x02 was chosen as the
 joint motor and 0x05 held at status 0x00 every time.
 
+## Split rewire and full five-motor config
+
+**Change [as built]:** board 11's CANH/CANL now split at the Waveshare transceiver's terminals into two twisted
+branches, one to 0x02 and one to 0x05, joined at a three-way joint. The earlier splice onto 0x02's pair is gone.
+With two branches this is a linear bus with the board in the middle; the terminators belong at the two motors.
+CANH–CANL resistance (about 60 Ω expected) was not measured.
+
+**Results [verified]:**
+- Board 11: 0x02 and 0x05 found on 10/10 resets. A 30 s watch with no handling showed 0x05 `HOLDING` on all 60
+  lines, `tx_err` 0.
+- Board 13: 0x06 and the second small motor, 0x03 (TMAX 28, reply id 0x013), found on 10/10 resets, 0x03 held at
+  status 0x00.
+- With all three slaves connected, the first scan missed 0x05 on board 11 (3 scans). A later rescan found all five
+  motors. In between, 0x05's held angle changed from −1.727 to +0.046 rad (about 100°); 0x03 moved 0.006 rad. Cause
+  not known [assumed: 0x05 lost power or was turned by hand].
+- Gateway link at the same time (bench, 10 s): RTT p95 18.7 / 19.4 / 19.2 ms for 0x02 / 0x04 / 0x06, no bad
+  frames.
+
+| board | joint motor | small motor (held) |
+|---|---|---|
+| 11, base | 0x02 | 0x05 |
+| 12, middle | 0x04 | none |
+| 13, top | 0x06 | 0x03 |
+
+Hansi confirmed this config as working. Its tethersmall record: `docs/SMALL_MOTOR_LOCK.md`, "As wired".
+
 ## Limits
+
+- The wiggle test ran on the earlier splice, not on the new three-way joint.
 
 - The 2 Hz status line can miss a dropout shorter than about 0.5 s. `tx_err` staying at 0 makes one unlikely.
 - Not tested with the arm moving: vibration, cable flex across the joints and motor current noise. Watch 0x05's hold
