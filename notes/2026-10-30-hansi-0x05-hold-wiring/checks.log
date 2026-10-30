@@ -1,0 +1,87 @@
+# Board 11 (0x02 base, COM21): small motor 0x05 on the same CAN bus, 2026-10-30.
+# Copied verbatim from the session terminal output. Gateway not connected; no arm motion.
+
+## Rescan after rewiring: hard reset, boot output (hold lines after the first 3 trimmed; all 15 were identical)
+tethersmall node A (motor 0)  mac 10:BD:A3:CA:2F:C0  channel 36 (radio 36)  CAN tx 9 rx 10 (twai-fd)
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+scan: id 0x05 answered 1 time(s): TMAX 28.0 from can id 0x015
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x05 mst_id 0x15  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x05: q  -1.736 rad  tau  -0.02  p_des  -1.736  status 0x00  HOLDING
+hold 0x05: q  -1.736 rad  tau  -0.01  p_des  -1.736  status 0x00  HOLDING
+hold 0x05: q  -1.736 rad  tau  +0.01  p_des  -1.736  status 0x00  HOLDING
+
+## Before rewiring (same session, two hard resets, identical output)
+tethersmall node A (motor 0)  mac 10:BD:A3:CA:2F:C0  channel 36 (radio 36)  CAN tx 9 rx 10 (twai-fd)
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: no small motor on this bus
+
+## Wiggle test: wiggle_watch.py COM21 45 <spot>, reads the node's 2 Hz status lines without resetting it
+--- spot 1 splice summary: 90 hold lines, 0 not HOLDING/0x00; 0x05 q range -1.736 .. -1.736 rad; 0x02 lines 90, tx_err 0 -> 0
+--- spot 2 twisted run summary: 90 hold lines, 0 not HOLDING/0x00; 0x05 q range -1.736 .. -1.736 rad; 0x02 lines 90, tx_err 0 -> 0
+--- spot 3 connector wire end summary: 90 hold lines, 0 not HOLDING/0x00; 0x05 q range -1.736 .. -1.736 rad; 0x02 lines 90, tx_err 0 -> 0
+--- spot 4 connector mated summary: 90 hold lines, 0 not HOLDING/0x00; 0x05 q range -1.736 .. -1.736 rad; 0x02 lines 90, tx_err 0 -> 0
+--- spot 5 power lead summary: 90 hold lines, 0 not HOLDING/0x00; 0x05 q range -1.736 .. -1.736 rad; 0x02 lines 90, tx_err 0 -> 0
+
+## Ten hard resets: scan, motor, hold and first status line of each boot
+=== boot 1
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+scan: id 0x05 answered 1 time(s): TMAX 28.0 from can id 0x015
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x05 mst_id 0x15  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x05: q  -1.736 rad  tau  -0.01  p_des  -1.736  status 0x00  HOLDING
+=== boot 2
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+scan: id 0x05 answered 1 time(s): TMAX 28.0 from can id 0x015
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x05 mst_id 0x15  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x05: q  -1.736 rad  tau  -0.01  p_des  -1.736  status 0x00  HOLDING
+=== boot 3
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+scan: id 0x05 answered 1 time(s): TMAX 28.0 from can id 0x015
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x05 mst_id 0x15  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x05: q  -1.736 rad  tau  -0.02  p_des  -1.736  status 0x00  HOLDING
+=== boot 4
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+scan: id 0x05 answered 1 time(s): TMAX 28.0 from can id 0x015
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x05 mst_id 0x15  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x05: q  -1.736 rad  tau  -0.01  p_des  -1.736  status 0x00  HOLDING
+=== boot 5
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+scan: id 0x05 answered 1 time(s): TMAX 28.0 from can id 0x015
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x05 mst_id 0x15  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x05: q  -1.736 rad  tau  -0.01  p_des  -1.736  status 0x00  HOLDING
+=== boot 6
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+scan: id 0x05 answered 1 time(s): TMAX 28.0 from can id 0x015
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x05 mst_id 0x15  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x05: q  -1.736 rad  tau  -0.01  p_des  -1.736  status 0x00  HOLDING
+=== boot 7
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+scan: id 0x05 answered 1 time(s): TMAX 28.0 from can id 0x015
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x05 mst_id 0x15  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x05: q  -1.736 rad  tau  -0.02  p_des  -1.736  status 0x00  HOLDING
+=== boot 8
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+scan: id 0x05 answered 1 time(s): TMAX 28.0 from can id 0x015
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x05 mst_id 0x15  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x05: q  -1.736 rad  tau  -0.01  p_des  -1.736  status 0x00  HOLDING
+=== boot 9
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+scan: id 0x05 answered 1 time(s): TMAX 28.0 from can id 0x015
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x05 mst_id 0x15  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x05: q  -1.736 rad  tau  -0.01  p_des  -1.736  status 0x00  HOLDING
+=== boot 10
+scan: id 0x02 answered 1 time(s): TMAX 200.0 from can id 0x012
+scan: id 0x05 answered 1 time(s): TMAX 28.0 from can id 0x015
+motor: esc_id 0x02 mst_id 0x12  PMAX 12.500 VMAX 20.000 TMAX 200.000  mode MIT
+hold: esc_id 0x05 mst_id 0x15  PMAX 12.500 VMAX 10.000 TMAX 28.000  kp 40 kd 1.5 cap 9.0 Nm
+hold 0x05: q  -1.736 rad  tau  -0.01  p_des  -1.736  status 0x00  HOLDING
