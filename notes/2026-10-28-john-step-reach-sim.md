@@ -1,7 +1,7 @@
 ---
 status: draft
 owner: John Peng
-last_reviewed: 2026-10-28
+last_reviewed: 2026-10-31
 ---
 
 # Step reach and locomotion limits of the Tether arm (sim, 2026-10-28)
@@ -11,6 +11,18 @@ URDF and motor datasheets, and nothing is measured on hardware. Figures and vide
 [2026-10-28-john-step-reach-sim/](2026-10-28-john-step-reach-sim/). Code:
 [cove-controls `scripts/step_reach_sim/`](https://github.com/TerralabsCove/cove-controls/tree/claude/bold-wright-k8bzev/scripts/step_reach_sim)
 (branch `claude/bold-wright-k8bzev` until merged).
+
+## Mass update (2026-10-31)
+
+The URDF masses are now corrected in cove-controls: **the arm is 14.35 kg (31.6 lb)**, down from 27.17 kg
+(see [Masses](#masses)). **The results below were run at 19.8 kg and have not been re-run.** Static loads
+and torques scale with mass, so at 14.35 kg they are about 28% lower than shown:
+
+- Weight on the anchored gripper: 141 N, not 194 N.
+- Worst gripper bending: about 96 Nm, not 133 Nm. Bending at a 0.80 m floor step: about 60 Nm, not 82 Nm.
+- Flat step within rated torque: about 0.56 m or more, not 0.44 m (checked at 15.3 kg).
+
+Reach and step height are geometric and do not change.
 
 ## Bottom line
 
@@ -47,22 +59,24 @@ URDF and motor datasheets, and nothing is measured on hardware. Figures and vide
 
 ### Masses
 
-The URDF uses Fusion default materials. Several parts come out as solid steel (7.85 g/cm³):
+The original Fusion export used default materials, so several parts came out as solid steel. The URDF in
+cove-controls is now corrected (`scripts/step_reach_sim/apply_measured_masses.py`).
 
-| Part | URDF | Used here |
-|---|---|---|
-| DM-J10010 (×3) | 3.92 kg | 1.485 kg (datasheet) |
-| DM-J4340P (×4) | 0.387 kg | 0.375 kg (datasheet) |
-| LiPo 3200 mAh (×2) | 0.758 kg (steel density) | URDF value, likely about 4× too heavy |
-| LiPo 5000 mAh (×2) | 0.677 kg (1.81 g/cm³) | URDF value, plausible |
-| Slip-ring base (×2) | 2.106 kg (7.35 g/cm³) | URDF value, likely too heavy |
-| **Arm total** | **27.2 kg** | **19.8 kg** |
+| Part, each | Original URDF | Used for the results below | Corrected URDF | Source |
+|---|---|---|---|---|
+| DM-J10010 (×3) | 3.92 kg | 1.485 kg | 1.485 kg | Datasheet |
+| DM-J4340P (×4) | 0.387 kg | 0.375 kg | 0.375 kg | Datasheet |
+| LiPo 3200 mAh (×2) | 0.758 kg | 0.758 kg | 0.218 kg | Weighed |
+| LiPo 5000 mAh (×2) | 0.677 kg | 0.677 kg | 0.689 kg | Weighed (1.52 lb) |
+| Slip ring + base plate (×2) | 2.106 kg | 2.106 kg | 0.374 kg | Ring weighed (10.5 oz); plate aluminium |
+| Slip-ring rotating pin (×2) | 0.135 kg | 0.135 kg | 0.115 kg | Aluminium |
+| Gripper (×2) | 1.362 kg | 1.362 kg | 0.912 kg | Aluminium housing, TPU jaws and fingers, steel pins, servos weighed (3.52 oz each) |
+| **Arm total** | **27.17 kg** | **19.8 kg** | **14.35 kg (31.6 lb)** | |
+
+Masses are **[as built]** for the weighed parts and **[assumed]** for the rest. Wiring, ESP boards, DC-DC
+converters, connectors and fasteners are not in the CAD; a rough guess puts the real arm at 15–16 kg.
 
 The battery layout is from the 5-module design and still needs rework for 3 modules (D-004, open questions).
-
-Sensitivity (flat floor, rated torque): 0.44 m as used; 0.46 m with the 3200 mAh packs at LiPo density
-(18.6 kg total); 0.52 m if the slip-ring bases are also aluminium (16.0 kg). Every conclusion above holds
-either way. The torque numbers are on the high side.
 
 ## Results
 
@@ -134,16 +148,17 @@ It does not yet minimise torque, so the roll-motor overloads in 01–04 may be a
 - **Sim model source.** [truth/robot.md](../truth/robot.md) lists `full_assembly/urdf/simple_assembly.urdf`
   (Cove) as the sim model. This work used `terra_arm_description/urdf/arm.urdf` (the new Tether arm). Not
   resolved here.
-- **Which 10010?** The URDF names `DM-J10010L-2EC`. The manual used is for the DM-J10010-2EC (150 Nm peak).
-  Retailer listings give the L variant 120 Nm peak. Nothing here changes at 120 Nm except that margins are
-  smaller.
+- **Which 10010? Resolved 2026-10-31:** the motor is the plain DM-J10010-2EC (40 Nm rated, 150 Nm peak,
+  1.485 kg). The URDF link names still say `DM-J10010L-2EC`; they were left as they are because MoveIt
+  configs and sim code refer to them.
 - **Gripper capacity** in pull-out, shear, bending and twist is unknown.
 - **Lift-out distance** needed to clear a dock is unknown (12 cm assumed).
 
 ## Suggested next steps
 
-1. Weigh one 10010, one slip-ring assembly and one 3200 mAh pack. Re-run with real masses.
-2. Bench-test the gripper in a dock: pull-out, bending and twist. Targets: about 200 N, 130 Nm, 30–50 Nm.
+1. Re-run the sim on the corrected URDF (14.35 kg). Not done yet.
+2. Bench-test the gripper in a dock: pull-out, bending and twist. Targets at 19.8 kg were about 200 N,
+   130 Nm and 30–50 Nm; at 14.35 kg about 140 N, 96 Nm and 30–50 Nm.
 3. Decide on the gripper-spin axis for wall work: brake, stronger motor, or no sideways wall moves.
 4. Hardware test order: flat 0.3–0.44 m steps, 0.3 m step up, 30° incline straight up. Walls only after
    the gripper test.
