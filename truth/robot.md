@@ -72,7 +72,7 @@ Two Cove pitch modules (DM10010) and their brackets, with no other joints, drive
 - **B-end contact point:** 49.5 mm along +Z from `wrist_link`, taken from the mesh envelope. **[assumed]**
 - **Not modeled:** contact stability, friction and grip force, torque and current, cable fatigue, payload dynamics.
 - **Note:** the sim models Cove's geometry. It does not yet reflect the offset layout (D-002) or the 3-module wireless design (D-020).
-- **Tether arm model:** `src/terra_arm_description/urdf/arm.urdf` in cove-controls, masses corrected 2026-10-31. The step-reach sim (`scripts/step_reach_sim/` there) uses it, not Cove's URDF. Results: [2026-10-28 step-reach note](../notes/2026-10-28-john-step-reach-sim.md), run at 19.8 kg before the mass fix. **[assumed]**
+- **Tether arm model:** `src/terra_arm_description/urdf/arm.urdf` in cove-controls, masses corrected 2026-10-31. The step-reach sim (`scripts/step_reach_sim/` there) uses it, not Cove's URDF. Results: [2026-10-28 step-reach note](../notes/2026-10-28-john-step-reach-sim.md), re-run 2026-10-31 at 14.35 kg. **[assumed]**
 
 ### Wire-routing comparison (sim, 2026-09-27)
 

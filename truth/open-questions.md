@@ -48,10 +48,10 @@ When two sources disagree, list it here and let a PM decide.
 
 ## Locomotion and end effector
 
-From the [step-reach sim](../notes/2026-10-28-john-step-reach-sim.md). Load figures are scaled to the 14.35 kg arm. **[assumed]**
+From the [step-reach sim](../notes/2026-10-28-john-step-reach-sim.md). Loads are from the 2026-10-31 re-run with the 14.35 kg arm. **[assumed]**
 
-16. **What can the gripper and dock hold?** While the other end swings, one gripper carries the whole arm (141 N). It also sees up to about 96 Nm of bending in floor-to-wall and over-the-edge moves, 141 N of pull-out on a ceiling, and twist up to the 27 Nm gripper-spin peak. Even on a flat floor, the gripper must clamp: about 60 Nm of bending at a 0.80 m step, far more than its weight alone resists. How far must the gripper lift straight out to clear the dock? The sim assumes 12 cm. Needs a bench test of a gripper in a dock. Owner: mech.
-17. **Gripper spin axis on walls.** On a wall, sideways steps are limited by the gripper-spin motor's 27 Nm peak: about 0.28 m at 19.8 kg, about 0.36 m at 15.3 kg. Climbing straight up is not limited. Options: a brake on the spin axis, a stronger motor, or no sideways moves on walls. Owner: mech, John.
+16. **What can the gripper and dock hold?** While the other end swings, one gripper carries the whole arm (141 N). It also sees up to about 95 Nm of bending in floor-to-wall and over-the-edge moves, 141 N of pull-out on a ceiling, and twist up to the 27 Nm gripper-spin peak. Even on a flat floor, the gripper must clamp: about 57 Nm of bending at a 0.80 m step, far more than its weight alone resists. How far must the gripper lift straight out to clear the dock? The sim assumes 12 cm. Needs a bench test of a gripper in a dock. Owner: mech.
+17. **Gripper spin axis on walls.** On a wall, sideways steps are limited by the gripper-spin motor's 27 Nm peak: at most 0.38 m (0.14 m within rated torque). Climbing straight up is not limited. Options: a brake on the spin axis, a stronger motor, or no sideways moves on walls. Owner: mech, John.
 
 # Risks to Watch
 
