@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng (hardware)
-last_reviewed: 2026-10-19
+last_reviewed: 2026-10-31
 ---
 
 # Robot: Cove and Tether
@@ -34,6 +34,8 @@ Nothing about Cove or Tether is **[verified]** yet. Gate G0 is what changes that
 | Middle joint | Continuous 360° | decided D-003 |
 | Modules | 3 wireless modules, one ESP brain each. No separate end-effector modules. | decided D-020 |
 | Drive motors | Seven total. Master ID 0 controls one. Left ID 1 and right ID 2 control three each. Every module uses a private local CAN bus. | decided D-026 |
+| Motor models | 3 × DM-J10010-2EC on the pitch joints (40 Nm rated, 150 Nm peak, 1.485 kg; the plain 10010, although the URDF link names say J10010L). 4 × DM-J4340P-2EC on the rolls and gripper spins (9 Nm rated, 27 Nm peak, 0.375 kg). Figures from the user manuals. Run at 24 V: rated torque holds; the 10010, rated at 48 V, runs at about half speed. | as built |
+| Arm mass | 14.35 kg (31.6 lb) in the corrected URDF. Batteries (3200 mAh 218 g, 5000 mAh 1.52 lb), slip rings (10.5 oz) and gripper servos (3.52 oz) were weighed, with no recorded artifact. Motors are from the manuals. Aluminium structure and gripper housing are from CAD. Wiring, ESP boards, DC-DC converters and fasteners are not included. | as built (weighed parts), assumed (rest) |
 | Motor identities | Master slot 0: slave `0x04`, previously measured feedback `0x14`. Remote slots are big / near-master / far-end. Node 1 slave IDs: `0x02` / `0x05` / `0x01`. Node 2: `0x06` / `0x03` / `0x07`. Remote feedback IDs and limits are not yet scanned. | decided D-028; feedback IDs open |
 | Inter-module wiring | None. Fully wireless. | decided D-006 |
 | Inter-module link | ESP-NOW first, NRF ESB as fallback (BLE ruled out) | decided D-019 |
@@ -70,6 +72,7 @@ Two Cove pitch modules (DM10010) and their brackets, with no other joints, drive
 - **B-end contact point:** 49.5 mm along +Z from `wrist_link`, taken from the mesh envelope. **[assumed]**
 - **Not modeled:** contact stability, friction and grip force, torque and current, cable fatigue, payload dynamics.
 - **Note:** the sim models Cove's geometry. It does not yet reflect the offset layout (D-002) or the 3-module wireless design (D-020).
+- **Tether arm model:** `src/terra_arm_description/urdf/arm.urdf` in cove-controls, masses corrected 2026-10-31. The step-reach sim (`scripts/step_reach_sim/` there) uses it, not Cove's URDF. Results: [2026-10-28 step-reach note](../notes/2026-10-28-john-step-reach-sim.md), run at 19.8 kg before the mass fix. **[assumed]**
 
 ### Wire-routing comparison (sim, 2026-09-27)
 
