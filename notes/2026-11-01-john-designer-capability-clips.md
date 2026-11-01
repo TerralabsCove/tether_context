@@ -29,6 +29,10 @@ dock. Clips use feet and metres, a 5 ft 9 in person for scale and 1 ft floor squ
 | [08 Concept: platforms spiralling up the tree](2026-11-01-john-designer-capability-clips/08_concept_tree_spiral.mp4) | Six platforms, 1 ft (0.30 m) rise and about 1 ft 6 in (0.46 m) apart, around the 6 ft 10 in tree (3 ft / 2.5 ft / 2 ft diameter taper). A concept, not a decision. |
 | [09 Hanging underneath](2026-11-01-john-designer-capability-clips/09_hanging_underneath.mp4) | Under a beam 7 ft 5 in (2.25 m) up. Gripper not tested for pull-out. |
 
+Stills of the extremes (level, highest step up, deepest step down, clear space, vertical, tree, hanging) are in
+[stills/](2026-11-01-john-designer-capability-clips/stills/). Everything is also on one private page,
+"Tether Reach Guide" (https://claude.ai/artifact/DXjihNZxuEWTfiGrGoq6Zz), shared only when John chooses.
+
 Two summary sheets: [where the docks can go](2026-11-01-john-designer-capability-clips/10a_where_docks_can_go.png) and
 [what each dock must hold](2026-11-01-john-designer-capability-clips/10b_what_docks_must_hold.png).
 
