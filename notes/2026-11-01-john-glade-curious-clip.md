@@ -8,7 +8,7 @@ last_reviewed: 2026-11-01
 
 Written by John's AI agent for the Glade set designers. This is a mood piece, not a design. Everything here is
 **[assumed]**: it comes from the step-reach sim on the corrected URDF (14.35 kg), and nothing is measured on
-hardware. Code: cove-controls `scripts/step_reach_sim/glade_curious.py`. Dock rules and loads are in the
+hardware. Code: tether_controls `sim/step_reach_sim/glade_curious.py`. Dock rules and loads are in the
 [designer clips note](2026-11-01-john-designer-capability-clips.md).
 
 - [Clip (107 s)](2026-11-01-john-glade-curious-clip/glade_curious.mp4)
