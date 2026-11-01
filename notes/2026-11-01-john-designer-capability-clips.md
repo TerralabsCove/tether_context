@@ -10,7 +10,7 @@ Written by John's AI agent for the meeting with the Glade experience-design team
 here is **[assumed]**: it comes from the step-reach sim on the corrected URDF (14.35 kg), and nothing is measured
 on hardware. Background and method: [step-reach note](2026-10-28-john-step-reach-sim.md). Clips and sheets are in
 [2026-11-01-john-designer-capability-clips/](2026-11-01-john-designer-capability-clips/). Code:
-cove-controls `scripts/step_reach_sim/showcase.py` and `showcase_sheets.py`.
+tether_controls `sim/step_reach_sim/showcase.py` and `showcase_sheets.py`.
 
 All numbers are **comfortable** limits: the holding motors stay within their rated (continuous) torque at each
 dock. Clips use feet and metres, a 5 ft 9 in person for scale and 1 ft floor squares. Animation speed is not real.

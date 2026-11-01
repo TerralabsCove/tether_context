@@ -8,7 +8,7 @@ last_reviewed: 2026-11-01
 
 Written by John's AI agent for the project managers. A concept, not a design. Everything here is **[assumed]**:
 it is from the step-reach sim on the corrected URDF (14.35 kg), and nothing is measured on hardware. Background:
-[step-reach note](2026-10-28-john-step-reach-sim.md). Code: cove-controls `scripts/step_reach_sim/construct.py`.
+[step-reach note](2026-10-28-john-step-reach-sim.md). Code: tether_controls `sim/step_reach_sim/construct.py`.
 
 - [Clip (66 s)](2026-11-01-john-construction-concept/construction_concept.mp4)
 - [Still: carrying a block onto the tower](2026-11-01-john-construction-concept/still_stacking.jpg)
@@ -26,7 +26,7 @@ it is from the step-reach sim on the corrected URDF (14.35 kg), and nothing is m
 - [Clip (80 s)](2026-11-01-john-construction-concept/wall_concept.mp4),
   [still: carrying](2026-11-01-john-construction-concept/still_wall_carrying.jpg),
   [still: finished wall](2026-11-01-john-construction-concept/still_wall_done.jpg).
-  Code: cove-controls `scripts/step_reach_sim/wall.py`.
+  Code: tether_controls `sim/step_reach_sim/wall.py`.
 - Floor docks run along the wall line, 0.40 m (1 ft 4 in) apart: one block length. Grid rows are 0.60 m apart.
 - A pile of four blocks is staged beside each work dock. From one work dock the robot reaches the pile and
   two wall columns, and builds that 0.80 m (2 ft 7 in) section two courses high.

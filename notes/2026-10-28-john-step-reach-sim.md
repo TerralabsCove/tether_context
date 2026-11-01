@@ -9,7 +9,8 @@ last_reviewed: 2026-10-31
 Written by John's AI agent. Not authoritative. Everything here is **[assumed]**: it comes from the CAD-exported
 URDF, motor datasheets and a few weighed parts, and nothing is measured on hardware. Figures and videos are in
 [2026-10-28-john-step-reach-sim/](2026-10-28-john-step-reach-sim/). Code:
-[cove-controls `scripts/step_reach_sim/`](https://github.com/TerralabsCove/cove-controls/tree/main/scripts/step_reach_sim).
+[tether_controls `sim/step_reach_sim/`](https://github.com/TerralabsCove/tether_controls/tree/main/sim/step_reach_sim)
+(moved from cove-controls on 2026-11-01).
 
 Re-run on 2026-10-31 with the corrected URDF masses: **the arm is 14.35 kg**. The first run (2026-10-28) used
 19.8 kg; reach and step height are the same, and loads are about 28% lower.
@@ -38,7 +39,7 @@ Re-run on 2026-10-31 with the corrected URDF masses: **the arm is 14.35 kg**. Th
 
 | Item | Value | Tag |
 |---|---|---|
-| Model | cove-controls `src/terra_arm_description/urdf/arm.urdf` v0.2.0 (5 arm motors + 2 gripper-spin motors), masses corrected 2026-10-31 | assumed |
+| Model | `terra_arm_description/urdf/arm.urdf` v0.2.0, now in tether_controls `description/` (5 arm motors + 2 gripper-spin motors), masses corrected 2026-10-31 | assumed |
 | Foothold | Female dock frame from `dock_female.urdf`. The robot only steps between mounted docks. | assumed |
 | Constraint | Both grippers on the dock axis, normal to the surface | assumed |
 | Joint ranges | Mesh self-collision only. End pitch about ±125°, middle pitch about ±167°. No cable limits. | assumed |
@@ -49,8 +50,8 @@ Re-run on 2026-10-31 with the corrected URDF masses: **the arm is 14.35 kg**. Th
 
 ### Masses
 
-The original Fusion export used default materials, so several parts came out as solid steel. The URDF in
-cove-controls is now corrected (`scripts/step_reach_sim/apply_measured_masses.py`), and all results below use it.
+The original Fusion export used default materials, so several parts came out as solid steel. The URDF is
+now corrected (`sim/step_reach_sim/apply_measured_masses.py` in tether_controls), and all results below use it.
 
 | Part, each | Original URDF | Corrected URDF | Source |
 |---|---|---|---|
