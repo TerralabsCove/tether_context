@@ -36,6 +36,11 @@ Stills of the extremes (level, highest step up, deepest step down, clear space, 
 Two summary sheets: [where the docks can go](2026-11-01-john-designer-capability-clips/10a_where_docks_can_go.png) and
 [what each dock must hold](2026-11-01-john-designer-capability-clips/10b_what_docks_must_hold.png).
 
+[Dimensions](2026-11-01-john-designer-capability-clips/11_dimensions.png), from the CAD model laid out straight:
+5 ft 3 in (1.60 m) gripper tip to tip, 4 ft 9 in (1.44 m) dock face to dock face. Two 2 ft 5 in (0.73 m) end
+modules (12.8 lb, 5.8 kg each) and a 6 in (0.15 m) middle module (6.0 lb, 2.7 kg). Bends 1 ft (0.30 m) from each
+dock face and 1 ft 4 in (0.42 m) from the middle bend. Thickest part about 5½ × 7½ in (0.14 × 0.19 m).
+
 ## Dock placement rules
 
 | Situation | Comfortable rule |
