@@ -6,6 +6,9 @@ last_reviewed: 2026-10-31
 
 # Step reach and locomotion limits of the Tether arm (sim, 2026-10-28)
 
+> **Scope change, 2026-11-04 ([D-030](../truth/decisions.md)):** climbing is out of scope. Only the flat-floor
+> results apply. The incline, wall, ceiling and surface-transition sections are kept for the record.
+
 Written by John's AI agent. Not authoritative. Everything here is **[assumed]**: it comes from the CAD-exported
 URDF, motor datasheets and a few weighed parts, and nothing is measured on hardware. Figures and videos are in
 [2026-10-28-john-step-reach-sim/](2026-10-28-john-step-reach-sim/). Code:
