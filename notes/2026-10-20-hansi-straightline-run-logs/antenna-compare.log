@@ -1,0 +1,80 @@
+antenna comparison 10/20/2026 14:31:58
+=== run 1 antenna on  flash: Hash of data verified.
+joined tether-control: True
+    Signal                 : 85% 
+PING n=50/50 p50=4 p95=177 max=189 avg=22.2
+motor A: status 0xF1 raw q +0.000 age 344 ms tau +0.00 rssi -49
+motor B: status 0xF1 raw q +0.000 age 11 ms tau +0.00 rssi 0
+motor C: status 0xF1 raw q +0.000 age 65 ms tau +0.00 rssi -29
+motor A: status 0xF1 raw q +0.000 age 259 ms tau +0.00 rssi -49
+motor B: status 0xF1 raw q +0.000 age 1 ms tau +0.00 rssi 0
+motor C: status 0xF1 raw q +0.000 age 48 ms tau +0.00 rssi -29
+motor A: no commands acked
+motor B: no commands acked
+motor C: no commands acked
+=== run 2 antenna ext  flash: Hash of data verified.
+joined tether-control: True
+    Signal                 : 97% 
+PING n=50/50 p50=6 p95=103 max=162 avg=17.1
+motor A: status 0xF1 raw q +0.000 age 84 ms tau +0.00 rssi -42
+motor B: status 0xF1 raw q +0.000 age 5 ms tau +0.00 rssi 0
+motor C: status 0xF1 raw q +0.000 age 56 ms tau +0.00 rssi -30
+motor A: status 0xF1 raw q +0.000 age 53 ms tau +0.00 rssi -40
+motor B: status 0xF1 raw q +0.000 age 2 ms tau +0.00 rssi 0
+motor C: status 0xF1 raw q +0.000 age 63 ms tau +0.00 rssi -30
+motor A: no commands acked
+motor B: no commands acked
+motor C: no commands acked
+=== run 3 antenna on  flash: Hash of data verified.
+joined tether-control: True
+    Signal                 : 87% 
+PING n=50/50 p50=8 p95=103 max=124 avg=20
+motor A: status 0xF1 raw q +0.000 age 298 ms tau +0.00 rssi -49
+motor B: status 0xF1 raw q +0.000 age 0 ms tau +0.00 rssi 0
+motor C: status 0xF1 raw q +0.000 age 3 ms tau +0.00 rssi -29
+motor A: status 0xF1 raw q +0.000 age 247 ms tau +0.00 rssi -49
+motor B: status 0xF1 raw q +0.000 age 29 ms tau +0.00 rssi 0
+motor C: status 0xF1 raw q +0.000 age 88 ms tau +0.00 rssi -29
+motor A: no commands acked
+motor B: no commands acked
+motor C: no commands acked
+=== run 4 antenna ext  flash: Hash of data verified.
+joined tether-control: True
+    Signal                 : 96% 
+PING n=50/50 p50=9 p95=140 max=156 avg=22
+motor A: status 0xF1 raw q +0.000 age 276 ms tau +0.00 rssi -41
+motor B: status 0xF1 raw q +0.000 age 113 ms tau +0.00 rssi 0
+motor C: status 0xF1 raw q +0.000 age 195 ms tau +0.00 rssi -29
+motor A: status 0xF1 raw q +0.000 age 238 ms tau +0.00 rssi -42
+motor B: status 0xF1 raw q +0.000 age 19 ms tau +0.00 rssi 0
+motor C: status 0xF1 raw q +0.000 age 76 ms tau +0.00 rssi -30
+motor A: no commands acked
+motor B: no commands acked
+motor C: no commands acked
+=== run 5 antenna on  flash: Hash of data verified.
+joined tether-control: True
+    Signal                 : 86% 
+PING n=50/50 p50=5 p95=118 max=178 avg=18.3
+motor A: status 0xF1 raw q +0.000 age 333 ms tau +0.00 rssi -50
+motor B: status 0xF1 raw q +0.000 age 2 ms tau +0.00 rssi 0
+motor C: status 0xF1 raw q +0.000 age 134 ms tau +0.00 rssi -28
+motor A: status 0xF1 raw q +0.000 age 265 ms tau +0.00 rssi -49
+motor B: status 0xF1 raw q +0.000 age 28 ms tau +0.00 rssi 0
+motor C: status 0xF1 raw q +0.000 age 113 ms tau +0.00 rssi -29
+motor A: no commands acked
+motor B: no commands acked
+motor C: no commands acked
+=== run 6 antenna ext  flash: Hash of data verified.
+joined tether-control: True
+    Signal                 : 97% 
+PING n=50/50 p50=4 p95=108 max=122 avg=13.5
+motor A: status 0xF1 raw q +0.000 age 61 ms tau +0.00 rssi -41
+motor B: status 0xF1 raw q +0.000 age 7 ms tau +0.00 rssi 0
+motor C: status 0xF1 raw q +0.000 age 77 ms tau +0.00 rssi -29
+motor A: status 0xF1 raw q +0.000 age 13 ms tau +0.00 rssi -41
+motor B: status 0xF1 raw q +0.000 age 1 ms tau +0.00 rssi 0
+motor C: status 0xF1 raw q +0.000 age 58 ms tau +0.00 rssi -28
+motor A: no commands acked
+motor B: no commands acked
+motor C: no commands acked
+done 10/20/2026 14:40:49
