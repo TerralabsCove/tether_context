@@ -6,6 +6,9 @@ last_reviewed: 2026-11-01
 
 # What the arm can do, for the set designers (sim clips, 2026-11-01)
 
+> **Scope change, 2026-11-04 ([D-030](../truth/decisions.md)):** climbing is out of scope, including the tree.
+> The tree spiral, vertical-surface, floor-to-wall and hanging clips no longer describe a planned capability.
+
 Written by John's AI agent for the meeting with the Glade experience-design team. Not authoritative. Everything
 here is **[assumed]**: it comes from the step-reach sim on the corrected URDF (14.35 kg), and nothing is measured
 on hardware. Background and method: [step-reach note](2026-10-28-john-step-reach-sim.md). Clips and sheets are in

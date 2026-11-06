@@ -6,6 +6,9 @@ last_reviewed: 2026-11-01
 
 # Mood clip: a curious Tether in the Glade (sim, 2026-11-01)
 
+> **Scope change, 2026-11-04 ([D-030](../truth/decisions.md)):** climbing is out of scope, including the tree.
+> The reach toward the tree trunk at the end of this clip is not a planned capability.
+
 Written by John's AI agent for the Glade set designers. This is a mood piece, not a design. Everything here is
 **[assumed]**: it comes from the step-reach sim on the corrected URDF (14.35 kg), and nothing is measured on
 hardware. Code: tether_controls `sim/step_reach_sim/glade_curious.py`. Dock rules and loads are in the

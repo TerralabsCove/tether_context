@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng, Steve Lu
-last_reviewed: 2026-10-31
+last_reviewed: 2026-11-04
 ---
 
 # Open Questions
@@ -33,7 +33,7 @@ When two sources disagree, list it here and let a PM decide.
 8. **Wire routing inside a module.** Per-module batteries remove cables between modules. Joints within a module, especially the continuous middle joint (D-003), may still need a slip ring. Owner: mech.
 9. **Docking alignment hole.** The AprilTag backup needs a centered hole in the end effector. Needs a meeting with the mechanical designers. Owner: John.
 10. **Does the docking geometry lock orientation?** A triangle or pinned shape could remove a rotation motor. Owner: mech.
-    Input from the [step-reach sim](../notes/2026-10-28-john-step-reach-sim.md): on inclines and walls the anchored gripper is twisted about its own axis, and only the gripper-spin motor (27 Nm peak) resists it. The gripper-to-dock lock should hold more twist than that.
+    Input from the [step-reach sim](../notes/2026-10-28-john-step-reach-sim.md): on inclines and walls the anchored gripper is twisted about its own axis, and only the gripper-spin motor (27 Nm peak) resists it. Inclines and walls are now out of scope (D-030), and the sim does not report twist for floor steps.
 11. **Motor feedback identities and limits.** The slave IDs and remote slot roles are assigned in D-028. Scan the six remote motors and record each feedback ID, model, PMAX, VMAX, and TMAX. Confirm the master `0x04` motor still replies on feedback ID `0x14`. IDs must be distinct within a module's local CAN bus; do not derive feedback IDs by assumption. Owner: embedded, electrical.
 
 ## Software
@@ -50,8 +50,7 @@ When two sources disagree, list it here and let a PM decide.
 
 From the [step-reach sim](../notes/2026-10-28-john-step-reach-sim.md). Loads are from the 2026-10-31 re-run with the 14.35 kg arm. **[assumed]**
 
-16. **What can the gripper and dock hold?** While the other end swings, one gripper carries the whole arm (141 N). It also sees up to about 95 Nm of bending in floor-to-wall and over-the-edge moves, 141 N of pull-out on a ceiling, and twist up to the 27 Nm gripper-spin peak. Even on a flat floor, the gripper must clamp: about 57 Nm of bending at a 0.80 m step, far more than its weight alone resists. How far must the gripper lift straight out to clear the dock? The sim assumes 12 cm. Needs a bench test of a gripper in a dock. Owner: mech.
-17. **Gripper spin axis on walls.** On a wall, sideways steps are limited by the gripper-spin motor's 27 Nm peak: at most 0.38 m (0.14 m within rated torque). Climbing straight up is not limited. Options: a brake on the spin axis, a stronger motor, or no sideways moves on walls. Owner: mech, John.
+16. **What can the gripper and dock hold?** While the other end swings, one gripper carries the whole arm (141 N). Wall, ceiling and over-the-edge loads no longer apply (D-030). On a flat floor, the gripper must clamp: about 57 Nm of bending at a 0.80 m step, far more than its weight alone resists. How far must the gripper lift straight out to clear the dock? The sim assumes 12 cm. Needs a bench test of a gripper in a dock. Owner: mech.
 
 # Risks to Watch
 

@@ -1,14 +1,14 @@
 ---
 status: active
 owner: John Peng, Steve Lu
-last_reviewed: 2026-10-11
+last_reviewed: 2026-11-04
 ---
 
 # Tether: Project Overview
 
 ## What it is
 
-Tether is a Terra Labs project for fall 2026. It turns **Cove**, the 7-DOF arm the team built in spring 2026, into an **inchworm robot**. Tether has a gripper on both ends. One end holds on while the other swings to the next spot, then they swap. It has no fixed base and no cable to a wall. The goal is a robot that can walk, climb, and still manipulate.
+Tether is a Terra Labs project for fall 2026. It turns **Cove**, the 7-DOF arm the team built in spring 2026, into an **inchworm robot**. Tether has a gripper on both ends. One end holds on while the other swings to the next spot, then they swap. It has no fixed base and no cable to a wall. The goal is a robot that walks across a floor along a designated path of docks and grabs objects near that path (D-030).
 
 In code the robot is called **COVE2**. "Tether" and "COVE2" refer to the same robot.
 
@@ -22,9 +22,10 @@ In code the robot is called **COVE2**. "Tether" and "COVE2" refer to the same ro
 
 ## Goals, in priority order
 
-1. Walk: alternating-anchor locomotion on the ground.
-2. Climb: e.g. a ladder.
-3. Manipulate with an end-effector claw. Secondary target (D-014).
+1. Walk: alternating-anchor locomotion across a floor, along a designated path of docks (D-030).
+2. Grab objects near the path with an end-effector claw. Secondary to walking (D-014).
+
+Climbing is out of scope: no tree, ladder, wall or ceiling climbing (D-030).
 
 ## Roadmap: validation gates
 
