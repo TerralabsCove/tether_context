@@ -1,0 +1,49 @@
+{
+  "image_size": [
+    1920,
+    1080
+  ],
+  "views_used": 14,
+  "views_rejected": 0,
+  "rms_px": 0.297,
+  "square_mm": 18.129,
+  "fx": 2373.4,
+  "fy": 2373.7,
+  "cx": 966.4,
+  "cy": 525.9,
+  "dist_k1_k2_p1_p2_k3": [
+    0.1129,
+    -0.2795,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "hfov_deg": 44.0,
+  "vfov_deg": 25.6,
+  "fx_resampled_mean_sd": [
+    2374.7,
+    5.5
+  ],
+  "tilt_deg_median_max": [
+    15.1,
+    28.2
+  ],
+  "corner_coverage_px": [
+    [
+      66,
+      1792
+    ],
+    [
+      85,
+      971
+    ]
+  ],
+  "corner_shift_px": 12.4,
+  "focus_by_distance_cm": {
+    "40": 730.6,
+    "45": 462.2,
+    "50": 593.1,
+    "55": 631.1,
+    "60": 753.6
+  }
+}
