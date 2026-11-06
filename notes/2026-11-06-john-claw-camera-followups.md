@@ -47,7 +47,7 @@ Not proven yet:
 
 The camera also restarted once for an unknown reason. Its apps don't start on their own after a restart.
 
-The test files are local at `notes/2026-11-05-john-recamera-test/` and are not in this push.
+The test files are in [2026-11-05-john-recamera-test/](2026-11-05-john-recamera-test/).
 
 ## reCamera 2002w fisheye
 

@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng, Steve Lu
-last_reviewed: 2026-10-11
+last_reviewed: 2026-11-06
 ---
 
 # Tether: Project Overview
@@ -12,7 +12,16 @@ Tether is a Terra Labs project for fall 2026. It turns **Cove**, the 7-DOF arm t
 
 In code the robot is called **COVE2**. "Tether" and "COVE2" refer to the same robot.
 
-## Where things stand (as of 2026-10-11)
+## Where things stand (as of 2026-11-06)
+
+- **Schedule:** about 2 weeks behind (11-05 meeting). Worst case, software-only work starts in about 1.5–2 weeks. Demo day is the week of 11/30, exact date [unconfirmed](open-questions.md#conflicts-between-sources).
+- **Blocking assembly:** water-jet panels at Baum (D-041), end mounts waiting on a tapping bit, and the end effector design (D-040).
+- **Electrical:** the 11-02 meeting reports batteries in hand, a motor tested wirelessly, and the robot fully wireless. No recorded artifact is linked yet.
+- **Localization:** one fisheye camera per end reading AprilTags (D-037, D-038). The reCamera read tags on its own in a [first handheld test](../notes/2026-11-06-john-claw-camera-followups.md). Wireless is untested.
+- **Software:** thin. See D-035.
+- **Demo:** Area D. Curious robot moving objects between piles is the leading idea, not final. See the [designer meeting](../meetings/2026-11-01-designer-demo.md).
+
+## Earlier status (as of 2026-10-11)
 
 - **Cove** is built and moves. It is the hardware starting point.
 - **Tether in software:** the sim (COVE2 Robot Studio) can plan collision-free walking, a ladder climb, and a loop around a table on Cove's model. See [the tether repo](https://github.com/TerralabsCove/tether).
@@ -25,6 +34,8 @@ In code the robot is called **COVE2**. "Tether" and "COVE2" refer to the same ro
 1. Walk: alternating-anchor locomotion on the ground.
 2. Climb: e.g. a ladder.
 3. Manipulate with an end-effector claw. Secondary target (D-014).
+
+Climbing scope is [in conflict](open-questions.md#conflicts-between-sources): [PR #8](https://github.com/TerralabsCove/tether_context/pull/8) proposes dropping it, and recent meetings still plan a hill.
 
 ## Roadmap: validation gates
 
@@ -60,3 +71,5 @@ Full gate definitions live in the code repo: `docs/VALIDATION_PLAN.md` in [tethe
 | Sim codebase snapshot | `PROJECT_SUMMARY.md` in the tether repo |
 | ESP-NOW + Damiao testbed (RL over ESP-NOW) | [tethersmall repo](https://github.com/TerralabsCove/tethersmall), `docs/ESPNOW_BRINGUP.md` |
 | Kickoff deck | [assets/2026-09-27-tether-kickoff.pptx](../assets/2026-09-27-tether-kickoff.pptx) |
+| BOM (canonical, D-031) | [Tether BOM (F26 - Terra Labs)](https://docs.google.com/spreadsheets/d/16mWqcQNEYmytco0OLClecacfsPCy_qwmkcIXcmFBWYw/edit) |
+| Rolling status from Discord (unverified) | [Notion: Tether and Terra Everything](https://app.notion.com/p/407b37231fea8062a1b0f09d333779b4), [digest](../notes/2026-11-06-john-notion-digest.md) |

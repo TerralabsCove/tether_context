@@ -1,7 +1,7 @@
 ---
 status: active
 owner: anyone
-last_reviewed: 2026-10-19
+last_reviewed: 2026-11-06
 ---
 
 # Glossary
@@ -37,3 +37,8 @@ last_reviewed: 2026-10-19
 | MIT mode | Damiao control mode: the motor runs its own PD loop toward a position target with gains sent in each command. |
 | TerraGM | Terra Labs general meeting. |
 | Granola | The app that records and summarizes our meetings. |
+| Baum | Baum Family Makerspace, where the panels are water-jetted. Granola often writes it as "Bomb". |
+| Castle | Ming's house, used as a workshop. Book through the Terrance bot. |
+| reCamera | Seeed Studio's small Linux camera with its own processor. Tether uses the 2002W (D-038). |
+| AprilTag | A printed square marker a camera can locate in 3D. tag36h11 is the family used in testing. |
+| Terrance | The Discord bot that logs parts and Castle bookings. |
