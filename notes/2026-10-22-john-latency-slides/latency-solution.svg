@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" font-family="Avenir Next"><rect width="1200" height="1200" fill="#EEEEEE"/>
+<text x="80" y="130" font-size="36" fill="#5F7E80" font-weight="500" text-anchor="start">ESP32-C5 at 5 GHz, three motors (Oct 28)</text>
+<path d="M300.0 250 V900" stroke="#E0E5E5" stroke-width="2"/>
+<text x="300.0" y="954" font-size="36" fill="#8FA4A5" font-weight="500" text-anchor="middle">0</text>
+<path d="M486.4 250 V900" stroke="#E0E5E5" stroke-width="2"/>
+<text x="486.3636363636364" y="954" font-size="36" fill="#8FA4A5" font-weight="500" text-anchor="middle">50</text>
+<path d="M672.7 250 V900" stroke="#E0E5E5" stroke-width="2"/>
+<text x="672.7272727272727" y="954" font-size="36" fill="#8FA4A5" font-weight="500" text-anchor="middle">100</text>
+<path d="M859.1 250 V900" stroke="#E0E5E5" stroke-width="2"/>
+<text x="859.090909090909" y="954" font-size="36" fill="#8FA4A5" font-weight="500" text-anchor="middle">150</text>
+<path d="M1045.5 250 V900" stroke="#E0E5E5" stroke-width="2"/>
+<text x="1045.4545454545455" y="954" font-size="36" fill="#8FA4A5" font-weight="500" text-anchor="middle">200</text>
+<path d="M300 900 H1120" stroke="#9DB0B0" stroke-width="3"/>
+<text x="710.0" y="1012" font-size="38" fill="#5F7E80" font-weight="500" text-anchor="middle">round-trip latency (ms)</text>
+<path d="M560.9 210 V900" stroke="#24585B" stroke-width="3" stroke-dasharray="12 9"/>
+<text x="578.9090909090909" y="236" font-size="36" fill="#24585B" font-weight="600" text-anchor="start">70 ms limit</text>
+<text x="80" y="425.5" font-size="38" fill="#24585B" font-weight="500" text-anchor="start">bench</text>
+<path d="M372.7 412.5 H394.3" stroke="#1E9E8C" stroke-width="5"/>
+<path d="M394.3 394.5 V430.5" stroke="#1E9E8C" stroke-width="5" stroke-linecap="round"/>
+<rect x="300" y="392.5" width="72.7" height="40" fill="#1E9E8C"/>
+<circle cx="346.2" cy="412.5" r="13" fill="#EEEEEE" stroke="#24585B" stroke-width="5"/>
+<text x="416.3" y="425.5" font-size="34" fill="#5F7E80" font-weight="600" text-anchor="start">25</text>
+<text x="80" y="588.0" font-size="38" fill="#24585B" font-weight="500" text-anchor="start">3 m</text>
+<path d="M372.7 575.0 H446.5" stroke="#1E9E8C" stroke-width="5"/>
+<path d="M446.5 557.0 V593.0" stroke="#1E9E8C" stroke-width="5" stroke-linecap="round"/>
+<rect x="300" y="555.0" width="72.7" height="40" fill="#1E9E8C"/>
+<circle cx="346.2" cy="575.0" r="13" fill="#EEEEEE" stroke="#24585B" stroke-width="5"/>
+<text x="468.4818181818182" y="588.0" font-size="34" fill="#5F7E80" font-weight="600" text-anchor="start">39</text>
+<text x="80" y="750.5" font-size="38" fill="#24585B" font-weight="500" text-anchor="start">5–6 m, wall</text>
+<path d="M380.5 737.5 H424.1" stroke="#1E9E8C" stroke-width="5"/>
+<path d="M424.1 719.5 V755.5" stroke="#1E9E8C" stroke-width="5" stroke-linecap="round"/>
+<rect x="300" y="717.5" width="80.5" height="40" fill="#1E9E8C"/>
+<circle cx="348.5" cy="737.5" r="13" fill="#EEEEEE" stroke="#24585B" stroke-width="5"/>
+<text x="446.1181818181818" y="750.5" font-size="34" fill="#5F7E80" font-weight="600" text-anchor="start">33</text>
+<circle cx="94" cy="1088" r="11" fill="#EEEEEE" stroke="#24585B" stroke-width="4"/><text x="118" y="1100" font-size="32" fill="#5F7E80" font-weight="500" text-anchor="start">median</text>
+<rect x="268" y="1070" width="56" height="34" fill="#1E9E8C"/><text x="338" y="1100" font-size="32" fill="#5F7E80" font-weight="500" text-anchor="start">95% of commands</text>
+<path d="M670 1088 H730 M730 1070 V1106" stroke="#1E9E8C" stroke-width="5" stroke-linecap="round"/><text x="752" y="1100" font-size="32" fill="#5F7E80" font-weight="500" text-anchor="start">worst command</text>
+</svg>

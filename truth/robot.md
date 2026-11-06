@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng (hardware)
-last_reviewed: 2026-11-01
+last_reviewed: 2026-11-06
 ---
 
 # Robot: Cove and Tether
@@ -36,16 +36,22 @@ Nothing about Cove or Tether is **[verified]** yet. Gate G0 is what changes that
 | Drive motors | Seven total. Master ID 0 controls one. Left ID 1 and right ID 2 control three each. Every module uses a private local CAN bus. | decided D-026 |
 | Motor models | 3 × DM-J10010-2EC on the pitch joints (40 Nm rated, 150 Nm peak, 1.485 kg; the plain 10010, although the URDF link names say J10010L). 4 × DM-J4340P-2EC on the rolls and gripper spins (9 Nm rated, 27 Nm peak, 0.375 kg). Figures from the user manuals. Run at 24 V: rated torque holds; the 10010, rated at 48 V, runs at about half speed. | as built |
 | Arm mass | 14.35 kg (31.6 lb) in the corrected URDF. Batteries (3200 mAh 218 g, 5000 mAh 1.52 lb), slip rings (10.5 oz) and gripper servos (3.52 oz) were weighed, with no recorded artifact. Motors are from the manuals. Aluminium structure and gripper housing are from CAD. Wiring, ESP boards, DC-DC converters and fasteners are not included. | as built (weighed parts), assumed (rest) |
+| Top motor orientation | Kept as built, not flipped | decided D-032 |
 | Motor identities | Master slot 0: slave `0x04`, previously measured feedback `0x14`. Remote slots are big / near-master / far-end. Node 1 slave IDs: `0x02` / `0x05` / `0x01`. Node 2: `0x06` / `0x03` / `0x07`. Remote feedback IDs and limits are not yet scanned. | decided D-028; feedback IDs open |
 | Inter-module wiring | None. Fully wireless. | decided D-006 |
 | Inter-module link | ESP-NOW first, NRF ESB as fallback (BLE ruled out) | decided D-019 |
 | Radio board | Seeed XIAO ESP32-C5 on every module and on the master. U.FL external antenna only; no on-board antenna. Band, channel, antenna type, and mounting are open and go through the test matrix in the [antenna and RF plan](../notes/2026-10-19-john-esp32c5-antenna-rf-plan.md). | decided D-029; band and antenna open |
-| Batteries | Layout planned for 5 modules, needs rework for 3 (see open questions). 3 sizes, 5–6 total, 5,000 mAh main modules, ~2 h runtime target, ~$50 per small battery | decided D-004 |
+| Batteries | Layout planned for 5 modules, needs rework for 3 (see open questions). 3 sizes, 5–6 total, 5,000 mAh main modules, ~2 h runtime target, ~$50 per small battery. Middle module has two (D-036). | decided D-004, D-036 |
 | Battery protection | No BMS. Motors have built-in min-voltage shutoff. DC-DC converter for ESPs. | decided D-008 |
-| End effectors | Symmetric servo claw on both ends, folds into a circular docking housing | decided D-005 |
-| Video link | Unresolved. ESP bandwidth is insufficient. Jetson ruled out as too heavy. | open |
-| Compute | Fully offboard | decided D-013 |
-| Localization | Motion capture primary, AprilTag on docking as backup, encoders as last resort | decided D-012 |
+| Module power | Battery splits to the motors and a 24 V to 5 V buck. ESP and CAN transceiver on the big motor side, enclosed. | decided D-033 |
+| Mounts | Loads go through interlocking geometry, not bolts | decided D-042 |
+| Slip ring | At the end effector only (D-044), 2.9 A requirement. Taidacent hollow, 6-wire, 10 A, 25.4 mm bore (TTH-058). On site, not yet measured. Planned channels: 5 V, GND, two servo signals, at least 2 vacant. | decided D-044; as built (part), assumed (channels) |
+| End effectors | Symmetric servo claw on both ends, folds into a circular docking housing. Docking is servo-driven pins on the arm into passive holes on the structure. The claw is optional. Ming's simpler gripper is the parallel backup. | decided D-005, D-040, D-043 |
+| End-effector servos | 4 × ANNIMOS 35 kg 270° (TTH-054), received. Stall current quoted as 3.2 A at 4.8 V, not measured. | as built (part), assumed (current) |
+| End camera | One per end, fisheye, no stereo. reCamera 2002W, about 1 GHz, Linux. Stock lens is 65° and not fisheye; the lens path is open. Mounted on the far end, pointing straight. Separate LED mount. First detection test: [11-06 note](../notes/2026-11-06-john-claw-camera-followups.md). | decided D-037, D-038, D-039; lens open |
+| Video link | No video stream. Only tag position data is sent. Analog FPV ruled out. How that data reaches the laptop is open (question 7). | decided D-034, D-037 |
+| Compute | Fully offboard. The 11-05 camera plan runs detection on the camera, see [conflicts](open-questions.md#conflicts-between-sources). | decided D-013; in conflict |
+| Localization | Motion capture primary, AprilTag on docking as backup, encoders as last resort. The 11-02 and 11-05 plans use AprilTags plus joint states without mocap, see [conflicts](open-questions.md#conflicts-between-sources). LiDAR is out (D-034). | decided D-012; in conflict |
 | Control approach | Motion planning, no RL for now | decided D-014 |
 | Electronics build | Breadboard, no PCB yet | decided D-007 |
 | End-effector battery | Not yet specced | open |
@@ -64,6 +70,8 @@ Two Cove pitch modules (DM10010) and their brackets, with no other joints, drive
 | Damiao position wrap | A motor's position reading can jump by 2π. One motor's straight pose sat next to its wrap; firmware now tracks turns | verified (observed on motor A) |
 | Policy on hardware | 20 s with no faults; B−A phase +89.9° (sim +86°), amplitudes 0.45 / 0.59 rad (sim 0.49 / 0.57) | verified (run-20261011-013601) |
 | Forward progress | ~0.20 m in 20 s, limited by cable drag. Not a policy result. | as built (observed, not instrumented) |
+| Straight-line arm, 3 motors (2026-10-19/20) | USB gateway: 11/11 straight, RTT p95 20–26 ms. On-robot SoftAP master: 3/5 passed, RTT p95 159–642 ms. Layouts differed. | verified ([run logs](../notes/2026-10-20-hansi-straightline-run-logs.md)) |
+| All-C5 arm link (2026-10-28) | 5 GHz channel 36, USB gateway, damped motors: RTT p50 12–13 ms, p95 19–22 ms, bench to 5–6 m through a wall | verified ([range test](../notes/2026-10-28-hansi-c5-range-test.md)) |
 
 ## Simulation model
 

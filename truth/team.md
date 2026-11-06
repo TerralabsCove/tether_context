@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng
-last_reviewed: 2026-10-08
+last_reviewed: 2026-11-06
 ---
 
 # Team
@@ -9,23 +9,25 @@ last_reviewed: 2026-10-08
 | Person | Role | Source |
 |---|---|---|
 | John Peng | Hardware PM. Leads mech and electrical. | kickoff |
-| Steve Lu | Software PM. Leads sim, motion planning, robot controls stack. | kickoff |
-| Trent | Embedded software lead. Co-owns mocap and the low-level comms layer. | D-009, D-015 |
-| Jason | High-level software. Co-owns mocap and the low-level comms layer. | D-015 |
-| Iris | Was on ROS. May shift to electrical. Limited bandwidth (RPL / Triple L). | D-009, D-015 |
-| Jack (Carpino) | Mech. Building the first module MVP. | D-011 |
-| Isaac | Mech | 2026-10-05 meeting |
-| Ryan | Mech | 2026-10-05 meeting |
-| Hansi | Unknown. Was asked about the electrical meeting. | 2026-10-05 meeting |
-| Ming | Hosts work sessions at their house. Contact for borrowing the IYA mocap system. | 2026-10-05, D-018 |
+| Steve Lu | Software PM. Leads sim, motion planning, robot controls stack. Main active software contributor. | kickoff, D-035 |
+| Jason | Software, URDF sim. | D-015, Notion page |
+| Iris | Electrical and comms. Limited bandwidth. | Notion page, 2026-11-05 meeting |
+| Hansi Lee | Electrical and comms. GitHub `gellosparkles`. | Notion page, git history |
+| Jack Carpino | Mech. Machining, panels, module assembly. | D-011, 2026-11-01 meeting |
+| Jack Tarantino | Mech. Arm CAD. | 2026-11-01 meeting, via Notion page |
+| Isaac | End effector. | John, 2026-11-01, via Notion page |
+| Ming | Purchasing and mech. Designing the backup gripper (D-040). Hosts work sessions at their house. Contact for borrowing the IYA mocap system. | 2026-10-05, D-018, Notion page |
+| Caroline + one designer | Design team working on Tether's platform. | 2026-11-01 designer meeting |
 
-"Jack" and "Jack Carpino" are assumed to be the same person. Confirm.
+Left the project: Trent, Ryan (D-035). Possible help, not confirmed: Leah (ECE, robotic arm software on another team).
+
+The Notion page doesn't say which Jack did the slip ring and panel work it credits to "Jack". Confirm.
 
 ## Meetings
 
 | Meeting | When |
 |---|---|
-| Team | Fridays 5 PM and Sundays (D-017) |
+| Team | Fridays 5 PM and Sundays (D-017). The 10-25 sync set Sundays 2–3 PM. Task sheet updates are due every Friday. |
 | Mechanical | Tuesdays 6:30 PM (set 2026-10-05) |
 | Electrical | Wednesdays 6:15–7:30 PM, before TerraGM at 7 PM (set 2026-10-05) |
 | Software | Not regular yet. Possibly Sundays. |
