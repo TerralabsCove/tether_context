@@ -80,7 +80,8 @@ pool. Seeed's camera code gives it 4 buffers (`vb_blk_num = 4`) and lets the sca
 show the same values: pool 2 count 4, scaler channel 2 depth 3. Seeed's source has them at
 [video_paramparse.c](https://github.com/Seeed-Studio/sscma-example-sg200x/blob/main/components/sophgo/video/src/video_paramparse.c)
 lines 11 and 98. **[source code]** One counter differs: the write-up reports thousands of scaler start failures,
-and ours shows `StartFailCnt 0`.
+and ours shows `StartFailCnt 0`. **Corrected 2026-11-13:** that compared the wrong counter. The driver's `FailCnt`
+on our camera matches the write-up. See the [9 fps cause note](2026-11-13-john-recamera-9fps-cause.md).
 
 **Fix, not applied.** The write-up says 8 buffers or a queue depth of 1 gives 30 fps. Their publisher replaces
 Seeed's Node-RED and sscma services and streams on port 8554. It is third-party, unlicensed, and tested only on the
