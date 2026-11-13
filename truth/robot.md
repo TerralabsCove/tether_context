@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng (hardware)
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-13
 ---
 
 # Robot: Cove and Tether
@@ -48,7 +48,7 @@ Nothing about Cove or Tether is **[verified]** yet. Gate G0 is what changes that
 | Slip ring | At the end effector only (D-044), 2.9 A requirement. Taidacent hollow, 6-wire, 10 A, 25.4 mm bore (TTH-058). On site, not yet measured. Planned channels: 5 V, GND, two servo signals, at least 2 vacant. | decided D-044; as built (part), assumed (channels) |
 | End effectors | Symmetric servo claw on both ends, folds into a circular docking housing. Docking is servo-driven pins on the arm into passive holes on the structure. The claw is optional. Ming's simpler gripper is the parallel backup. | decided D-005, D-040, D-043 |
 | End-effector servos | 4 × ANNIMOS 35 kg 270° (TTH-054), received. Stall current quoted as 3.2 A at 4.8 V, not measured. | as built (part), assumed (current) |
-| End camera | One per end, fisheye, no stereo. reCamera 2002W, about 1 GHz, Linux. Stock lens is 65° and not fisheye; the lens path is open. Mounted on the far end, pointing straight. Separate LED mount. First detection test: [11-06 note](../notes/2026-11-06-john-claw-camera-followups.md). | decided D-037, D-038, D-039; lens open |
+| End camera | One per end, fisheye, no stereo. reCamera 2002W, about 1 GHz, Linux. Both units now have the GC2053 sensor board with an M12 fisheye lens, replacing the stock 65° OV5647 board. The GC2053 board has no fill LEDs. Field of view and calibration not yet measured. The stream runs at 9 fps whatever it is set to (Seeed's stock pipeline). On-camera tag detection runs about 5–6 Hz at 640 × 480, the only size the camera decodes. Mounted on the far end, pointing straight. Separate LED mount. Tests: [11-06](../notes/2026-11-06-john-claw-camera-followups.md), [11-13](../notes/2026-11-13-john-recamera-gc2053-bringup.md). | decided D-037, D-038, D-039; as built (GC2053 + fisheye); verified (rates, 11-13 logs); FOV open |
 | Video link | No video stream. Only tag position data is sent. Analog FPV ruled out. How that data reaches the laptop is open (question 7). | decided D-034, D-037 |
 | Compute | Fully offboard. The 11-05 camera plan runs detection on the camera, see [conflicts](open-questions.md#conflicts-between-sources). | decided D-013; in conflict |
 | Localization | Motion capture primary, AprilTag on docking as backup, encoders as last resort. The 11-02 and 11-05 plans use AprilTags plus joint states without mocap, see [conflicts](open-questions.md#conflicts-between-sources). LiDAR is out (D-034). | decided D-012; in conflict |
