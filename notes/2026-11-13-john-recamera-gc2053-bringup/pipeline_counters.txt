@@ -1,0 +1,18 @@
+# Read on the cameras with: grep -E "VIDevFPS|VIFPS" /proc/cvitek/vi_dbg ; cat /proc/cvitek/vpss ; cat /proc/cvitek/vb ; cat /proc/cvitek/venc
+# Camera 1 (2002w 64GB, GC2053, OS 0.2.1), 2026-11-12, stream at 1920x1080, camera node set to 30 fps, demo model off.
+VI:    VIDevFPS 27, VIFPS 9. VISofCh0Cnt 1292, VIPreFECh0Cnt 440 (1 in 2.94 sensor frames processed). VIDropCnt 0.
+VPSS:  grp 0 RecvCnt 2724, LostCnt 0, StartFailCnt 0, CostTime 112428 us, MaxCostTime 286314 us, HwCostTime 75640 us, HwMaxCostTime 172936 us.
+VPSS:  chn 2 enabled, 1920x1080 NV21, Depth 3, output FrameRate 9.
+VB:    common pool 2, block size 3110400, count 4.
+VENC:  chn 2 H264 CBR 1000 kbps, SendFramePerSec 8, EncFramePerSec 8, HwEncTime 11843 us.
+Thermal: soc_thermal_0 43.7 C, cooling state 0 of 2.
+CPU:   81% idle during streaming.
+Light test, 40 s, John asked to point the camera at bright light from about 15 s (not observed by the agent): VIDevFPS 26-27 and VIFPS 8-9 throughout.
+
+# Stream frame rate measured from the Mac with ffprobe packet timestamps (rtsp://192.168.42.1:554/live):
+Camera 1, 1080p, set 30 fps: 114 frames / 12.71 s = 8.9 fps; 107 packets / 11.8 s = 9.0 fps, 1.67 Mbit/s.
+Camera 1, 720p, set 30 / 15 / 10 fps: 9.0 / 9.0 / 9.0 fps.
+Camera 2 (OS 0.2.4), 1080p set 30 fps: 9.0 fps. 480p set 30 fps: 9.0 fps.
+
+# On-camera ffmpeg 4.4 decode of rtsp://127.0.0.1:554/live (camera 2):
+480p (640x480): 73728000 bytes in 25 s = 160 frames. 720p: 0 frames in 25 s. 1080p: 0 frames in 20 s and 25 s.

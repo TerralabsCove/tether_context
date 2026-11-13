@@ -1,0 +1,15 @@
+# Camera 2 (reCamera 2002w, GC2053 board, OS 0.2.4), 2026-11-13.
+# /userdata/atbench/atbench <image> tag36h11 <decimate> 10 586 0.05
+# Synthetic tag36h11 test images from the 11-05 kit. One CPU core visible to Linux. Camera stream running, no other load.
+tag36h11_320x240.pgm 320x240 tag36h11 dec=1 n=10 init=0ms det_p50=116.2ms det_max=122.3ms fps=7.3 pose=20.5ms found=1 id=3 margin=236 tz=0.546m rss=2MB
+tag36h11_320x240.pgm 320x240 tag36h11 dec=2 n=10 init=0ms det_p50=39.4ms det_max=43.9ms fps=17.0 pose=19.2ms found=1 id=3 margin=236 tz=0.546m rss=0MB
+tag36h11_640x480.pgm 640x480 tag36h11 dec=1 n=10 init=0ms det_p50=566.5ms det_max=1219.6ms fps=1.7 pose=20.6ms found=1 id=3 margin=236 tz=0.273m rss=7MB
+tag36h11_640x480.pgm 640x480 tag36h11 dec=2 n=10 init=0ms det_p50=120.2ms det_max=124.2ms fps=6.9 pose=24.7ms found=1 id=3 margin=236 tz=0.273m rss=2MB
+tag36h11_1280x720.pgm 1280x720 tag36h11 dec=1 n=10 init=0ms det_p50=2278.2ms det_max=3254.5ms fps=0.4 pose=20.2ms found=1 id=3 margin=236 tz=0.182m rss=22MB
+tag36h11_1280x720.pgm 1280x720 tag36h11 dec=2 n=10 init=0ms det_p50=453.3ms det_max=483.4ms fps=2.0 pose=50.5ms found=1 id=3 margin=236 tz=0.182m rss=6MB
+tag36h11_1280x720.pgm 1280x720 tag36h11 dec=3 n=10 init=0ms det_p50=193.0ms det_max=204.0ms fps=4.7 pose=19.4ms found=1 id=3 margin=236 tz=0.182m rss=3MB
+tag36h11_1280x720.pgm 1280x720 tag36h11 dec=4 n=10 init=0ms det_p50=105.9ms det_max=264.2ms fps=8.0 pose=19.6ms found=1 id=3 margin=236 tz=0.182m rss=2MB
+tag36h11_1920x1080.pgm 1920x1080 tag36h11 dec=1 n=10 init=0ms det_p50=6163.9ms det_max=6251.0ms fps=0.2 pose=20.2ms found=1 id=3 margin=237 tz=0.121m rss=50MB
+tag36h11_1920x1080.pgm 1920x1080 tag36h11 dec=2 n=10 init=0ms det_p50=1163.7ms det_max=2176.9ms fps=0.8 pose=19.4ms found=1 id=3 margin=237 tz=0.121m rss=14MB
+tag36h11_1920x1080.pgm 1920x1080 tag36h11 dec=3 n=10 init=0ms det_p50=470.7ms det_max=484.4ms fps=2.0 pose=19.9ms found=1 id=3 margin=237 tz=0.121m rss=7MB
+tag36h11_1920x1080.pgm 1920x1080 tag36h11 dec=4 n=10 init=0ms det_p50=295.9ms det_max=821.3ms fps=3.1 pose=24.6ms found=1 id=3 margin=237 tz=0.121m rss=5MB
