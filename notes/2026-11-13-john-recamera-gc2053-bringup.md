@@ -80,7 +80,8 @@ pool. Seeed's camera code gives it 4 buffers (`vb_blk_num = 4`) and lets the sca
 show the same values: pool 2 count 4, scaler channel 2 depth 3. Seeed's source has them at
 [video_paramparse.c](https://github.com/Seeed-Studio/sscma-example-sg200x/blob/main/components/sophgo/video/src/video_paramparse.c)
 lines 11 and 98. **[source code]** One counter differs: the write-up reports thousands of scaler start failures,
-and ours shows `StartFailCnt 0`.
+and ours shows `StartFailCnt 0`. **Corrected 2026-11-13:** that compared the wrong counter. The driver's `FailCnt`
+on our camera matches the write-up. See the [9 fps cause note](2026-11-13-john-recamera-9fps-cause.md).
 
 **Fix, not applied.** The write-up says 8 buffers or a queue depth of 1 gives 30 fps. Their publisher replaces
 Seeed's Node-RED and sscma services and streams on port 8554. It is third-party, unlicensed, and tested only on the
@@ -149,8 +150,8 @@ The 11-06 note's "3–8 detections per second" fits these numbers.
 | Stream | 1080p, no login, port 554 | 480p, no login, port 554 |
 | Demo AI model | Disabled | Not present |
 | SSH key | John's key installed | John's key installed |
-| Passwordless sudo | **On**, `/etc/sudoers.d/zz-recamera-nopasswd`. Remove before the robot or a shared network | Off |
-| Old tag loop flow | n/a | **Disabled** (`start tag sender at boot`). It still runs 640 × 480 without passthrough |
+| Passwordless sudo | **On**, `/etc/sudoers.d/zz-recamera-nopasswd`. Kept on by John's choice | **On**, same file. Kept on by John's choice |
+| Boot tag loop flow | n/a | **On** (`start tag sender at boot`). `start_tags.sh` updated for 640 × 480 with `-vsync passthrough`; 11-05 copy kept as `start_tags.sh.2026-11-05` |
 
 Both cameras use 192.168.42.1 over USB, so SSH warns about a changed host key whenever they are swapped. Clear it
 with `ssh-keygen -R 192.168.42.1`.
