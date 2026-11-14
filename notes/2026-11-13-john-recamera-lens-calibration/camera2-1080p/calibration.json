@@ -1,0 +1,143 @@
+{
+  "image_size": [
+    1920,
+    1080
+  ],
+  "picture_rows": [
+    0,
+    1079
+  ],
+  "square_mm": 27.492,
+  "views_captured": 40,
+  "views_detected": 40,
+  "pinhole": {
+    "model": "OpenCV pinhole (k1 k2 p1 p2 k3)",
+    "rms_px": 1.344,
+    "worst_view_px": 2.512,
+    "fx": 1065.01,
+    "fy": 1063.62,
+    "cx": 966.12,
+    "cy": 552.08,
+    "dist": [
+      -0.00673,
+      -0.01385,
+      -5e-05,
+      0.00027,
+      0.01008
+    ],
+    "hfov_deg": 84.6,
+    "vfov_deg": 53.9,
+    "dfov_deg": 92.5,
+    "hfov_inside_measured_area": false,
+    "vfov_inside_measured_area": true,
+    "dfov_inside_measured_area": false,
+    "measured_out_to_deg_off_axis": 38.9,
+    "derived_not_measured": {
+      "1280x720": {
+        "fx": 710.01,
+        "fy": 709.08,
+        "cx": 643.91,
+        "cy": 367.89,
+        "dist": [
+          -0.00673,
+          -0.01385,
+          -5e-05,
+          0.00027,
+          0.01008
+        ]
+      },
+      "640x480_letterboxed": {
+        "fx": 355.0,
+        "fy": 354.54,
+        "cx": 321.71,
+        "cy": 243.69,
+        "dist": [
+          -0.00673,
+          -0.01385,
+          -5e-05,
+          0.00027,
+          0.01008
+        ]
+      }
+    },
+    "views_used": 40,
+    "corners_used": 1102
+  },
+  "fisheye": {
+    "model": "OpenCV fisheye (equidistant, k1 k2 k3 k4)",
+    "rms_px": 1.344,
+    "worst_view_px": 2.512,
+    "fx": 1065.01,
+    "fy": 1063.6,
+    "cx": 965.19,
+    "cy": 552.23,
+    "dist": [
+      0.3323,
+      0.07069,
+      0.14898,
+      -0.06601
+    ],
+    "hfov_deg": 84.6,
+    "vfov_deg": 53.9,
+    "dfov_deg": 92.7,
+    "hfov_inside_measured_area": false,
+    "vfov_inside_measured_area": true,
+    "dfov_inside_measured_area": false,
+    "measured_out_to_deg_off_axis": 38.9,
+    "derived_not_measured": {
+      "1280x720": {
+        "fx": 710.01,
+        "fy": 709.07,
+        "cx": 643.29,
+        "cy": 367.98,
+        "dist": [
+          0.3323,
+          0.07069,
+          0.14898,
+          -0.06601
+        ]
+      },
+      "640x480_letterboxed": {
+        "fx": 355.0,
+        "fy": 354.53,
+        "cx": 321.4,
+        "cy": 243.74,
+        "dist": [
+          0.3323,
+          0.07069,
+          0.14898,
+          -0.06601
+        ]
+      }
+    },
+    "views_used": 40,
+    "corners_used": 1102
+  },
+  "better_fit": "pinhole",
+  "fx_resampled_mean_sd": [
+    1064.27,
+    3.84
+  ],
+  "tilt_deg_median_max": [
+    6.9,
+    36.9
+  ],
+  "corner_coverage_px": [
+    [
+      118,
+      1701
+    ],
+    [
+      99,
+      894
+    ]
+  ],
+  "focus_by_distance_cm": {
+    "20": 619.6,
+    "25": 540.1,
+    "30": 803.4,
+    "35": 1002.6,
+    "40": 1254.8,
+    "45": 1303.8
+  }
+}

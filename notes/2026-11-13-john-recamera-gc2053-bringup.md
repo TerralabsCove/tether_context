@@ -13,7 +13,10 @@ Written by John's AI agent from a working session with John on 2026-11-12 and 11
 ## Bottom line
 
 - **The swap works.** Both 2002w cameras detect the GC2053 board. **[verified]** John fitted the fisheye M12 lenses,
-  and the first frames show strong barrel distortion. **[as built]**
+  and the first frames show strong barrel distortion. **[as built]** **Corrected 2026-11-13:** this is wrong. The
+  cameras have the GC2053 board's stock 2.9 mm lens, not the fisheye. Camera 2 measured 84.6° H with almost no
+  distortion, and John confirmed the lens. Read "fisheye" in this note as the stock lens. See the
+  [lens calibration note](2026-11-13-john-recamera-lens-calibration.md).
 - **The camera stream runs at 9 fps whatever it is set to.** This is a known limit of Seeed's stock pipeline, not the
   GC2053. Our 11-05 OV5647 test ran at the same rate. **[verified]** for our cameras; cause from Seeed's wiki and a
   community write-up.

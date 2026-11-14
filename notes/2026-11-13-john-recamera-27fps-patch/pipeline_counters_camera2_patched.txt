@@ -1,0 +1,134 @@
+# Camera 2 (2002w 64GB, GC2053 with its stock lens, OS 0.2.4) running the patched sscma-node (scaler queue depth 1), read over SSH on 2026-11-13 19:27 PST.
+# 640x480 stream, camera node fps 30, on-camera tag loop off, no stream client. Compare with ../2026-11-13-john-recamera-9fps-cause/pipeline_counters_camera2.txt (stock).
+e1cf4617fc6a13627a43bf57c9f319a6b9d6d9d5307120b41bf9dcebf5731786  /usr/local/bin/sscma-node
+/dev/mmcblk0p6 on /usr/local/bin/sscma-node type ext4 (rw,relatime)
+##### /proc/cvitek/vi_dbg (ISP_PIPE_A)
+[VI ISP_PIPE_A]
+VIOutImgWidth		:1920
+VIOutImgHeight		:1080
+VIInImgWidth		:1920
+VIInImgHeight		:1080
+VIDevFPS		:  27
+VIFPS			:  27
+VISofCh0Cnt		:1536
+VIPreFECh0Cnt		:1534
+VIPreBECh0Cnt		:1534
+VIPostCnt		:1534
+VIDropCnt		:   0
+VIDumpCnt		:   0
+##### /proc/cvitek/vpss
+
+Module: [VPSS], Build Time[#1 PREEMPT Mon Mar 23 02:23:11 UTC 2026]
+
+-------------------------------MODULE PARAM-------------------------------
+           vpss_vb_source      vpss_split_node_num
+                 0                        1
+
+-------------------------------VPSS MODE----------------------------------
+                vpss_mode           dev0           dev1
+                   single              N      input_isp
+
+-------------------------------VPSS GRP ATTR------------------------------
+     GrpID      MaxW      MaxH              PixFmt  SrcFRate  DstFRate  dev
+       # 0      1920      1080                NV21        -1        -1    1
+
+-------------------------------VPSS CHN ATTR------------------------------
+     GrpID  PhyChnID    Enable  MirrorEn    FlipEn  SrcFRate  DstFRate
+     Depth    Aspect    videoX    videoY    videoW    videoH   BgColor
+       # 0       # 0         N         N         N         0         0
+         0      NONE         0         0         0         0       0x0
+       # 0       # 1         N         N         N         0         0
+         0      NONE         0         0         0         0       0x0
+       # 0       # 2         Y         N         N        -1        -1
+         1      AUTO         0         0         0         0  0x727272
+       # 0       # 3         N         N         N         0         0
+         0      NONE         0         0         0         0       0x0
+
+-------------------------------VPSS GRP CROP INFO-------------------------
+     GrpID    CropEn  CoorType     CoorX     CoorY     Width    Height
+       # 0         N       RAT         0         0         0         0
+
+-------------------------------VPSS CHN CROP INFO-------------------------
+     GrpID     ChnID    CropEn  CoorType     CoorX     CoorY     Width    Height
+       # 0       # 0         N       RAT         0         0         0         0
+       # 0       # 1         N       RAT         0         0         0         0
+       # 0       # 2         N       RAT         0         0         0         0
+       # 0       # 3         N       RAT         0         0         0         0
+
+-------------------------------VPSS GRP WORK STATUS-----------------------
+     GrpID   RecvCnt   LostCnt        StartFailCnt    bStart        CostTime(us)     MaxCostTime(us)      HwCostTime(us)   HwMaxCostTime(us)
+       # 0      1532         0                   0         Y               37425              324126               35861              172945
+
+-------------------------------VPSS CHN OUTPUT RESOLUTION-----------------
+     GrpID     ChnID    Enable     Width    Height              Pixfmt  Videofmt    VbPool    SendOK FrameRate
+       # 0       # 0         N         0         0             RGB_888    LINEAR        0          0         0
+       # 0       # 1         N         0         0             RGB_888    LINEAR        0          0         0
+       # 0       # 2         Y       640       480                NV21    LINEAR        2*      1532        27
+       # 0       # 3         N         0         0             RGB_888    LINEAR        0          0         0
+
+-------------------------------VPSS CHN ROTATE INFO-----------------------
+     GrpID     ChnID    Rotate
+       # 0       # 0         0
+       # 0       # 1         0
+       # 0       # 2         0
+       # 0       # 3         0
+
+-------------------------------VPSS CHN LDC INFO-----------------------
+     GrpID     ChnID    Enable    Aspect    XRatio    YRatio
+   XYRatio   XOffset   YOffset     DistortionRatio
+       # 0       # 0         N         N         0         0
+         0         0         0                   0
+       # 0       # 1         N         N         0         0
+         0         0         0                   0
+       # 0       # 2         N         N         0         0
+         0         0         0                   0
+       # 0       # 3         N         N         0         0
+         0         0         0                   0
+
+------------------------------DRV WORK STATUS DEV0------------------------------
+         UserTrigCnt     UserTrigFailCnt              IrqCnt
+                   0                   0                   0
+
+------------------------------DRV WORK STATUS DEV1------------------------------
+     GrpID             TrigCnt             FailCnt              IrqCnt         OverFlowCnt
+       # 0                1536                   1                1532                   0
+       # 1                   0                   0                   0                   0
+       # 2                   0                   0                   0                   0
+       # 3                   0                   0                   0                   0
+       # 4                   0                   0                   0                   0
+
+-------------------------------VPSS CHN BUF WRAP ATTR---------------------
+     GrpID     ChnID    Enable   BufLineWrapBufSize
+       # 0       # 0         N         0         0
+       # 0       # 1         N         0         0
+       # 0       # 2         N         0         0
+       # 0       # 3         N         0         0
+##### /proc/cvitek/vb (pool 2)
+PoolId    : 2
+PhysAddr  : 0x8c202000
+VirtAddr  : 0xffffffe00c202000
+IsComm    : 1
+Owner     : -1
+BlkSz     : 460800
+BlkCnt    : 4
+Free      : 1
+MinFree   : 1
+
+BLK	VI	VPSS	VO	RGN	GDC	IVE	VENC	VDEC	USER
+#0	0	1	0	0	0	0	1	0	0
+#1	0	1	0	0	0	0	0	0	0
+#2	0	1	0	0	0	0	0	0	0
+#3	0	0	0	0	0	0	0	0	0
+##### /proc/cvitek/venc
+ID: 2	 Width: 640	 Height: 480	 Type: H264	 RcMode: CBR	 EsBufQueueEn: 1	 bIsoSendFrmEn: 1	 ByFrame: Y	 Sequence: 0	 LeftBytes: 0	 LeftFrm: 0	 CurPacks: 0	 GopMode: NORMALP	 Prio: 0
+ID: 2	 CropEn: N	 StartX: 0	 StartY: 0	 Width: 0	 Height: 0
+ID: 2	 svcEnable: N	 fg_protect_en: N	 fg_dealt_qp: 0	 scene_detect_en: N	 scene_low_th: 256	 scene_hight_th: 318	 smart_ai_en: N
+ID: 2	 RcvFirstFrmPts: 0	 RcvFrmPts: 825697494
+ID: 2	 No.SendFramePerSec: 26	 No.EncFramePerSec: 26	 HwEncTime: 2301 us	 EncodedFrame: 1523
+##### top
+Mem: 171460K used, 13620K free, 532K shrd, 5496K buff, 67576K cached
+CPU:   8% usr  16% sys   0% nic  75% idle   0% io   0% irq   0% sirq
+Load average: 6.43 5.77 3.61 1/111 2139
+  PID  PPID USER     STAT   VSZ %VSZ %CPU COMMAND
+ 3727     1 root     S    44788  24%   8% /usr/local/bin/sscma-node --start
+ 2138  2130 recamera R     1196   1%   8% top -b -n1
