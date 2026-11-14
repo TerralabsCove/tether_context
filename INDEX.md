@@ -6,7 +6,7 @@ Every current doc, one line each. Start here.
 
 - [truth/project.md](truth/project.md): what Tether is, goals, roadmap, where things stand
 - [truth/robot.md](truth/robot.md): Cove as built and Tether's design, with verified vs assumed tags
-- [truth/decisions.md](truth/decisions.md): every decision, why, and where it was made (D-001 to D-045; D-030 reserved)
+- [truth/decisions.md](truth/decisions.md): every decision, why, and where it was made (D-001 to D-046; D-030 reserved)
 - [truth/open-questions.md](truth/open-questions.md): unresolved questions and risks to watch
 - [truth/team.md](truth/team.md): who does what, meeting schedule
 - [truth/glossary.md](truth/glossary.md): terms and acronyms
@@ -45,3 +45,4 @@ Every current doc, one line each. Start here.
 - [cove-controls](https://github.com/TerralabsCove/cove-controls): Cove controls code and URDF
 - [tether_controls](https://github.com/TerralabsCove/tether_controls): Tether firmware and bench tools; Tether arm URDF in `description/`, step-reach sim in `sim/step_reach_sim/`
 - [tethersmall](https://github.com/TerralabsCove/tethersmall): two-motor ESP-NOW + Damiao testbed; RL policy over ESP-NOW. See `docs/ESPNOW_BRINGUP.md` and the [2026-10-11 note](notes/2026-10-11-john-tethersmall-rl-over-espnow.md).
+- [tether_camera](https://github.com/TerralabsCove/tether_camera): end camera code (reCamera): on-camera AprilTag program `tagstream`, tests and results. See its `README.md` and the [2026-11-13 summary note](notes/2026-11-13-john-recamera-tag-tracking.md).
