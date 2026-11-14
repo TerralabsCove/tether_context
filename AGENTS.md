@@ -39,3 +39,4 @@ Never create new top-level folders. Never delete files. Move superseded files to
 - [TerralabsCove/cove-controls](https://github.com/TerralabsCove/cove-controls): Cove's controls code and URDF.
 - [TerralabsCove/tether_controls](https://github.com/TerralabsCove/tether_controls): Tether motor firmware and bench tools, the Tether arm URDF (`description/`) and the step-reach sim (`sim/step_reach_sim/`).
 - [TerralabsCove/tethersmall](https://github.com/TerralabsCove/tethersmall): two-motor ESP-NOW + Damiao testbed (RL policy, module firmware, hardware logs). Start at `docs/ESPNOW_BRINGUP.md`.
+- [TerralabsCove/tether_camera](https://github.com/TerralabsCove/tether_camera): code that runs on, or tests, the end cameras (reCamera): the on-camera AprilTag program `tagstream`, its tests and raw results. Camera code goes there, not here. This repo keeps only a summary note that links to it.
