@@ -1,0 +1,31 @@
+{
+ "label": "usb_1080p_threads0",
+ "url": "rtsp://192.168.42.1:554/live",
+ "ffmpeg_options": "rtsp_transport;tcp|fflags;nobuffer|flags;low_delay|threads;1|allowed_media_types;video",
+ "decoder_threads": 0,
+ "frame_size": [
+  1080,
+  1920
+ ],
+ "measured_s": 10.0,
+ "pattern_seen": true,
+ "frames_not_decoded": 20,
+ "reconnects": 0,
+ "screen_draw_fps": 60.0,
+ "frames": 268,
+ "fps": 26.69,
+ "gap_ms_median": 31.9,
+ "gap_ms_p95": 45.6,
+ "gap_ms_p99": 46.7,
+ "gap_ms_max": 48.8,
+ "stalls_over_200ms": 0,
+ "stalls_over_500ms": 0,
+ "delay_samples": 267,
+ "delay_fixed_by_1s": 0,
+ "delay_ms_median": 622.6,
+ "delay_ms_p5": 601.8,
+ "delay_ms_p95": 643.0,
+ "delay_ms_p99": 648.1,
+ "delay_ms_max": 652.7,
+ "delay_ms_min": 597.8
+}

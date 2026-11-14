@@ -1,4 +1,4 @@
-# Camera 2 (2002w 64GB, GC2053 + fisheye, OS 0.2.4), read over SSH on 2026-11-13 15:03 PST while streaming 640x480 on rtsp://192.168.42.1:554/live.
+# Camera 2 (2002w 64GB, GC2053 with its stock lens, OS 0.2.4), read over SSH on 2026-11-13 15:03 PST while streaming 640x480 on rtsp://192.168.42.1:554/live.
 # The on-camera tag loop (ffmpeg + tagstream) and one Mac viewer were connected. Camera clock is not set, so on-camera timestamps are meaningless.
 # Commands: cat /etc/issue; grep -A12 ISP_PIPE_A /proc/cvitek/vi_dbg; cat /proc/cvitek/vpss; cat /proc/cvitek/vb; cat /proc/cvitek/venc; cat /proc/cvitek/sys; top -b -n1 | head -8
 reCamera 0.2.4

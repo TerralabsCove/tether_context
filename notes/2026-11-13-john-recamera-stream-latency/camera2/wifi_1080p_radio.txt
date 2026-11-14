@@ -1,0 +1,29 @@
+Station 46:9a:76:d3:7d:a7 (on wlan1)
+	inactive time:	1000 ms
+	rx bytes:	819590
+	rx packets:	6647
+	tx bytes:	32153839
+	tx packets:	23368
+	tx failed:	6
+	signal:  	-21 [-21] dBm
+	tx bitrate:	72.2 MBit/s
+	rx bitrate:	72.2 MBit/s
+	authorized:	yes
+	authenticated:	yes
+	associated:	yes
+	WMM/WME:	yes
+	TDLS peer:	no
+	DTIM period:	2
+	beacon interval:100
+	short slot time:yes
+	connected time:	89 seconds
+	current time:	2549806 ms
+Interface wlan1
+	ifindex 5
+	wdev 0x2
+	addr 60:ff:9e:02:de:69
+	ssid reCamera_02DE69
+	type AP
+	wiphy 0
+	channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz
+	txpower 31.00 dBm

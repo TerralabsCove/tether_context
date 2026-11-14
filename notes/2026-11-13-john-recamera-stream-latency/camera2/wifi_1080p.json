@@ -1,0 +1,32 @@
+{
+ "label": "wifi_1080p",
+ "url": "rtsp://192.168.16.1:554/live",
+ "mac_address_used": "192.168.16.228",
+ "ffmpeg_options": "rtsp_transport;tcp|fflags;nobuffer|flags;low_delay|threads;1|allowed_media_types;video",
+ "decoder_threads": 1,
+ "frame_size": [
+  1080,
+  1920
+ ],
+ "measured_s": 60.0,
+ "pattern_seen": true,
+ "frames_not_decoded": 64,
+ "reconnects": 2,
+ "screen_draw_fps": 59.9,
+ "frames": 1207,
+ "fps": 20.1,
+ "gap_ms_median": 20.0,
+ "gap_ms_p95": 151.3,
+ "gap_ms_p99": 175.9,
+ "gap_ms_max": 8643.1,
+ "stalls_over_200ms": 8,
+ "stalls_over_500ms": 3,
+ "delay_samples": 1024,
+ "delay_fixed_by_1s": 23,
+ "delay_ms_median": 168.7,
+ "delay_ms_p5": 125.0,
+ "delay_ms_p95": 283.5,
+ "delay_ms_p99": 583.5,
+ "delay_ms_max": 6376.4,
+ "delay_ms_min": -48.1
+}

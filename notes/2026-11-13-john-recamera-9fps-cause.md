@@ -34,7 +34,7 @@ crop. **[verified]** from one frame; the frame itself was not saved.
 
 ## What was measured
 
-Camera 2 (GC2053 + fisheye, OS 0.2.4), 640 × 480, read on 2026-11-13 while streaming. The on-camera tag loop and
+Camera 2 (GC2053 with its stock lens, OS 0.2.4), 640 × 480, read on 2026-11-13 while streaming. The on-camera tag loop and
 one Mac viewer were connected. **[verified]**,
 [counters](2026-11-13-john-recamera-9fps-cause/pipeline_counters_camera2.txt),
 [frame times](2026-11-13-john-recamera-9fps-cause/stream_frame_times.txt)
