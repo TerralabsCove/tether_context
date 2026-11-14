@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng, Steve Lu
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-13
 ---
 
 # Open Questions
@@ -17,7 +17,6 @@ When two sources disagree, list it here and let a PM decide.
 - **Master radio location.** D-026 and the [embedded bench note](../notes/2026-10-12-irisy-embedded-controls-bench.md) put the master ESP on the robot as node ID 0 with one motor, reached by the laptop over the master's SoftAP. The [2026-10-16 plan](../notes/2026-10-16-john-mvp-one-pager.md) and the [antenna plan](../notes/2026-10-19-john-esp32c5-antenna-rf-plan.md) put the master at the offboard computer, as tethersmall did. The antenna placement and near-far handling differ between the two. The [Notion page](../notes/2026-11-06-john-notion-digest.md) calls the wired master on the laptop the current plan, but no decision records it. Measured input: the laptop USB gateway ran 11/11 straight with RTT p95 20–26 ms, while the on-robot SoftAP master passed 3/5 with p95 159–642 ms. The arm layout also differed, so this isn't a controlled comparison ([run logs](../notes/2026-10-20-hansi-straightline-run-logs.md)). Owner: John, Hansi.
 - **Camera compute vs D-013.** D-013 says no onboard compute. The 11-02 and 11-05 meetings have the camera run tag detection itself and send positions (D-037, D-038). Neither meeting mentions D-013, and the [11-01 note](../notes/2026-11-01-john-onboard-localization.md) says this needs its own decision. Owner: John, Steve.
 - **AprilTags vs D-012.** D-012 makes mocap primary and AprilTags a backup. The 11-02 meeting and John's 11-05 #tether post use AprilTags on docks plus joint states, with no external localization sensor. This also bears on questions 1 and 2. Owner: John, Steve.
-- **Is the reCamera fisheye?** The 11-05 summary lists it as fisheye with a 65° FOV, and people in the transcript disagree on it. Per the [11-06 note](../notes/2026-11-06-john-claw-camera-followups.md), the stock lens is 65° and fisheye needs the GC2053 board plus an M12 lens, at the cost of the onboard LEDs. That note also says not to buy a fisheye until the stock lens is tested, while D-037 requires one. The BOM has the boards (TTH-092) but no lens. Owner: John, Ming.
 - **Were the cameras ordered?** The 11-05 summary says ordered. The BOM on 11-06 has TTH-092 and TTH-093 as Draft, "not yet ordered". TTH-093 is quantity 1 and D-038 says two in total. Ming's existing unit may be the second, but no source says so. Owner: John, Ming.
 - **Budget.** The BOM sheet says $1,500 ($1,290.44 committed). The Notion page says $2,000 and asks whether it is $2,500. Owner: John, Ming.
 - **LiDAR on the BOM.** TTH-084 (2 × Unitree L1, $854) is still Draft, with a note saying it supersedes the no-LiDAR assumption. D-034 and the 11-02 transcript drop LiDAR. Owner: John.

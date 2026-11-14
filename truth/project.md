@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng, Steve Lu
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-13
 ---
 
 # Tether: Project Overview
@@ -17,7 +17,7 @@ In code the robot is called **COVE2**. "Tether" and "COVE2" refer to the same ro
 - **Schedule:** about 2 weeks behind (11-05 meeting). Worst case, software-only work starts in about 1.5–2 weeks. Demo day is the week of 11/30, exact date [unconfirmed](open-questions.md#conflicts-between-sources).
 - **Blocking assembly:** water-jet panels at Baum (D-041), end mounts waiting on a tapping bit, and the end effector design (D-040).
 - **Electrical:** the 11-02 meeting reports batteries in hand, a motor tested wirelessly, and the robot fully wireless. No recorded artifact is linked yet.
-- **Localization:** one fisheye camera per end reading AprilTags (D-037, D-038). The reCamera read tags on its own in a [first handheld test](../notes/2026-11-06-john-claw-camera-followups.md). Wireless is untested.
+- **Localization:** one camera per end reading AprilTags (D-037, D-038), with the GC2053 stock lens, not a fisheye (D-046). The reCamera read tags on its own in a [first handheld test](../notes/2026-11-06-john-claw-camera-followups.md). Wireless is untested.
 - **Software:** thin. See D-035.
 - **Demo:** Area D. Curious robot moving objects between piles is the leading idea, not final. See the [designer meeting](../meetings/2026-11-01-designer-demo.md).
 
