@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng, Steve Lu
-last_reviewed: 2026-11-18
+last_reviewed: 2026-11-20
 ---
 
 # Open Questions
@@ -33,18 +33,18 @@ When two sources disagree, list it here and let a PM decide.
 
 ## Follow-ups from the 3-module change (D-020)
 
-4. **Where do the claws live now?** D-005 put each claw's motor in its own claw module and said each end always needs one. With end-effector modules gone, which module powers and controls each claw servo? Owner: mech.
-   Input (10-18, 11-01, 11-05): the slip ring is at the end effector (D-044), and the plan runs 5 V, GND and two servo signals through it. Servo signals over the slip ring are untested. The fallback raised is extra ESPs.
+4. **End-effector radio and mounting.** The end effector is powered on its own and has its own radio (D-048), with no slip ring (D-047). Which radio board it uses, how the laptop addresses it, and where the parts mount are not stated. Owner: mech.
+   Input (10-18, 11-01, 11-05): the earlier plan ran 5 V, GND and two servo signals through a slip ring (D-044, superseded). Extra ESPs were raised then as the fallback.
 5. **Battery layout for 3 modules.** D-004 planned 3 battery sizes and 5–6 batteries across 5 modules. That needs redoing. Owner: mech, electrical.
    Input: the middle module has two (D-036), while the [10-18 meeting](../meetings/2026-10-18-docking-power.md) counted 3 batteries in total with 1 in the center. The Notion page says the second pack's whereabouts are unclear.
-6. **End-effector battery spec.** May no longer be a separate battery after D-020. Owner: mech.
-   Input (11-05): servos are planned on a 24 V to 5 V buck, which would remove it. Not stated as a decision.
+6. **End-effector power spec.** The end effector is powered on its own (D-048), from its own 3S battery (John, 2026-11-20). Pack capacity, and what steps it down to 5 V for the camera, C5 and servos, are not specced. Owner: mech.
+   Input (11-05): servos were planned on the module's 24 V to 5 V buck, which D-048 replaces. The 11-01 plan powered the end camera through the slip ring; where the camera gets power now is not stated.
 
 ## Hardware
 
 7. **Camera compute and data path.** D-037 settled no video and no stereo. Still open: is the reCamera fast enough for AprilTags, and how does tag data reach the laptop? Options are UART through the module's C5 over ESP-NOW, or the camera's own Wi-Fi (about 100 ms was mentioned on 11-05, with no test data). If compute falls short, the team looks at streaming. Pis on the arm with switched control authority were raised and not chosen. First test: 3–8 detections per second, [11-06 note](../notes/2026-11-06-john-claw-camera-followups.md). Owner: John, Steve, Ming.
 8. **Wire routing inside a module.** Per-module batteries remove cables between modules. Joints within a module, especially the continuous middle joint (D-003), may still need a slip ring. Owner: mech.
-   Input: the slip ring is scoped to the end effector (D-044). It is on site and needs measuring. A cable chain at the end effector (±180°) was raised on 10-26 and not decided. The wire housing from the 11-01 motor flip item may no longer be needed (D-032).
+   Input: the slip ring was scoped to the end effector (D-044) and is now dropped (D-047). A cable chain at the end effector (±180°) was raised on 10-26 and not decided. The wire housing from the 11-01 motor flip item may no longer be needed (D-032).
 9. **Docking alignment hole.** The AprilTag backup needs a centered hole in the end effector. Needs a meeting with the mechanical designers. Owner: John.
    Input (10-18, 11-05): docks are now pins on the arm into passive holes (D-043). The tag can go on the side of the dock (D-039), so a centered camera hole may not be needed. The camera's minimum focus distance vs the dock geometry was raised and not settled. Measure it.
 10. **Does the docking geometry lock orientation?** A triangle or pinned shape could remove a rotation motor. The 10-18 meeting has a 3-pin layout with 120° of servo rotation, and the 10-26 meeting has 4 pegs 90° apart. Confirm which was built. Owner: mech.
@@ -71,7 +71,7 @@ From the [step-reach sim](../notes/2026-10-28-john-step-reach-sim.md). Loads are
 17. **Gripper spin axis on walls.** On a wall, sideways steps are limited by the gripper-spin motor's 27 Nm peak: at most 0.38 m (0.14 m within rated torque). Climbing straight up is not limited. Options: a brake on the spin axis, a stronger motor, or no sideways moves on walls. Owner: mech, John.
 18. **Can Tether mount sideways at all?** On 11-05 people questioned deflection at the arm end with a sideways mount, and whether Jack's analysis counts the screws and non-rotational load. Limiting this semester to vertical mounts was floated and not decided. Owner: Jack, John, Ming.
 19. **End effector go or no-go.** The machining quote was due 11-06. The deadline it is measured against wasn't stated. The summary says 13 parts to mill, while the transcript also counts 7 × 2 + 6. Printing vertical-load parts and milling horizontal-load parts was discussed and not decided. Owner: Isaac, Ming, John.
-20. **Buck converter and servo power.** Size the 24 V to 5 V buck for the ESP, camera and servos (stall quoted as 3.2 A at 4.8 V, and 2.8 A was also said on 11-05). Potentiometer-style converters could twist on the arm. Separately, Ming bought 4 FEETECH STS3215 12 V servos on 11-04 (TTH-090), and no source says what they are for. Owner: Electrical, Ming.
+20. **Buck converter and servo power.** Size the 24 V to 5 V buck for the ESP, camera and servos (stall quoted as 3.2 A at 4.8 V, and 2.8 A was also said on 11-05). Potentiometer-style converters could twist on the arm. Separately, Ming bought 4 FEETECH STS3215 12 V servos on 11-04 (TTH-090), and no source says what they are for. After D-048, whether the servos still load this buck is not stated. Owner: Electrical, Ming.
     Input (11-18): budget each end camera at 5 W, about 1 A at 5 V. John says the reCamera documentation gives about 5 W in theory. Whether that is typical or maximum is not confirmed, and the draw is not measured. **[assumed]** Planned check once the end effector is wired: the voltage at the camera, through the buck and the slip ring, while the tag loop runs (it keeps the CPU fully busy). Owner: Hansi.
 21. **Hardware-to-software schedule.** Set a day for each electrical sub-task and a day the team switches to software. A focused Friday or Saturday work session was discussed. Owner: John.
 22. **Seeing objects without tags.** Stereo would help manipulation, and it is out (D-037). Low-contrast objects like the glowing orbs may be hard to detect. Dropping them or testing in sim were both raised. Owner: John, Steve.
