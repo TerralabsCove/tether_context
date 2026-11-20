@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng, Steve Lu
-last_reviewed: 2026-11-13
+last_reviewed: 2026-11-18
 ---
 
 # Open Questions
@@ -72,6 +72,7 @@ From the [step-reach sim](../notes/2026-10-28-john-step-reach-sim.md). Loads are
 18. **Can Tether mount sideways at all?** On 11-05 people questioned deflection at the arm end with a sideways mount, and whether Jack's analysis counts the screws and non-rotational load. Limiting this semester to vertical mounts was floated and not decided. Owner: Jack, John, Ming.
 19. **End effector go or no-go.** The machining quote was due 11-06. The deadline it is measured against wasn't stated. The summary says 13 parts to mill, while the transcript also counts 7 × 2 + 6. Printing vertical-load parts and milling horizontal-load parts was discussed and not decided. Owner: Isaac, Ming, John.
 20. **Buck converter and servo power.** Size the 24 V to 5 V buck for the ESP, camera and servos (stall quoted as 3.2 A at 4.8 V, and 2.8 A was also said on 11-05). Potentiometer-style converters could twist on the arm. Separately, Ming bought 4 FEETECH STS3215 12 V servos on 11-04 (TTH-090), and no source says what they are for. Owner: Electrical, Ming.
+    Input (11-18): budget each end camera at 5 W, about 1 A at 5 V. John says the reCamera documentation gives about 5 W in theory. Whether that is typical or maximum is not confirmed, and the draw is not measured. **[assumed]** Planned check once the end effector is wired: the voltage at the camera, through the buck and the slip ring, while the tag loop runs (it keeps the CPU fully busy). Owner: Hansi.
 21. **Hardware-to-software schedule.** Set a day for each electrical sub-task and a day the team switches to software. A focused Friday or Saturday work session was discussed. Owner: John.
 22. **Seeing objects without tags.** Stereo would help manipulation, and it is out (D-037). Low-contrast objects like the glowing orbs may be hard to detect. Dropping them or testing in sim were both raised. Owner: John, Steve.
 23. **Final demo and obstacles.** The direction is a leading idea only. Lively motion has no software owner, and a mid-demo battery swap is unsettled. Owner: John, Steve.
