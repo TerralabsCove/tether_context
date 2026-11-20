@@ -1,7 +1,7 @@
 ---
 status: draft
 owner: John Peng
-last_reviewed: 2026-11-19
+last_reviewed: 2026-11-20
 ---
 
 # reCamera to XIAO ESP32-C5: how to get the tag strings onto ESP-NOW (2026-11-19)
@@ -61,7 +61,8 @@ Electrical details, from the core board schematic (v1.2, dated 2024-10-14):
   is for the 8 GB board. Check with a meter: TP1 should idle at about 3.3 V.
 - Each UART0 line has a 100 Ω series resistor and a 4.7 kΩ pull-up on the core board.
 - **UART0 TX is a boot strap.** The schematic note says: pulled up means normal boot, pulled down means "ROM Fail
-  Mode". Whatever is wired to TP1 must not hold it low while the camera powers up.
+  Mode". Sophgo's own SG2002 reference schematic says the same (see [Risks](#risks)). Whatever is wired to TP1
+  must not hold it low while the camera powers up.
 
 ## The ESP side (Seeed XIAO ESP32-C5)
 
@@ -91,7 +92,7 @@ Pin map from Seeed's wiki, with what the C5 firmware already uses (tethersmall `
 
 ```
 reCamera B101                     XIAO ESP32-C5 (module ESP)
-  TP1  UART0_TX  ───────────────>  D7  GPIO12  (Serial1 RX)
+  TP1  UART0_TX  ──[10 kΩ]───────>  D7  GPIO12  (Serial1 RX)
   TP6  GND       ────────────────  GND
   TP2  UART0_RX     (leave open)   D6  GPIO11  (leave open)
 ```
@@ -154,9 +155,32 @@ The C5 sees noise until then and has to skip it.
 ## Risks
 
 1. **Boot strap on TP1.** If the C5 is unpowered when the camera boots, the C5's input protection can pull TP1
-   low and the camera can stop in ROM fail mode. Feed both from the same 5 V rail so they power up together. Then
-   test a camera boot with the C5 unpowered to see whether this happens. If it does, add a buffer powered from
-   the camera's side. **[assumed]** Read from the schematic, not observed.
+   low and the camera can stop in ROM fail mode. Feed both from the same 5 V rail so they power up together, and
+   put a 10 kΩ resistor in series between TP1 and D7. Then test a camera boot with the C5 unpowered. See the
+   checks below.
+
+   What was checked on 2026-11-20:
+   - **The strap is real.** Sophgo's own SG2002 reference schematic
+     ([milkv-duo/duo-files](https://github.com/milkv-duo/duo-files), `duo-256M/hardware/Reference Design_SCH&PCB/SG2002-QFN88-38-4L.pdf`,
+     page 4) has the same note as the reCamera: "BOOT_Config (UART0_TX): PU = Normal, PD = ROM Fail Mode", with a
+     4.7 kΩ pull-up. The CV1800B reference design and the Milk-V Duo 256M schematic in that repo say the same. The
+     reference pin label for UART0_TX is `[PU->DRV_HI+PU]`: pulled up at reset, then driven high.
+   - **Sophgo's manual doesn't mention it.** The SG2002 manual's boot chapter lists only EMMC_DAT3 and EMMC_DAT0 as
+     boot straps ([sophgo-doc](https://github.com/sophgo/sophgo-doc), `SG200X/TRM/contents/en/initialization/`).
+     No source found says what "ROM fail mode" does.
+   - **No report was found of a reCamera or Milk-V Duo failing to boot this way.**
+   - **Espressif documents nothing about an unpowered C5 pin.** Its staff on esp32.com say an unpowered ESP32
+     pin's protection diodes conduct into the chip's 3.3 V rail
+     ([thread](https://esp32.com/viewtopic.php?p=106877), [thread](https://esp32.com/viewtopic.php?p=47371)),
+     where a 3.0 V pull-up was read as 0.6 V. With the camera's 4.7 kΩ pull-up into that path, TP1 could sit
+     below a logic high.
+   - **Calculation, not measured:** with a 10 kΩ series resistor and the diode clamping at about 0.6 V, TP1
+     stays at about 0.6 + 2.7 × 10 / 14.7 ≈ 2.4 V, above the usual 2.0 V logic-high threshold for 3.3 V
+     inputs. The SG2002's own input threshold was not checked. At 921600 baud a bit lasts 1.1 µs, and 10 kΩ
+     with about 10 pF of pin capacitance gives a 0.1 µs edge, so the resistor does not slow the data.
+   - **A powered C5 is not the problem.** The risk is only an unpowered C5, or firmware that drives D7 low.
+     The C5's reset state for GPIO12 could not be read: Espressif's documentation site is blocked from this
+     session.
 2. **The port is the login console.** U-Boot, the kernel and a login prompt all use UART0. For data:
    - Turn off the login service on `ttyS0`.
    - Set the kernel message level low (`dmesg -n 1`) so kernel messages don't land in the middle of tag data.
@@ -198,7 +222,8 @@ The C5 sees noise until then and has to skip it.
 1. Check the board revision and measure TP1 idle voltage (expect about 3.3 V).
 2. Solder TP1 and TP6. Read the camera's boot log on the C5's `Serial1` at 115200, echoed to USB. This proves the
    wiring.
-3. Boot the camera with the C5 unpowered. Confirm it still boots (risk 1).
+3. Boot the camera with the C5 unpowered, without and then with the 10 kΩ resistor. Measure TP1 during boot and
+   confirm the camera boots (risk 1).
 4. Turn off the console login. Have tagstream write to `/dev/ttyS0` at 460800, then 921600. Count lost and bad
    packets on the C5 over 10 minutes with eight tags.
 5. Forward the packets over ESP-NOW to the USB gateway while the motors run the damped link check. Check whether
