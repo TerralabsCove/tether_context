@@ -54,7 +54,7 @@ Nothing about Cove or Tether is **[verified]** yet. Gate G0 is what changes that
 | Localization | Motion capture primary, AprilTag on docking as backup, encoders as last resort. The 11-02 and 11-05 plans use AprilTags plus joint states without mocap, see [conflicts](open-questions.md#conflicts-between-sources). LiDAR is out (D-034). | decided D-012; in conflict |
 | Control approach | Motion planning, no RL for now | decided D-014 |
 | Electronics build | Breadboard, no PCB yet | decided D-007 |
-| End-effector power | Powered on its own, with its own radio (D-048). Each end effector has its own 3S battery (John, 2026-11-20). Pack capacity and radio board not yet specced. | decided D-048; as stated (3S); spec open |
+| End-effector power | Powered on its own, with its own radio (D-048). Each end effector has its own 3S battery, stepped down to 5 V by a buck converter (model not stated). The radio is a Seeed XIAO ESP32-C5 (John, 2026-11-20). The BOM's only 3S pack is TTH-052, CNHL 3200 mAh 3S 30C 11.1 V, XT60, received as a 2-pack. | decided D-048; as stated (3S, buck, C5); as built (TTH-052 on the BOM) |
 
 ## tethersmall testbed (2026-10-11)
 
