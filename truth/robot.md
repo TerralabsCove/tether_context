@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng (hardware)
-last_reviewed: 2026-11-13
+last_reviewed: 2026-11-19
 ---
 
 # Robot: Cove and Tether
@@ -32,10 +32,10 @@ Nothing about Cove or Tether is **[verified]** yet. Gate G0 is what changes that
 | Base | None. Either end anchors. | decided D-001 |
 | Joint layout | "Straighter but offset", not full diagonal | decided D-002 |
 | Middle joint | Continuous 360° | decided D-003 |
-| Modules | 3 wireless modules, one ESP brain each. No separate end-effector modules. | decided D-020 |
+| Modules | 3 wireless modules, one ESP brain each. The end effector is powered on its own and has its own radio (D-048). | decided D-020, D-048 |
 | Drive motors | Seven total. Master ID 0 controls one. Left ID 1 and right ID 2 control three each. Every module uses a private local CAN bus. | decided D-026 |
 | Motor models | 3 × DM-J10010-2EC on the pitch joints (40 Nm rated, 150 Nm peak, 1.485 kg; the plain 10010, although the URDF link names say J10010L). 4 × DM-J4340P-2EC on the rolls and gripper spins (9 Nm rated, 27 Nm peak, 0.375 kg). Figures from the user manuals. Run at 24 V: rated torque holds; the 10010, rated at 48 V, runs at about half speed. | as built |
-| Arm mass | 14.35 kg (31.6 lb) in the corrected URDF. Batteries (3200 mAh 218 g, 5000 mAh 1.52 lb), slip rings (10.5 oz) and gripper servos (3.52 oz) were weighed, with no recorded artifact. Motors are from the manuals. Aluminium structure and gripper housing are from CAD. Wiring, ESP boards, DC-DC converters and fasteners are not included. | as built (weighed parts), assumed (rest) |
+| Arm mass | 14.35 kg (31.6 lb) in the corrected URDF. Batteries (3200 mAh 218 g, 5000 mAh 1.52 lb), slip rings (10.5 oz) and gripper servos (3.52 oz) were weighed, with no recorded artifact. Motors are from the manuals. Aluminium structure and gripper housing are from CAD. Wiring, ESP boards, DC-DC converters and fasteners are not included. The slip rings are now dropped (D-047) and the figure has not been redone. | as built (weighed parts), assumed (rest) |
 | Top motor orientation | Kept as built, not flipped | decided D-032 |
 | Motor identities | Master slot 0: slave `0x04`, previously measured feedback `0x14`. Remote slots are big / near-master / far-end. Node 1 slave IDs: `0x02` / `0x05` / `0x01`. Node 2: `0x06` / `0x03` / `0x07`. Remote feedback IDs and limits are not yet scanned. | decided D-028; feedback IDs open |
 | Inter-module wiring | None. Fully wireless. | decided D-006 |
@@ -45,7 +45,7 @@ Nothing about Cove or Tether is **[verified]** yet. Gate G0 is what changes that
 | Battery protection | No BMS. Motors have built-in min-voltage shutoff. DC-DC converter for ESPs. | decided D-008 |
 | Module power | Battery splits to the motors and a 24 V to 5 V buck. ESP and CAN transceiver on the big motor side, enclosed. | decided D-033 |
 | Mounts | Loads go through interlocking geometry, not bolts | decided D-042 |
-| Slip ring | At the end effector only (D-044), 2.9 A requirement. Taidacent hollow, 6-wire, 10 A, 25.4 mm bore (TTH-058). On site, not yet measured. Planned channels: 5 V, GND, two servo signals, at least 2 vacant. | decided D-044; as built (part), assumed (channels) |
+| Slip ring | None (D-047). The earlier plan (D-044) put a Taidacent hollow 6-wire slip ring (TTH-058) at the end effector. That part is on site. | decided D-047 |
 | End effectors | Symmetric servo claw on both ends, folds into a circular docking housing. Docking is servo-driven pins on the arm into passive holes on the structure. The claw is optional. Ming's simpler gripper is the parallel backup. | decided D-005, D-040, D-043 |
 | End-effector servos | 4 × ANNIMOS 35 kg 270° (TTH-054), received. Stall current quoted as 3.2 A at 4.8 V, not measured. | as built (part), assumed (current) |
 | End camera | One per end, no stereo. reCamera 2002W, about 1 GHz, Linux. Both units now have the GC2053 sensor board with its stock 2.9 mm lens (M12 mount), replacing the stock 65° OV5647 board. No fisheye (D-046). The GC2053 board has no fill LEDs. Camera 2 measured 84.6° H × 53.9° V at 1080p, fx 1065 px, almost no distortion. Camera 1 is not calibrated. The stream runs at 9 fps whatever it is set to (Seeed's stock pipeline). On-camera tag detection runs about 5–6 Hz at 640 × 480, the only size the camera decodes. Mounted on the far end, pointing straight. Separate LED mount. Tests: [11-06](../notes/2026-11-06-john-claw-camera-followups.md), [11-13](../notes/2026-11-13-john-recamera-gc2053-bringup.md), [11-13 calibration](../notes/2026-11-13-john-recamera-lens-calibration.md). | decided D-037, D-038, D-039, D-046; as built (GC2053 + stock lens); verified (rates, 11-13 logs; camera 2 FOV and calibration, 11-13); camera 1 FOV open |
@@ -54,7 +54,7 @@ Nothing about Cove or Tether is **[verified]** yet. Gate G0 is what changes that
 | Localization | Motion capture primary, AprilTag on docking as backup, encoders as last resort. The 11-02 and 11-05 plans use AprilTags plus joint states without mocap, see [conflicts](open-questions.md#conflicts-between-sources). LiDAR is out (D-034). | decided D-012; in conflict |
 | Control approach | Motion planning, no RL for now | decided D-014 |
 | Electronics build | Breadboard, no PCB yet | decided D-007 |
-| End-effector battery | Not yet specced | open |
+| End-effector power | Powered on its own, with its own radio (D-048). Power source and radio board not yet specced. | decided D-048; spec open |
 
 ## tethersmall testbed (2026-10-11)
 

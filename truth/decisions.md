@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng (hardware), Steve Lu (software)
-last_reviewed: 2026-11-13
+last_reviewed: 2026-11-19
 ---
 
 # Decision Log
@@ -31,7 +31,7 @@ Format: ID, date, decision, why, source. Status is `active` unless noted.
 | D-017 | 2026-10-06 | Recurring team meetings: Fridays 5 PM and Sundays. | Establish a regular cadence. | [mech layout](../meetings/2026-10-06-mech-layout.md) | active |
 | D-018 | 2026-10-08* | Mocap source priority: (1) borrow IYA/Avalon system via Ming, (2) ask WISP team, (3) build or source open-source mocap, (4) fall back to encoders (drifted last time). | IYA likely says no, so a fallback is needed regardless. | [mocap localization](../meetings/2026-10-08-mocap-localization.md) | active, IYA answer expected Monday |
 | D-019 | 2026-10-08 | Test inter-module wireless with ESP-NOW first. Use NRF ESB later only if ESP-NOW falls short. | Resolves the ESP-NOW vs ESB conflict between the 10-06 and 10-08 meetings. | John Peng, resolving open questions | active |
-| D-020 | 2026-10-08 | 3 wireless modules, not 5. The separate end-effector modules are eliminated. | Latest plan as of the 10-08 meeting. | John Peng, resolving open questions | active. Supersedes the module count in D-006. |
+| D-020 | 2026-10-08 | 3 wireless modules, not 5. The separate end-effector modules are eliminated. | Latest plan as of the 10-08 meeting. | John Peng, resolving open questions | active for the module count. The "no separate end-effector modules" part is superseded by D-048. Supersedes the module count in D-006. |
 | D-021 | 2026-10-08 | Trust the URDF for joint axes: Z-Y-Z-Y-Z-Y-Z. The kickoff deck's Z-X-Z-X-Z-X-Z is wrong or a different convention. | The URDF is what the sim and code use. | John Peng, resolving open questions | active |
 | D-022 | 2026-10-12 | Each of the three wireless modules controls one small and one big Damiao motor over its own local CAN bus. The master module uses slave IDs `0x07` (small) and `0x04` (big), with feedback IDs `0x17` and `0x14`. The four motors on the left and right modules remain unassigned until they are scanned. | Keeps the left and right modules symmetric and avoids inventing CAN IDs before hardware identification. | Irisy, embedded controls bench configuration | superseded by D-024 for motor counts and D-028 for assignments |
 | D-023 | 2026-10-12 | Radio protocol version 2 addresses two motors per module: slot `0` is small and slot `1` is big. Commands, telemetry, sequence tracking, limits, enable state, estop state, and command watchdogs are per motor. Both motors share their module's TWAI bus, so bus-off is module-wide. | Makes the six-motor topology independently controllable without adding another ESP or CAN interface per module. | Irisy, embedded controls implementation | superseded by D-025 |
@@ -54,9 +54,11 @@ Format: ID, date, decision, why, source. Status is `active` unless noted.
 | D-041 | 2026-11-05 | Panel water-jet contingency: if Baum hasn't finished by Sunday, Yang cuts them Monday, with verbal confirmation first. Run the IYA water jet at the same time. | Panels block all module assembly, and a Monday start costs another week. | [11-05 planning](../meetings/2026-11-05-tether-planning.md) | active |
 | D-042 | 2026-10-15 | Tether mount loads go through interlocking geometry, an extended block and a U-shaped notch, not through the bolts. | Lateral and top loads dig into screw threads and shift tolerances. Screws should only handle compression. | [mount design](../meetings/2026-10-15-mount-design.md) | active |
 | D-043 | 2026-10-18 | Docking uses servo-driven pins on the arm side and passive holes on the structure side. This reverses the earlier plan of pins on the structure. The claw is an optional add-on. | No comms handshake with the structure, and no limit on the number of ports. | [docking and power](../meetings/2026-10-18-docking-power.md) | active |
-| D-044 | 2026-10-18 | The slip ring is only at the end effector and is low power (2.9 A requirement). No high power goes through the middle joint. | The end-effector servos are low draw, and each module has its own battery. | [docking and power](../meetings/2026-10-18-docking-power.md) | active |
+| D-044 | 2026-10-18 | The slip ring is only at the end effector and is low power (2.9 A requirement). No high power goes through the middle joint. | The end-effector servos are low draw, and each module has its own battery. | [docking and power](../meetings/2026-10-18-docking-power.md) | superseded by D-047 |
 | D-045 | 2026-10-19 | Nothing upside down. Sideways (90° on a wall) stays a possibility. Docks are bolted-on ports with holes, not rungs. | Upside down puts too much stress on the structure. | [showcase and MVP](../meetings/2026-10-19-showcase-mvp.md), per the transcript | active. Scope is in [conflict](open-questions.md#conflicts-between-sources). |
 | D-046 | 2026-11-13 | The end camera keeps the GC2053 sensor board's stock 2.9 mm lens. No fisheye lens. This replaces the "must be fisheye" part of D-037. | The team agreed its field of view is enough, from its own calculations (not linked here). Camera 2 measured 84.6° H × 53.9° V. | John Peng, 2026-11-13, via the [lens calibration note](../notes/2026-11-13-john-recamera-lens-calibration.md) | active. Supersedes the fisheye requirement in D-037. |
+| D-047 | 2026-11-19 | No slip ring. The slip ring at the end effector is dropped. | Not stated. John gave it together with D-048. | John Peng, 2026-11-19, stated while revising the demo deck | active. Supersedes D-044. |
+| D-048 | 2026-11-19 | The end effector is powered on its own and has its own radio. | Not stated. | John Peng, 2026-11-19, stated while revising the demo deck | active. Supersedes the "no separate end-effector modules" part of D-020. |
 
 D-030 is reserved for Hansi's proposed scope change in [open PR #8](https://github.com/TerralabsCove/tether_context/pull/8), which has not been confirmed. See [conflicts](open-questions.md#conflicts-between-sources). D-042 to D-045 were filed late, so their dates are earlier than the rows above them.
 
