@@ -33,11 +33,11 @@ When two sources disagree, list it here and let a PM decide.
 
 ## Follow-ups from the 3-module change (D-020)
 
-4. **End-effector radio and mounting.** The end effector is powered on its own and has its own radio (D-048), with no slip ring (D-047). Which radio board it uses, how the laptop addresses it, and where the parts mount are not stated. Owner: mech.
+4. **End-effector radio and mounting.** The end effector is powered on its own and has its own radio (D-048), with no slip ring (D-047). The radio is a XIAO ESP32-C5 (John, 2026-11-20). How the laptop addresses it and where the parts mount are not stated. Owner: mech.
    Input (10-18, 11-01, 11-05): the earlier plan ran 5 V, GND and two servo signals through a slip ring (D-044, superseded). Extra ESPs were raised then as the fallback.
 5. **Battery layout for 3 modules.** D-004 planned 3 battery sizes and 5–6 batteries across 5 modules. That needs redoing. Owner: mech, electrical.
    Input: the middle module has two (D-036), while the [10-18 meeting](../meetings/2026-10-18-docking-power.md) counted 3 batteries in total with 1 in the center. The Notion page says the second pack's whereabouts are unclear.
-6. **End-effector power spec.** The end effector is powered on its own (D-048), from its own 3S battery (John, 2026-11-20). Pack capacity, and what steps it down to 5 V for the camera, C5 and servos, are not specced. Owner: mech.
+6. **End-effector power spec.** Answered except for the BOM: a 3S 450 mAh battery and an LM2596 buck to 5 V for the camera, C5 and servos, with runtime long enough for our use (John, 2026-11-20). The BOM lists neither the pack nor an active LM2596 (TTH-018 is Cancelled). Add rows if they were bought for Tether. Owner: Ming.
    Input (11-05): servos were planned on the module's 24 V to 5 V buck, which D-048 replaces. The 11-01 plan powered the end camera through the slip ring; where the camera gets power now is not stated.
 
 ## Hardware
