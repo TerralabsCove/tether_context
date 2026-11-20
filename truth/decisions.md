@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng (hardware), Steve Lu (software)
-last_reviewed: 2026-11-19
+last_reviewed: 2026-11-20
 ---
 
 # Decision Log
@@ -59,6 +59,7 @@ Format: ID, date, decision, why, source. Status is `active` unless noted.
 | D-046 | 2026-11-13 | The end camera keeps the GC2053 sensor board's stock 2.9 mm lens. No fisheye lens. This replaces the "must be fisheye" part of D-037. | The team agreed its field of view is enough, from its own calculations (not linked here). Camera 2 measured 84.6° H × 53.9° V. | John Peng, 2026-11-13, via the [lens calibration note](../notes/2026-11-13-john-recamera-lens-calibration.md) | active. Supersedes the fisheye requirement in D-037. |
 | D-047 | 2026-11-19 | No slip ring. The slip ring at the end effector is dropped. | Not stated. John gave it together with D-048. | John Peng, 2026-11-19, stated while revising the demo deck | active. Supersedes D-044. |
 | D-048 | 2026-11-19 | The end effector is powered on its own and has its own radio. | Not stated. | John Peng, 2026-11-19, stated while revising the demo deck | active. Supersedes the "no separate end-effector modules" part of D-020. |
+| D-049 | 2026-11-20 | Tag data goes from the end camera to the end-effector XIAO ESP32-C5 over a USB-C cable first: the camera runs as USB host and the C5 forwards over ESP-NOW. If that doesn't work, use the camera's debug UART (TX/RX test pads) to the C5 instead. | The USB route doesn't need the camera opened. The UART route means soldering to test pads inside it. | John Peng, 2026-11-20. Options: [USB-host note](../notes/2026-11-20-john-recamera-usb-host-c5.md), [UART link note](../notes/2026-11-19-john-camera-c5-uart-link.md) | active. USB not yet tested with a C5 attached. |
 
 D-030 is reserved for Hansi's proposed scope change in [open PR #8](https://github.com/TerralabsCove/tether_context/pull/8), which has not been confirmed. See [conflicts](open-questions.md#conflicts-between-sources). D-042 to D-045 were filed late, so their dates are earlier than the rows above them.
 

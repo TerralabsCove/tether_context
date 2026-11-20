@@ -10,6 +10,11 @@ Written by John's AI agent from the published schematics and the project's own l
 is tested on hardware. It is input to [open question 7](../truth/open-questions.md) (camera data path). Nothing
 here changes `truth/`.
 
+**Status 2026-11-20: this is the fallback.** The team tries USB first and uses this UART route only if USB
+doesn't work ([D-049](../truth/decisions.md)). See the [USB-host note](2026-11-20-john-recamera-usb-host-c5.md).
+With no slip ring ([D-047](../truth/decisions.md)) and a C5 on the end effector ([D-048](../truth/decisions.md)),
+the wire runs to that C5, so the slip ring risks below no longer apply.
+
 Sources read: Seeed's reCamera 2002 KiCad and PDF schematics
 ([OSHW-reCamera-Series](https://github.com/Seeed-Studio/OSHW-reCamera-Series), B101 base board v1.2 and C1-2002w
 core board v1.2), the reCamera 2002 and XIAO ESP32-C5 wiki pages (from Seeed's
