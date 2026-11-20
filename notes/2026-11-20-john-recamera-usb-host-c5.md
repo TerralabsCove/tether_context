@@ -9,6 +9,9 @@ last_reviewed: 2026-11-20
 Written by John's AI agent from a working session with John on 2026-11-20. Not authoritative. Nothing here
 changes `truth/`.
 
+**Status 2026-11-20: this is the first choice.** The team tries USB first. The camera's debug UART is the fallback
+([D-049](../truth/decisions.md)).
+
 The question: can the end-effector ESP32-C5 get tag data from the reCamera over USB-C, without opening the
 camera? This answers John's 11-18 #tether question on getting AprilTag pose into the end-effector C5. It touches
 [open question 7](../truth/open-questions.md) (camera data path).
@@ -118,9 +121,9 @@ The camera is powered through its USB-C, so in Option A the 5 V has to go into t
   lists USB as ruled out because both ends are USB devices. That holds for the C5. The camera, though, can switch
   to USB host (test 1 above). That note is left as it is. This one updates it.
 - **Where the C5 sits decides it.**
-  - On 11-19 John said the slip ring is dropped and the end effector gets its own power and radio. These are being
-    filed as D-047 and D-048 and are not in `truth/` yet. If they hold, the C5 sits next to the camera on the end
-    effector. USB is then a short cable with nothing in between. This is the case this note assumes.
+  - The slip ring is dropped and the end effector has its own power and radio ([D-047](../truth/decisions.md),
+    [D-048](../truth/decisions.md)). So the C5 sits next to the camera on the end effector, and USB is a short
+    cable with nothing in between. This is the case this note assumes.
   - If the camera stays on the far side of a slip ring from the module's ESP ([D-044](../truth/decisions.md),
     [D-033](../truth/decisions.md)), UART needs one signal wire through it, and USB needs two, D+ and D−, as a
     12 Mbit/s pair. Signals through this slip ring are untested. In that case UART is the safer bet.
