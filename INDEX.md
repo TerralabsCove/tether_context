@@ -6,14 +6,15 @@ Every current doc, one line each. Start here.
 
 - [truth/project.md](truth/project.md): what Tether is, goals, roadmap, where things stand
 - [truth/robot.md](truth/robot.md): Cove as built and Tether's design, with verified vs assumed tags
-- [truth/decisions.md](truth/decisions.md): every decision, why, and where it was made (D-001 to D-049; D-030 reserved)
+- [truth/decisions.md](truth/decisions.md): every decision, why, and where it was made (D-001 to D-055; D-030 reserved)
 - [truth/open-questions.md](truth/open-questions.md): unresolved questions and risks to watch
 - [truth/team.md](truth/team.md): who does what, meeting schedule
 - [truth/glossary.md](truth/glossary.md): terms and acronyms
 
 ## Plans
 
-- [plans/mocap-integration.md](plans/mocap-integration.md): motion-capture integration plan (draft, partly superseded by the 10-08 meeting)
+- [plans/final-push-schedule.md](plans/final-push-schedule.md): day-by-day schedule, 11/22 to demo day on 12/3. **Current plan.**
+- [plans/mocap-integration.md](plans/mocap-integration.md): motion-capture integration plan (draft, partly superseded by the 10-08 meeting) Mocap is out as of D-054.
 
 ## Meetings
 
@@ -30,10 +31,12 @@ Every current doc, one line each. Start here.
 - [2026-11-01 all-hands](meetings/2026-11-01-all-hands.md): mech and electrical status, module power path, assembly dates
 - [2026-11-02 leads status](meetings/2026-11-02-leads-status.md): software staffing, LiDAR and analog FPV out, task sheet format
 - [2026-11-05 planning](meetings/2026-11-05-tether-planning.md): 2 weeks behind, panel contingency, backup gripper, one fisheye camera per end, no stereo
+- [2026-11-21 final push planning](meetings/2026-11-21-final-push-planning.md): a task list for each day of Thanksgiving break, end effector backup. [Transcript, edited for publishing](meetings/2026-11-21-final-push-planning-transcript.md)
 
 ## Assets
 
 - [2026-09-27 kickoff deck](assets/2026-09-27-tether-kickoff.pptx): Cove history, Tether idea, sim results, roadmap
+- 2026-11-21 final push whiteboard: [11/22 to 11/25](assets/2026-11-21-final-push-whiteboard-nov22-25.jpg), [11/26 to 11/29](assets/2026-11-21-final-push-whiteboard-nov26-29.jpg)
 - [2026-11-21 arm STEP](assets/2026-11-21-ArmAssem-ming-v5.step): Fusion `MainArm/ArmAssem-ming` v5, the full arm with Ming's end effector on both ends
 - [2026-11-21 end effector STEP](assets/2026-11-21-MingEE-male-v3.step): Fusion `MainArm/MingEE-male` v3, the end effector (attachment group with camera mount)
 - [2026-11-21 docking target STEP](assets/2026-11-21-MingEE-female-v3.step): Fusion `MainArm/MingEE-female` v3, the female dock (`Body13` + port group)

@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng (hardware)
-last_reviewed: 2026-11-20
+last_reviewed: 2026-11-22
 ---
 
 # Robot: Cove and Tether
@@ -46,13 +46,13 @@ Nothing about Cove or Tether is **[verified]** yet. Gate G0 is what changes that
 | Module power | Battery splits to the motors and a 24 V to 5 V buck. ESP and CAN transceiver on the big motor side, enclosed. | decided D-033 |
 | Mounts | Loads go through interlocking geometry, not bolts | decided D-042 |
 | Slip ring | None (D-047). The earlier plan (D-044) put a Taidacent hollow 6-wire slip ring (TTH-058) at the end effector. That part is on site. | decided D-047 |
-| End effectors | Symmetric servo claw on both ends, folds into a circular docking housing. Docking is servo-driven pins on the arm into passive holes on the structure. The claw is optional. Ming's simpler gripper is the parallel backup. | decided D-005, D-040, D-043 |
+| End effectors | Ming's end effector on both ends (D-052). CAD: [end effector](../assets/2026-11-21-MingEE-male-v3.step), [dock](../assets/2026-11-21-MingEE-female-v3.step). Docking is servo-driven pins on the arm into passive holes on the structure (D-043). No metal end effector is assembled or tested yet as of 11-21. The earlier servo claw (D-005) is replaced. | decided D-052, D-043 |
 | End-effector servos | 4 × ANNIMOS 35 kg 270° (TTH-054), received. Stall current quoted as 3.2 A at 4.8 V, not measured. | as built (part), assumed (current) |
 | End camera | One per end, no stereo. reCamera 2002W, about 1 GHz, Linux. Both units now have the GC2053 sensor board with its stock 2.9 mm lens (M12 mount), replacing the stock 65° OV5647 board. No fisheye (D-046). The GC2053 board has no fill LEDs. Camera 2 measured 84.6° H × 53.9° V at 1080p, fx 1065 px, almost no distortion. Camera 1 is not calibrated. The stream runs at 9 fps whatever it is set to (Seeed's stock pipeline). On-camera tag detection runs about 5–6 Hz at 640 × 480, the only size the camera decodes. Mounted on the far end, pointing straight. Separate LED mount. Tests: [11-06](../notes/2026-11-06-john-claw-camera-followups.md), [11-13](../notes/2026-11-13-john-recamera-gc2053-bringup.md), [11-13 calibration](../notes/2026-11-13-john-recamera-lens-calibration.md). | decided D-037, D-038, D-039, D-046; as built (GC2053 + stock lens); verified (rates, 11-13 logs; camera 2 FOV and calibration, 11-13); camera 1 FOV open |
 | Video link | No video stream. Only tag position data is sent. Analog FPV ruled out. How that data reaches the laptop is open (question 7). | decided D-034, D-037 |
 | Compute | Fully offboard. The 11-05 camera plan runs detection on the camera, see [conflicts](open-questions.md#conflicts-between-sources). | decided D-013; in conflict |
-| Localization | Motion capture primary, AprilTag on docking as backup, encoders as last resort. The 11-02 and 11-05 plans use AprilTags plus joint states without mocap, see [conflicts](open-questions.md#conflicts-between-sources). LiDAR is out (D-034). | decided D-012; in conflict |
-| Control approach | Motion planning, no RL for now | decided D-014 |
+| Localization | AprilTags on the docks, read by the end cameras, plus joint states. No motion capture (D-054). LiDAR is out (D-034). | decided D-054 |
+| Control approach | Two tracks: a deterministic AprilTag path and a trained policy (D-050, D-053). | decided D-050, D-053 |
 | Electronics build | Breadboard, no PCB yet | decided D-007 |
 | End-effector power | Powered on its own, with its own radio (D-048). Each end effector has its own 3S 450 mAh battery, stepped down to 5 V by an LM2596 buck converter. The radio is a Seeed XIAO ESP32-C5. Runtime is long enough for our use. (John, 2026-11-20.) Neither the 450 mAh pack nor an active LM2596 row is on the BOM: TTH-018 (LM2596 5-pack) is marked Cancelled. | decided D-048; as stated (battery, buck, C5, runtime) |
 

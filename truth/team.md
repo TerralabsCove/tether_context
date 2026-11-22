@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-22
 ---
 
 # Team
@@ -13,11 +13,11 @@ last_reviewed: 2026-11-06
 | Jason | Software, URDF sim. | D-015, Notion page |
 | Iris | Electrical and comms. Limited bandwidth. | Notion page, 2026-11-05 meeting |
 | Hansi Lee | Electrical and comms. GitHub `gellosparkles`. | Notion page, git history |
-| Jack Carpino | Mech. Machining, panels, module assembly. | D-011, 2026-11-01 meeting |
+| Jack Carpino (JC) | Mech. Machining, panels, module assembly, Loctite. Designs the shell. | D-011, 2026-11-01 meeting |
 | Jack Tarantino | Mech. Arm CAD. | 2026-11-01 meeting, via Notion page |
 | Isaac | End effector. | John, 2026-11-01, via Notion page |
-| Ming | Purchasing and mech. Designing the backup gripper (D-040). Hosts work sessions at their house. Contact for borrowing the IYA mocap system. | 2026-10-05, D-018, Notion page |
-| Caroline + one designer | Design team working on Tether's platform. | 2026-11-01 designer meeting |
+| Ming | Purchasing and mech. Designed the end effector used on both ends (D-052). Hosts work sessions at their house. Contact for borrowing the IYA mocap system. | 2026-10-05, D-018, Notion page |
+| Caroline Kim (CK) + one designer | Design team working on Tether's platform. Drilling and mounting the docking ports at IYA with the team on 11/23. | 2026-11-01 designer meeting, 2026-11-21 meeting |
 
 Left the project: Trent, Ryan (D-035). Possible help, not confirmed: Leah (ECE, robotic arm software on another team).
 

@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng, Steve Lu
-last_reviewed: 2026-11-13
+last_reviewed: 2026-11-22
 ---
 
 # Tether: Project Overview
@@ -12,9 +12,18 @@ Tether is a Terra Labs project for fall 2026. It turns **Cove**, the 7-DOF arm t
 
 In code the robot is called **COVE2**. "Tether" and "COVE2" refer to the same robot.
 
-## Where things stand (as of 2026-11-06)
+## Where things stand (as of 2026-11-21)
 
-- **Schedule:** about 2 weeks behind (11-05 meeting). Worst case, software-only work starts in about 1.5–2 weeks. Demo day is the week of 11/30, exact date [unconfirmed](open-questions.md#conflicts-between-sources).
+- **Demo day: 12/3, at Watt Hall B1. Be there from 5 PM** (D-051). Goal for the end of Thanksgiving break (11/29): the arm running on the setup (D-050).
+- **Schedule:** day by day in [plans/final-push-schedule.md](../plans/final-push-schedule.md). It is tight and assumes Ming's end effector works the first time.
+- **Mech:** both ends use Ming's end effector (D-052). Most of its parts are machined. Still open: the pizza slices, one part from Yang, the center spacer. No end effector is assembled yet. The shell is not designed yet.
+- **Electrical:** final wiring of the 3 modules is planned for 11/22. End effector electronics are not finished.
+- **Software:** ROS on a laptop with the sim connected, then two tracks: a deterministic AprilTag path and a trained policy (D-053). No mocap (D-054). See the plan.
+- **Site:** Watt Hall B1 is the demo site and the practice site (D-051). Tether climbs the steps there (D-055). Access over Thanksgiving is not confirmed. Otherwise practice at Ming's house.
+
+## Earlier status (as of 2026-11-06)
+
+- **Schedule:** about 2 weeks behind (11-05 meeting). Worst case, software-only work starts in about 1.5–2 weeks. Demo day was then given as the week of 11/30. It is 12/3 (D-051).
 - **Blocking assembly:** water-jet panels at Baum (D-041), end mounts waiting on a tapping bit, and the end effector design (D-040).
 - **Electrical:** the 11-02 meeting reports batteries in hand, a motor tested wirelessly, and the robot fully wireless. No recorded artifact is linked yet.
 - **Localization:** one camera per end reading AprilTags (D-037, D-038), with the GC2053 stock lens, not a fisheye (D-046). The reCamera read tags on its own in a [first handheld test](../notes/2026-11-06-john-claw-camera-followups.md). Wireless is untested.
@@ -26,7 +35,7 @@ In code the robot is called **COVE2**. "Tether" and "COVE2" refer to the same ro
 - **Cove** is built and moves. It is the hardware starting point.
 - **Tether in software:** the sim (COVE2 Robot Studio) can plan collision-free walking, a ladder climb, and a loop around a table on Cove's model. See [the tether repo](https://github.com/TerralabsCove/tether).
 - **Tether in hardware:** the mechanical layout is chosen (D-002, D-003). The arm is now 3 wireless modules (D-020), and the first module is being built as an MVP (D-011). Electrical is on breadboards (D-007).
-- **ESP-NOW + Damiao testbed (tethersmall), 2026-10-11:** an RL policy on a Mac drove two Damiao motors through per-module ESP32s over ESP-NOW (offboard compute, wireless modules, ESP-NOW first: D-013, D-020, D-019). It ran 20 s with no faults and reproduced the sim gait. The link works but has little margin. See [robot.md](robot.md#tethersmall-testbed-2026-10-11) and [the note](../notes/2026-10-11-john-tethersmall-rl-over-espnow.md). Whether this changes D-014 (no RL) is an [open conflict](open-questions.md#conflicts-between-sources).
+- **ESP-NOW + Damiao testbed (tethersmall), 2026-10-11:** an RL policy on a Mac drove two Damiao motors through per-module ESP32s over ESP-NOW (offboard compute, wireless modules, ESP-NOW first: D-013, D-020, D-019). It ran 20 s with no faults and reproduced the sim gait. The link works but has little margin. See [robot.md](robot.md#tethersmall-testbed-2026-10-11) and [the note](../notes/2026-10-11-john-tethersmall-rl-over-espnow.md). D-014 (no RL) has since been superseded by D-053.
 - **Direction changes since kickoff:** compute moved fully offboard (D-013). The BMS was dropped (D-008). RL is not needed for now; locomotion uses motion planning (D-014).
 
 ## Goals, in priority order
@@ -35,7 +44,7 @@ In code the robot is called **COVE2**. "Tether" and "COVE2" refer to the same ro
 2. Climb: e.g. a ladder.
 3. Manipulate with an end-effector claw. Secondary target (D-014).
 
-Climbing scope is [in conflict](open-questions.md#conflicts-between-sources): [PR #8](https://github.com/TerralabsCove/tether_context/pull/8) proposes dropping it, and recent meetings still plan a hill.
+Climbing: the steps at Watt Hall B1 are in scope (D-055). [PR #8](https://github.com/TerralabsCove/tether_context/pull/8), which proposes dropping climbing, is still open.
 
 ## Roadmap: validation gates
 
