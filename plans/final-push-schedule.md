@@ -53,7 +53,7 @@ This plan is tight on purpose. Things will spill over. When they do, move the it
   - Build ROS on a laptop, in a Linux VM, so it can be packaged and sent to other laptops.
 - [ ] **1 end effector done mechanically.**
 - [ ] Machine the missing part, TAG-Mech-005.
-  - One was finished 11/21 at the Castle. The other was Yang's. Assume Yang has not made it, and machine it at the Castle.
+  - One was finished 11/21 at the Castle. The other was Yang's. It will be machined at the Castle instead (John, 2026-11-22).
 
 ### Tuesday 11/24 (half speed)
 
@@ -113,7 +113,7 @@ From the meeting. Not checked against the parts themselves.
 |---|---|
 | End effector parts, most | In hand. Enough for one end effector, except the pizza slices. |
 | Pizza slices | Not machined. Ming cuts them Sunday. |
-| TAG-Mech-005 | One finished 11/21 at the Castle. One outstanding (Yang's). |
+| TAG-Mech-005 | One finished 11/21 at the Castle. One outstanding. It will be machined at the Castle (John, 2026-11-22). |
 | Center spacer | On the CNC on 11/21. Holes may not be drilled yet. |
 | One center part | 3D printed, not machined. |
 | Camera mounts | Enough in hand. |
@@ -138,7 +138,7 @@ From the meeting. Not checked against the parts themselves.
 
 - **End effector lock.** Turned by hand on Sunday. Not tested under power until Tuesday. If it fails, about 10 days are left. An electromagnet backup was raised and not chosen: it needs extra ESPs and relays, battery power for the magnets, and changes to the sim and software. There is no budget for it. Decide with Jack and Ming on Sunday.
 - **Watt Hall B1 access over Thanksgiving.** Unknown. Asking a Roski student. If there is no access, practice at Ming's on the plates, table and mushrooms. Ming's front steps are too shallow to stand in for the real steps.
-- **Yang's part.** Assumed not made.
+- **Yang's part (TAG-Mech-005).** Will be machined at the Castle (John, 2026-11-22). Open until it is cut.
 - **Shell.** Low priority next to everything else, but it matters for how the robot looks. Needs about 2 days to manufacture. JC's availability over Thanksgiving is not confirmed.
 - **Shell and the center joint.** The back electronics make one side thicker than planned, and the spacer can't get thicker. The shell will be asymmetric. Software should swing the full 360° only on the flat side.
 - **Time for software.** After the full arm exists (Wednesday), 2 to 3 days are left before the shell goes on Sunday.
@@ -152,3 +152,4 @@ Add a line when something moves.
 |---|---|
 | 2026-11-21 | Plan written at the planning meeting. |
 | 2026-11-22 | John's corrections: demo day and site (D-051), Sunday test is by hand and Tuesday is powered, part number TAG-Mech-005, what the boxes are for. |
+| 2026-11-22 | John: the outstanding TAG-Mech-005 will be machined at the Castle. No longer an assumption. Day unchanged (Monday). |

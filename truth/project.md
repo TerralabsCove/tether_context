@@ -16,7 +16,7 @@ In code the robot is called **COVE2**. "Tether" and "COVE2" refer to the same ro
 
 - **Demo day: 12/3, at Watt Hall B1. Be there from 5 PM** (D-051). Goal for the end of Thanksgiving break (11/29): the arm running on the setup (D-050).
 - **Schedule:** day by day in [plans/final-push-schedule.md](../plans/final-push-schedule.md). It is tight and assumes Ming's end effector works the first time.
-- **Mech:** both ends use Ming's end effector (D-052). Most of its parts are machined. Still open: the pizza slices, one part from Yang, the center spacer. No end effector is assembled yet. The shell is not designed yet.
+- **Mech:** both ends use Ming's end effector (D-052). Most of its parts are machined. Still open: the pizza slices, one TAG-Mech-005 (to be machined at the Castle, per John 2026-11-22), the center spacer. No end effector is assembled yet. The shell is not designed yet.
 - **Electrical:** final wiring of the 3 modules is planned for 11/22. End effector electronics are not finished.
 - **Software:** ROS on a laptop with the sim connected, then two tracks: a deterministic AprilTag path and a trained policy (D-053). No mocap (D-054). See the plan.
 - **Site:** Watt Hall B1 is the demo site and the practice site (D-051). Tether climbs the steps there (D-055). Access over Thanksgiving is not confirmed. Otherwise practice at Ming's house.
