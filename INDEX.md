@@ -34,6 +34,9 @@ Every current doc, one line each. Start here.
 ## Assets
 
 - [2026-09-27 kickoff deck](assets/2026-09-27-tether-kickoff.pptx): Cove history, Tether idea, sim results, roadmap
+- [2026-11-21 arm STEP](assets/2026-11-21-ArmAssem-ming-v5.step): Fusion `MainArm/ArmAssem-ming` v5, the full arm with Ming's end effector on both ends
+- [2026-11-21 end effector STEP](assets/2026-11-21-MingEE-male-v3.step): Fusion `MainArm/MingEE-male` v3, the end effector (attachment group with camera mount)
+- [2026-11-21 docking target STEP](assets/2026-11-21-MingEE-female-v3.step): Fusion `MainArm/MingEE-female` v3, the female dock (`Body13` + port group)
 
 ## Archive
 
