@@ -1,7 +1,7 @@
 ---
 status: active
 owner: anyone
-last_reviewed: 2026-11-06
+last_reviewed: 2026-11-22
 ---
 
 # Glossary
@@ -42,3 +42,12 @@ last_reviewed: 2026-11-06
 | reCamera | Seeed Studio's small Linux camera with its own processor. Tether uses the 2002W (D-038). |
 | AprilTag | A printed square marker a camera can locate in 3D. tag36h11 is the family used in testing. |
 | Terrance | The Discord bot that logs parts and Castle bookings. |
+| Pizza slices | End effector parts, named for their shape. 4 make one end effector. Machined by Ming. |
+| Shell | The outer cover for the arm. JC designs it. 3D printed. |
+| Docking board / port | The dock Tether locks into. 7 ports on 6 floor plates in the demo setup. The boards are printed in PETG. |
+| Watt Hall B1 | Level B1 of Watt Hall. The demo site and the practice site (D-051). "Watt B1" on the whiteboard. Granola writes it as "wall hole", "Wahoo" or "WPH". |
+| Interactive boxes | Boxes Tether can stack. Each has a docking port, so Tether grabs it like a dock. Magnets on the boxes make them stick to each other. A possible part of the demo. |
+| Roski | USC Roski School of Art and Design. The team plans to ask a Roski student for access to Watt Hall B1. |
+| Mushrooms | Set pieces in the demo setup (a mushroom with a flat top, 10-19 meeting). The fallback place to practice moving between docks. |
+| Glade | The experience-design team building the set Tether runs on. |
+| MakerZone, Robo, Makers | Where the team 3D prints and gets filament, as named in the 11-21 meeting. |
