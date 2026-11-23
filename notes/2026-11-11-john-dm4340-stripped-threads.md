@@ -100,6 +100,10 @@ Checks before loading:
 
 If M4 strips too, the next step is an M4 helicoil (about a 4.2 mm drill), which keeps M4 screws. M5 is not a good idea. The real fix is still D-042: the motor body sits in a pocket or clamp, so these screws only hold it in place.
 
+## Update 2026-11-22: load calculation
+
+Whether the rear bolts hold, with M2.5, M4 and epoxy compared: [rear mount loads note](2026-11-22-john-dm4340-rear-mount-loads.md).
+
 ## Open
 
 - Which motors and which holes are stripped. The CAN IDs are worth recording.
