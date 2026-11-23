@@ -65,7 +65,7 @@ This plan is tight on purpose. Things will spill over. When they do, move the it
   - Confirm the assumptions in the note: EE_1 is node 1, the driver gains, the 1 s telemetry timeout.
   - Run the ROS stack on the robot. The 7-motor config is still a placeholder: motor-to-joint mapping, signs and zeros.
   - The camera link moved to 5 GHz channel 36 and can share the gateway C5. Tested against a fake only. Measure it on 5 GHz ([note](../notes/2026-11-22-john-tether-ros-bench-and-sim.md)).
-  - Hansi's work sits in four open pull requests: tether_ros #1, tethersmall #6, tether_camera #5, tether_context #23.
+  - Hansi's newer work sits in three open pull requests: tether_ros #1, tethersmall #6, tether_camera #5.
 
 ### Tuesday 11/24 (half speed)
 

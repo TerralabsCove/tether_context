@@ -8,7 +8,7 @@ last_reviewed: 2026-11-22
 
 Written by John's AI agent on 2026-11-22, from Hansi's tether_ros repo. Hansi did the work. Not authoritative. Summary only: the code, write-ups and raw results are in [TerralabsCove/tether_ros](https://github.com/TerralabsCove/tether_ros) (private), branch `hansi/gateway-camera` (commit `3bf6f8f`), under `bench_results/`. That branch is open as [tether_ros PR #1](https://github.com/TerralabsCove/tether_ros/pull/1) and is not merged.
 
-Follows Hansi's first container note, which is in [open PR #23](https://github.com/TerralabsCove/tether_context/pull/23) here and covers the container tested against fakes only. See also [Steve's sim note](2026-11-22-steve-tethersim-ros.md). Touches [open questions 7 and 13](../truth/open-questions.md).
+Follows [Hansi's first container note](2026-11-22-hansi-ros-container.md), which covers the container tested against fakes only. See also [Steve's sim note](2026-11-22-steve-tethersim-ros.md). Touches [open questions 7 and 13](../truth/open-questions.md).
 
 ## What is new
 
@@ -52,7 +52,7 @@ Follows Hansi's first container note, which is in [open PR #23](https://github.c
 - `gateway_node` against the real combined gateway with a camera.
 - Any run on the arm. Everything real here is three bench motors with no load, on a quiet channel.
 - The full 7-motor config. Hansi's first note calls it a placeholder: the motor-to-joint mapping, signs and zeros are unknown. This branch changes only its timing settings.
-- Four pull requests hold this work and are open: tether_ros #1, tethersmall #6, tether_camera #5, and tether_context #23.
+- Three pull requests hold this work and are open: tether_ros #1, tethersmall #6 and tether_camera #5.
 
 ## What it means for the schedule
 
