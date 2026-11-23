@@ -65,7 +65,8 @@ few millimetres of air between the shell and the antenna's face.
 ## What this rests on [assumed]
 
 - The arm's CAD and the `watthall_real_steps` scene: 371 poses (the six-step climb and random reaches).
-- The A-01 as a simple dipole along its long side. Its pattern is not published.
+- The A-01 as a simple dipole along its long side. Its pattern is not published. Seeed's A-02 datasheet
+  (the 2.4 GHz-only sibling) shows a dipole-like pattern, which fits, but it is a different part and band.
 - One calibration: the best radio's 3 m reading on 10-28 (−47 to −50 dBm, 12 dB under the ideal).
 - 0.3 visitors per m², 8 dB for each one in the path.
 - Reflections off the walls are left out of the ranking. They add signal, and it fades as the arm moves.
@@ -78,16 +79,16 @@ few millimetres of air between the shell and the antenna's face.
   on the link side (D-033 says "on the big motor side"), the lead would have to cross the joint.
   **Open: which side of the joint is the C5 on?**
 - The centre motor's back is under the battery box, so that module's antenna goes on the box.
-- A 2.4 GHz-only FPC antenna with the A-01's outline ships with some XIAO boards. On a 5 GHz link it
-  would read weak everywhere, as 0x04 did on 10-28. Worth checking each one. [assumed: not checked]
+- The antennas are the dual-band A-01 (John, 2026-11-23). The 2.4 GHz-only A-02 has nearly the same
+  outline and has "2.4G A-02" printed on it. So a wrong antenna does not explain 0x04's weak signal on
+  10-28, and that cause is still open.
 
 ## Checks that would make this [verified]
 
-1. Every antenna is the dual-band A-01.
-2. Two boards 2 m apart: turning one strip 90° in its own plane should cost about 10 dB.
-3. One side module: antenna 15 mm off the centre of the motor back against the rim arm, joint swung
+1. Two boards 2 m apart: turning one strip 90° in its own plane should cost about 10 dB.
+2. One side module: antenna 15 mm off the centre of the motor back against the rim arm, joint swung
    through its range, RSSI at the gateway (tethersmall `link_check.py --listen 30`).
-4. The pole at A to E with the arm on `pit_build` and on `tall_bridge`, with and without two people in
+3. The pole at A to E with the arm on `pit_build` and on `tall_bridge`, with and without two people in
    the way.
 
 Target: −65 dBm or better at the gateway in every pose.
