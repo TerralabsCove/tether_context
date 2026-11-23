@@ -65,12 +65,27 @@ few millimetres of air between the shell and the antenna's face.
 ## What this rests on [assumed]
 
 - The arm's CAD and the `watthall_real_steps` scene: 371 poses (the six-step climb and random reaches).
-- The A-01 as a simple dipole along its long side. Its pattern is not published. Seeed's A-02 datasheet
-  (the 2.4 GHz-only sibling) shows a dipole-like pattern, which fits, but it is a different part and band.
-- One calibration: the best radio's 3 m reading on 10-28 (−47 to −50 dBm, 12 dB under the ideal).
+- The A-01 as a simple dipole along its long side. Seeed's A-01 datasheet (below) shows that shape, with
+  nulls 10 to 15 dB deep. It does not show how its axes sit on the strip.
+- One calibration: the best radio's 3 m reading on 10-28 (−47 to −50 dBm, 10 dB under the ideal).
 - 0.3 visitors per m², 8 dB for each one in the path.
 - Reflections off the walls are left out of the ranking. They add signal, and it fades as the arm moves.
 - Detuning by metal closer than 10 mm, interference, and channel sharing are not modelled.
+
+## From the A-01 datasheet (added 2026-11-23)
+
+John supplied Seeed's datasheet for the A-01 (part M01-0601770R0A) after the sweep. Its numbers are now
+in the model. The answer above did not change.
+
+- **Channel 36 is the antenna's weakest 5 GHz channel.** Efficiency is 44.5 % at 5180 MHz, 52 % at 5240
+  and 60 to 67 % at 5740 to 5820. A link on channel 149 to 165 should be 1.5 to 2.6 dB stronger than on
+  channel 36, and channel 48 is 1.3 dB stronger. [assumed: from the datasheet, not measured on the arm]
+  This adds to open question 14, which already asks 149–165 against 36–48.
+- Peak gain is 1.86 dBi at 5180 MHz. The 2.8 dBi on the product page is the peak at 5420 MHz.
+- One polarisation dominates by roughly 10 dB at 5100 and 5500 MHz and less at 5900 MHz, so turning an
+  antenna the wrong way should cost a little less at the top of the band.
+- The feed pads sit side by side along the 40 mm side. That fits the long side being the polarisation
+  axis. The 90° turn test below still decides it.
 
 ## Things found on the way
 
