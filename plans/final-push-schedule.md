@@ -32,6 +32,7 @@ This plan is tight on purpose. Things will spill over. When they do, move the it
 ### Sunday 11/22
 
 - [x] ROS nodes talk to the motors over ESP-NOW, all in ROS. Working on 11/22, ahead of Monday's ROS task (John, 11/22).
+  - On the bench: motor 0x01 was turned and swept through ROS while two other motors held. Three motors, no load, not the arm ([Hansi's work, summary note](../notes/2026-11-22-john-tether-ros-bench-and-sim.md)).
 - [x] Sim connected to ROS, in sim only. The sim speaks the robot's own protocols, and the tether_ros container and a ros2_control driver run against it ([Steve's note](../notes/2026-11-22-steve-tethersim-ros.md)). Nothing in that work has touched the robot. Was Monday.
 - [ ] Center module final wiring. Pretty much fully wired on 11/22 (John).
 - [ ] Train a policy. Test it with docking and human interaction. (Steve)
@@ -62,7 +63,9 @@ This plan is tight on purpose. Things will spill over. When they do, move the it
   - The gateway frame has one kp/kd for all motors and no torque field. In sim the arm sags 5° at the highest gains and would fold at tethersmall's gains. It needs per-motor gains, a feedforward torque, or gravity compensation on the node. Sim only, not seen on the robot.
   - Two arm URDFs disagree: tethersim's (16.6 kg) and tether_controls' (14.35 kg). Joint names, axes and zeros differ. Settle which is current.
   - Confirm the assumptions in the note: EE_1 is node 1, the driver gains, the 1 s telemetry timeout.
-  - Run the ROS stack on the robot.
+  - Run the ROS stack on the robot. The 7-motor config is still a placeholder: motor-to-joint mapping, signs and zeros.
+  - The camera link moved to 5 GHz channel 36 and can share the gateway C5. Tested against a fake only. Measure it on 5 GHz ([note](../notes/2026-11-22-john-tether-ros-bench-and-sim.md)).
+  - Hansi's work sits in four open pull requests: tether_ros #1, tethersmall #6, tether_camera #5, tether_context #23.
 
 ### Tuesday 11/24 (half speed)
 
@@ -152,6 +155,7 @@ From the meeting, with John's updates from 11/22 where marked. Not checked again
 ## Software plan
 
 - As of 11/22 the ROS nodes talk to the motors over ESP-NOW (John).
+- With the event-driven gateway node, ROS adds about 1 ms over the serial port, measured on the bench ([note](../notes/2026-11-22-john-tether-ros-bench-and-sim.md)).
 - As of 11/22 the sim is connected to ROS, tested in sim only ([Steve's note](../notes/2026-11-22-steve-tethersim-ros.md)). It also mirrors the real arm's telemetry into the sim as a digital twin.
 - ROS runs on a laptop. The sim connects to it as a topic. The wireless link to the modules is hidden behind a master and slave layer.
 - Two tracks, so one can stand in if the other fails:
@@ -166,7 +170,7 @@ From the meeting, with John's updates from 11/22 where marked. Not checked again
 
 - **End effector lock.** Turned by hand on Tuesday. Not tested under power until Wednesday night. If it fails, about 8 days are left. An electromagnet backup was raised and not chosen: it needs extra ESPs and relays, battery power for the magnets, and changes to the sim and software. There is no budget for it. Decide with Jack and Ming.
 - **4340 rear mounts.** The retap and epoxy are Monday. The first load on them is Wednesday night. Epoxy is permanent, so check each motor powers up and reports before bonding it. A spare motor has M2.5 holes. The [load note](../notes/2026-11-22-john-dm4340-rear-mount-loads.md) says M4 only helps if cut with a bottoming tap, and that M4 with epoxy holds floor and step loads on paper but not a drop. Calculated, not measured.
-- **Holding the arm over the gateway.** In sim, the gateway protocol cannot hold the full arm stiffly ([Steve's note](../notes/2026-11-22-steve-tethersim-ros.md)). If the powered test on Wednesday night runs over that path, this needs fixing first. Not seen on the robot.
+- **Holding the arm over the gateway.** In sim, the gateway protocol cannot hold the full arm stiffly ([Steve's note](../notes/2026-11-22-steve-tethersim-ros.md)). Hansi's test through ROS found the same: the stance pitch joint sagged 5.2° ([note](../notes/2026-11-22-john-tether-ros-bench-and-sim.md)). If the powered test on Wednesday night runs over that path, this needs fixing first. Not seen on the robot.
 - **Two arm URDFs.** The sim and tether_ros use different arm files. The [4340 load note](../notes/2026-11-22-john-dm4340-rear-mount-loads.md) used the 14.35 kg one.
 - **Monday is overloaded.** It is a half-speed day and now holds the retap, the epoxy, the IYA trip, the BHE tapping and TAG-Mech-005. Who does which is not set.
 - **Wednesday has no slack.** The arm and end effector 1 both become ready that day, and the powered test is that night. If the pizza slices or TAG-Mech-003 slip past Monday, the test slips too.
@@ -189,3 +193,4 @@ Add a line when something moves.
 | 2026-11-22 | John: retap the DM-J4340 rear holes to M4 and epoxy the motors to the mounts by end of 11/23. Side module wiring, arm assembly and the powered test move to Wed 11/25. Full arm and the 2-port docking test move to Thu 11/26. Site walking moves to Fri 11/27. Full run moves to Sun 11/29. Shell mount and the shell-on run move to Mon 11/30. |
 | 2026-11-22 | John's status for 11/22: ROS nodes talk to the motors over ESP-NOW. Center module pretty much fully wired. Pizza slices might be done 11/23. Hand test blocked by a missing M2.5 hand tap for TAG-Mech-003, to be tapped 11/23 at BHE. TAG-Mech-005 machining starts 11/23. End effector 1 mechanical and the hand test move to Tue 11/24. End effector 1 electrical and end effector 2 mechanical move to Wed 11/25. End effector 2 electrical moves to Thu 11/26. |
 | 2026-11-22 | From Steve's 11-22 note: the sim is connected to ROS (sim only), so Monday's ROS item becomes follow-ups from the sim findings. Added two risks: holding the arm over the gateway protocol, and the two arm URDFs. Added the table port drawings to the IYA item. |
+| 2026-11-22 | From Hansi's tether_ros work (unmerged branch): the bench run behind "ROS nodes talk to the motors", the 1 ms ROS latency, the camera link on 5 GHz channel 36, and a second confirmation of the gateway holding risk. No days moved. |
