@@ -6,8 +6,9 @@ last_reviewed: 2026-11-26
 
 # IMU on each module: GY-BNO08X wiring to the slave C5 and how it fits the control stack (2026-11-26)
 
-Written by John's AI agent on 2026-11-26, from a conversation with John. Not authoritative. Nothing here is built or
-tested. It is a wiring proposal and a plan.
+Written by John's AI agent on 2026-11-26, from a conversation with John. Not authoritative. The wiring and the plan
+are proposals. One IMU was then run on a bench board the same day: see [Bench results](#bench-results-2026-11-26).
+Nothing has run on the arm.
 
 ## Why
 
@@ -55,7 +56,8 @@ Check before first power-up:
 
 - **PS0 and PS1.** Leaving them open only works if the breakout pulls both low. Measure each to GND. If either
   floats, tie both to GND. **[assumed]** that this breakout pulls them low.
-- **I2C address.** Run a scan once to see whether the boards answer at 0x4A or 0x4B.
+- **I2C address.** Run a scan once to see whether the boards answer at 0x4A or 0x4B. The one board tested answers
+  at 0x4B with ADDR open.
 - **D0 as an input.** In the [11-24 bench note](2026-11-24-john-sts3215-c5-bench.md) an LED ring worked on D1 and did
   nothing on D0, on a different C5. The cause was not found. Test D0 with the IMU's INT line first. If it does not
   read, move INT to D8 (GPIO8).
@@ -86,7 +88,7 @@ Both at 200 Hz, to match the STATE rate. The laptop turns each orientation into 
 
 1. **Slave firmware.** STATE is fixed at 16 bytes, so the IMU needs a new frame type. `0x04` to `0x06` are taken on
    the open branches and `0x10` to `0x12` by the camera gateway. `0x07` is free. About 20 bytes: module, status,
-   sequence, quaternion, gyro.
+   sequence, quaternion, gyro. The bench firmware already sends type `0x07` with a 31-byte payload.
 2. **Gateway.** Forward the new frame the way `hansi/ee-telemetry-dryrun` forwards end-effector telemetry.
 3. **Radio load.** Three more frames per cycle, on top of seven STATE frames on channel 36. Start at 100 Hz and watch
    the per-motor STATE rates.
@@ -107,8 +109,93 @@ Both at 200 Hz, to match the STATE rate. The laptop turns each orientation into 
 Mount each IMU on the rigid structure by the big motor. Record its orientation. Calibrate its rotation to the link
 with the arm at rest in a known pose.
 
+## Bench results (2026-11-26)
+
+One GY-BNO08X on a bench board, USB to John's Mac. The agent logged the board's serial output and scored it. These
+are measurements, but the raw logs sit in a temporary folder on John's Mac and are not filed in a repo. So nothing
+here is tagged **[verified]** yet.
+
+**Setup.** The board's boot banner says ESP32-S3, not C5. Its firmware prints "tethersmall IMU test board", pins
+SDA 5, SCL 6, INT 1, RST 2, radio channel 11, 100 Hz. Those pins match D4, D5, D0, D1 on a XIAO ESP32-S3
+**[assumed]**. The firmware source was not on the tethersmall remote when checked. An S3 has no 5 GHz radio, so
+this board cannot join the arm's channel 36 link. Opening the serial port from the Mac resets the board.
+
+### Boot
+
+12 reset cycles, all the same:
+
+| | Result |
+|---|---|
+| First probe fails | 12 of 12, with three I2C errors (`ESP_ERR_INVALID_STATE`) about 0.6 s after reset |
+| Recovers after one IMU reset | 12 of 12 |
+| Address | 0x4B |
+| Reset to first sample | 1.59 to 1.60 s |
+
+The miss is the same on every boot, so it is timing, not wiring. Likely the probe runs before the chip is ready.
+After cycle 12 the USB serial link went silent until a replug. Likely caused by the rapid reset cycling.
+
+### Still, 179 s
+
+| Measure | Result |
+|---|---|
+| Frames received | 17,452. No CRC failures. 12 missing (0.07 %), never two in a row. |
+| IMU resets during the run | 0 |
+| Sample rate | 97.7 Hz. In 386 of the 10 ms slots no sample was sent. |
+| Longest gap | 30 ms, twice |
+| Roll / pitch noise | 0.011° / 0.018° standard deviation |
+| Heading drift | +0.002° per minute |
+| Gyro at rest | Mean zero on all axes |
+| Gravity | 9.65 m/s², about 1.5 % low |
+| Accuracy flags | Quaternion 3, gyro 0, accelerometer 2 |
+
+The frame layout (sequence, microsecond clock, quaternion, gyro, acceleration) was worked out from the data, not
+from the source. Gyro counts are thought to be about 0.001 rad/s each **[assumed]**.
+
+### Calibration
+
+John held the board still on each of its six faces for about 5 s, partly by hand, then repeated the six faces.
+
+- Before: flat read 9.649 m/s² and flipped read 9.970. That is an offset of about 0.16 m/s² on z.
+- The accelerometer accuracy flag went from 2 to 3 about 17 s into the first pass.
+- After, second pass:
+
+| Face up | Gravity, m/s² |
+|---|---|
+| +z / −z | 9.786 / 9.804 |
+| +y / −y | 9.769 / 9.786 |
+| +x / −x | 9.747 / 9.713 (the −x pose was cut short by the dropout below) |
+
+- Offsets are now 0.01 to 0.02 m/s² per axis, about 0.1° of tilt. The x axis reads about 0.7 % lower than z.
+- **The calibration is saved in the chip.** Flat read 9.805 after an ESP reset and 9.803 after a USB unplug and
+  replug. It read 9.65 after every reset before calibrating.
+- The accelerometer flag restarts at 2 on every boot, so the flag does not show whether a sensor is calibrated.
+- Gyro accuracy stayed at 0 throughout, at rest and after calibration.
+
+### Dropout and recovery
+
+During the last pose the IMU dropped out. I2C reads failed with `ESP_ERR_INVALID_STATE`. The board then printed
+"NOT FOUND: ACKs, but the SH-2 open (begin_I2C) failed" about once a second for 252 s and never recovered. John
+checked the wires and found nothing loose. The trigger is not known.
+
+An ESP reset, with the IMU still powered, brought it back on the normal boot sequence. It then ran 222 s with no
+bad frame. So the chip and wiring were fine, and the firmware's runtime retry cannot do what its boot code does.
+
+### Firmware fixes this points to
+
+1. **Runtime recovery.** Do the whole boot sequence in the retry: restart the I2C driver, pulse RST, wait for INT,
+   reopen the sensor, turn the reports back on. An arm slave cannot reset its ESP to get the IMU back.
+2. **Boot probe.** Wait for INT, or longer after RST, before the first probe.
+3. **Rate.** Send on the IMU's interrupt, not a fixed 10 ms tick.
+4. **Gyro accuracy.** Find out whether gyro calibration is on, or whether the flag is read wrongly.
+
+### Not tested
+
+Angle accuracy against a square, slow rotation, magnet immunity, a loaded motor nearby, and the radio link.
+
 ## Open
 
+- Whether the calibration and recovery results hold on a C5 and on the arm.
+- Where the bench firmware source lives, and filing the raw logs.
 - Which chip is on the breakout.
 - How much play the dock has, measured.
 - Whether D0 reads as an input on the slave boards.
