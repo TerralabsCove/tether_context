@@ -7,8 +7,12 @@ last_reviewed: 2026-11-26
 # IMU on each module: GY-BNO08X wiring to the slave C5 and how it fits the control stack (2026-11-26)
 
 Written by John's AI agent on 2026-11-26, from a conversation with John. Not authoritative. The wiring and the plan
-are proposals. One IMU was then run on a bench board the same day: see [Bench results](#bench-results-2026-11-26).
-Nothing has run on the arm.
+were proposals when written. One IMU was then run on a bench board the same day: see
+[Bench results](#bench-results-2026-11-26).
+
+**Later the same day the IMUs went onto the arm.** All three modules are wired as in the table below and all four
+boards were flashed. That is in the [on-arm bring-up note](2026-11-26-john-imu-on-arm-bringup.md), which also
+replaces the firmware plan and several open items here.
 
 ## Why
 
@@ -56,13 +60,14 @@ Check before first power-up:
 
 - **PS0 and PS1.** Leaving them open only works if the breakout pulls both low. Measure each to GND. If either
   floats, tie both to GND. **[assumed]** that this breakout pulls them low.
-- **I2C address.** Run a scan once to see whether the boards answer at 0x4A or 0x4B. The one board tested answers
-  at 0x4B with ADDR open.
+- **I2C address.** All three units on the arm answer at 0x4B with ADDR open. The firmware tries 0x4B, then 0x4A.
 - **D0 as an input.** In the [11-24 bench note](2026-11-24-john-sts3215-c5-bench.md) an LED ring worked on D1 and did
-  nothing on D0, on a different C5. The cause was not found. Test D0 with the IMU's INT line first. If it does not
-  read, move INT to D8 (GPIO8).
-- **D2, D3 and D6 are left alone on purpose.** GPIO25 and GPIO7 are thought to be boot-strapping pins on the C5, and
-  GPIO11 carries the chip's boot messages. **[assumed]**, not checked against the datasheet.
+  nothing on D0, on a different C5. The cause was not found. On boards 11, 12 and 13, D0 reads the IMU's INT line.
+  **[verified]**, see the on-arm note.
+- **D2, D3 and D6 are left alone.** GPIO7 (D3) is a boot-strapping pin on the C5, and GPIO11 (D6) carries the
+  chip's boot messages. An earlier version of this note also called GPIO25 (D2) a strapping pin. A later search
+  of Espressif's material listed MTMS, GPIO7, GPIO27 and GPIO28 only, so D2 looks free. **[assumed]**, not
+  checked against the datasheet.
 
 Keep the four signal wires short and away from the motor phase leads and the CAN pair. Motor switching noise is the
 usual cause of this chip hanging the I2C bus.
@@ -111,9 +116,14 @@ with the arm at rest in a known pose.
 
 ## Bench results (2026-11-26)
 
-One GY-BNO08X on a bench board, USB to John's Mac. The agent logged the board's serial output and scored it. These
-are measurements, but the raw logs sit in a temporary folder on John's Mac and are not filed in a repo. So nothing
-here is tagged **[verified]** yet.
+One GY-BNO08X on a bench board, USB to John's Mac. The agent logged the board's serial output and scored it. The
+raw logs are now filed in tethersmall (private),
+[`deploy/hardware_logs/imu-bench-20261126`](https://github.com/TerralabsCove/tethersmall/tree/f00f862/deploy/hardware_logs/imu-bench-20261126).
+The numbers in the tables below are **[verified]** against those files, except the 12-cycle boot test, which was
+printed and not saved.
+
+This bench firmware is no longer on that board. Its source was never found. The board now runs `imu_bench_s3`
+from tethersmall `john/module-imu`, and the fixes listed below went into that branch.
 
 **Setup.** The board's boot banner says ESP32-S3, not C5. Its firmware prints "tethersmall IMU test board", pins
 SDA 5, SCL 6, INT 1, RST 2, radio channel 11, 100 Hz. Those pins match D4, D5, D0, D1 on a XIAO ESP32-S3
@@ -183,10 +193,13 @@ bad frame. So the chip and wiring were fine, and the firmware's runtime retry ca
 ### Firmware fixes this points to
 
 1. **Runtime recovery.** Do the whole boot sequence in the retry: restart the I2C driver, pulse RST, wait for INT,
-   reopen the sensor, turn the reports back on. An arm slave cannot reset its ESP to get the IMU back.
-2. **Boot probe.** Wait for INT, or longer after RST, before the first probe.
-3. **Rate.** Send on the IMU's interrupt, not a fixed 10 ms tick.
-4. **Gyro accuracy.** Find out whether gyro calibration is on, or whether the flag is read wrongly.
+   reopen the sensor, turn the reports back on. An arm slave cannot reset its ESP to get the IMU back. Done, and
+   seen to work once.
+2. **Boot probe.** Wait for INT, or longer after RST, before the first probe. Done. No missed first probe since.
+3. **Rate.** Send on the IMU's interrupt, not a fixed 10 ms tick. Done. 100.07 Hz, longest gap 12 ms on USB.
+4. **Gyro accuracy.** Find out whether gyro calibration is on, or whether the flag is read wrongly. Still open.
+
+Results for 1 to 3 are in the [on-arm note](2026-11-26-john-imu-on-arm-bringup.md).
 
 ### Not tested
 
@@ -194,10 +207,14 @@ Angle accuracy against a square, slow rotation, magnet immunity, a loaded motor 
 
 ## Open
 
-- Whether the calibration and recovery results hold on a C5 and on the arm.
-- Where the bench firmware source lives, and filing the raw logs.
+Closed by the [on-arm note](2026-11-26-john-imu-on-arm-bringup.md): D0 reads as an input on the slave boards; the
+firmware is written, on tethersmall `john/module-imu`; the raw logs are filed; recovery works on the new firmware.
+
+Still open:
+
 - Which chip is on the breakout.
 - How much play the dock has, measured.
-- Whether D0 reads as an input on the slave boards.
-- Whether three extra frames per cycle cost STATE rate on channel 36.
-- Who writes the firmware, and on which tethersmall branch. The flashed branch is an unmerged draft.
+- Whether the IMU frames cost STATE rate on channel 36. With everything on, STATE lost 0.3 to 1.3 %. There is no
+  run without the IMU frames to compare with.
+- Whether bench calibration holds once an IMU is mounted. All three read about 1 % off on the module.
+- The rest of the on-arm note's open list.
