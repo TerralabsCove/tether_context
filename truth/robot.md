@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng (hardware)
-last_reviewed: 2026-11-22
+last_reviewed: 2026-11-26
 ---
 
 # Robot: Cove and Tether
@@ -44,6 +44,8 @@ Nothing about Cove or Tether is **[verified]** yet. Gate G0 is what changes that
 | Batteries | Layout planned for 5 modules, needs rework for 3 (see open questions). 3 sizes, 5–6 total, 5,000 mAh main modules, ~2 h runtime target, ~$50 per small battery. Middle module has two (D-036). | decided D-004, D-036 |
 | Battery protection | No BMS. Motors have built-in min-voltage shutoff. DC-DC converter for ESPs. | decided D-008 |
 | Module power | Battery splits to the motors and a 24 V to 5 V buck. ESP and CAN transceiver on the big motor side, enclosed. | decided D-033 |
+| Module IMU | One GY-BNO08X on each module, on the module's ESP over I2C: SDA D4, SCL D5, INT D0, RST D1. Added 2026-11-26 to measure dock play and arm sway; no decision number. Chip variant not confirmed. Each was calibrated off the arm, and each reads gravity about 1 % off once mounted. See the [on-arm note](../notes/2026-11-26-john-imu-on-arm-bringup.md). | as built |
+| Arm firmware | Since 2026-11-26 boards 10 to 13 run tethersmall `john/module-imu` at `45c56ff`: `steve/cmd-feedforward` (`b3a0331`, an unmerged draft) plus an IMU task. Run with the arm at rest only, no commands sent. Nothing on the laptop reads the IMU frames yet. See the [on-arm note](../notes/2026-11-26-john-imu-on-arm-bringup.md). | as built |
 | Mounts | Loads go through interlocking geometry, not bolts | decided D-042 |
 | Slip ring | None (D-047). The earlier plan (D-044) put a Taidacent hollow 6-wire slip ring (TTH-058) at the end effector. That part is on site. | decided D-047 |
 | End effectors | Ming's end effector on both ends (D-052). CAD: [end effector](../assets/2026-11-21-MingEE-male-v3.step), [dock](../assets/2026-11-21-MingEE-female-v3.step). Docking is servo-driven pins on the arm into passive holes on the structure (D-043). No metal end effector is assembled or tested yet as of 11-21. The earlier servo claw (D-005) is replaced. | decided D-052, D-043 |
@@ -72,6 +74,7 @@ Two Cove pitch modules (DM10010) and their brackets, with no other joints, drive
 | Forward progress | ~0.20 m in 20 s, limited by cable drag. Not a policy result. | as built (observed, not instrumented) |
 | Straight-line arm, 3 motors (2026-10-19/20) | USB gateway: 11/11 straight, RTT p95 20–26 ms. On-robot SoftAP master: 3/5 passed, RTT p95 159–642 ms. Layouts differed. | verified ([run logs](../notes/2026-10-20-hansi-straightline-run-logs.md)) |
 | All-C5 arm link (2026-10-28) | 5 GHz channel 36, USB gateway, damped motors: RTT p50 12–13 ms, p95 19–22 ms, bench to 5–6 m through a wall | verified ([range test](../notes/2026-10-28-hansi-c5-range-test.md)) |
+| Arm at rest with IMUs (2026-11-26) | 5 GHz channel 36, USB gateway, listening only, 58 s. 7 motors: 197–199 Hz each, status OK, 0.3–1.3 % of reports lost. 3 IMUs: 94–100 Hz, 0.6–5.7 % of frames lost. No run without the IMU frames to compare with. | verified ([on-arm note](../notes/2026-11-26-john-imu-on-arm-bringup.md)) |
 
 ## Simulation model
 

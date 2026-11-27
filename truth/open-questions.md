@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng, Steve Lu
-last_reviewed: 2026-11-22
+last_reviewed: 2026-11-26
 ---
 
 # Open Questions
@@ -60,6 +60,7 @@ When two sources disagree, list it here and let a PM decide.
     With the C5 (D-029): 5 GHz channel 149–165 (or 36–48) vs 2.4 GHz channel 11, ESP-NOW rate on 5 GHz, antenna type, and mounting next to the aluminum links are all unmeasured. The [antenna and RF plan](../notes/2026-10-19-john-esp32c5-antenna-rf-plan.md) has the test matrix. Note the firmware currently defaults to channel 1, which tethersmall measured as lossy.
     Input ([C5 range test](../notes/2026-10-28-hansi-c5-range-test.md), 10-28): 5 GHz channel 36 through a USB gateway. RTT p50 12–13 ms and p95 19–22 ms from the bench to 5–6 m through a wall, and max 39 ms. Range shows up as signal and lost frames rather than delay: 0x04 reached −82 dBm and lost 5–10 % of status reports through the wall. Motors were damped, with no motion or policy. The note recommends staying within about 3 m with line of sight. 0x04 is the weakest radio in every test, for an unknown reason.
 15. **Three or more ESP-NOW nodes on one channel.** tethersmall had two slaves. Tether needs three modules (D-020) plus the offboard side, and node count affects collisions and loss. Owner: Electrical (was Trent, D-035).
+    Input ([on-arm note](../notes/2026-11-26-john-imu-on-arm-bringup.md), 11-26): three modules and the gateway on 5 GHz channel 36, arm at rest, laptop listening only. Each module sends its motors' reports at 200 Hz and an IMU frame at 100 Hz. Over 58 s the 7 motors lost 0.3–1.3 % of reports and the 3 IMUs 0.6–5.7 % of frames **[verified]**. One module alone lost almost none. How much of the loss comes from the IMU frames is not measured. Commands and motion were not part of the test.
 
 ## Locomotion and end effector
 
@@ -76,11 +77,13 @@ From the [step-reach sim](../notes/2026-10-28-john-step-reach-sim.md). Loads are
 23. **Final demo and obstacles.** The direction is a leading idea only. Lively motion has no software owner, and a mid-demo battery swap is unsettled. Owner: John, Steve.
 24. **E-stop.** Likely wireless and freezing all motors rather than cutting power (11-01). It's only an idea so far, with no owner. Owner: electrical.
 25. **Does D-008's battery protection hold?** From the [soft-start note](../notes/2026-10-30-john-soft-start-modules.md): the DM-J4340P supply floor is 15 V, or 2.5 V per cell on 6S, which over-discharges a LiPo. Motors only protect the pack if `UV_Value` is raised to about 19.8–21 V and saved on every motor, and the default isn't read yet. A pack left plugged in also keeps draining. The AS60 soft-start (TTH-075) has no switch input, so an on/off switch is still open. Owner: electrical.
+    Input ([on-arm note](../notes/2026-11-26-john-imu-on-arm-bringup.md), 11-26): the motors send no voltage on CAN, only a fault code. The slave firmware passes that code to the laptop in each motor report, so an undervoltage fault is seen, but only after the motor has faulted. The firmware never reads or sets `UV_Value`. The laptop's battery panel is an estimate, not a measurement. Read from the code; no undervoltage was triggered.
 26. **End effector backup if the lock fails.** The lock is turned by hand on 11/22 and tested under power on 11/24. If it fails, about 10 days are left. An electromagnet backup was raised on 11-21 and not chosen: extra ESPs and relays, battery power for the magnets, sim and software changes, and no budget. To be decided with Jack and Ming on 11/22. Owner: John, Ming, Jack.
 27. **Watt Hall B1 access over Thanksgiving.** It is the demo and practice site (D-051). Not known if the building is open over the break. The plan is to ask a Roski student. Without it, the team practices at Ming's, where the front steps are too shallow to stand in for the real ones. Owner: John, Steve.
 28. **Shell clearance at the center joint.** The back electronics make one side of the arm thicker than planned, and the center spacer can't get thicker. The 11-21 meeting settled on an asymmetric shell, with software swinging the full 360° only on the flat side. That limit is not in the sim or the URDF yet. Owner: Steve, JC.
 29. **Shell time.** JC's availability over Thanksgiving is not confirmed. Design is due 11/26 and manufacturing 11/28, with about 2 days of printing. Owner: John, JC.
 30. **Who is on which software track.** Steve has the policy track. The deterministic track is "others", with no names. About 2 people per track was the idea. Owner: John, Steve.
+31. **Using the module IMUs.** Each module now streams an IMU (11-26, [on-arm note](../notes/2026-11-26-john-imu-on-arm-bringup.md)), and nothing reads it. Still to do: a laptop reader and logger; each IMU's rotation relative to its link; an in-place gravity check over several arm poses, since all three read about 1 % off once mounted; and a loose joint at the dock in the sim, without which the policy cannot use the data. Owner: John, Steve.
 
 # Risks to Watch
 
