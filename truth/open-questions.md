@@ -83,7 +83,7 @@ From the [step-reach sim](../notes/2026-10-28-john-step-reach-sim.md). Loads are
 28. **Shell clearance at the center joint.** The back electronics make one side of the arm thicker than planned, and the center spacer can't get thicker. The 11-21 meeting settled on an asymmetric shell, with software swinging the full 360° only on the flat side. That limit is not in the sim or the URDF yet. Owner: Steve, JC.
 29. **Shell time.** JC's availability over Thanksgiving is not confirmed. Design is due 11/26 and manufacturing 11/28, with about 2 days of printing. Owner: John, JC.
 30. **Who is on which software track.** Steve has the policy track. The deterministic track is "others", with no names. About 2 people per track was the idea. Owner: John, Steve.
-31. **Using the module IMUs.** Each module now streams an IMU (11-26, [on-arm note](../notes/2026-11-26-john-imu-on-arm-bringup.md)), and nothing reads it. Still to do: a laptop reader and logger; each IMU's rotation relative to its link; an in-place gravity check over several arm poses, since all three read about 1 % off once mounted; and a loose joint at the dock in the sim, without which the policy cannot use the data. Owner: John, Steve.
+31. **Using the module IMUs.** Each module now streams an IMU (11-26, [on-arm note](../notes/2026-11-26-john-imu-on-arm-bringup.md)). tether_ros decodes it since 11-27 ([merge note](../notes/2026-11-27-steve-imu-merged-laptop-reader.md)), checked on a recorded capture only. Still to do: a logger; each IMU's rotation relative to its link; an in-place gravity check over several arm poses, since all three read about 1 % off once mounted; and a loose joint at the dock in the sim, without which the policy cannot use the data. Owner: John, Steve.
 
 # Risks to Watch
 
