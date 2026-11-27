@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EE2 Servo Bus Buffer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600&display=swap">
+<style>
+/* Layout: one drawing-sheet column. Figures are the content; tables carry the nets and numbers. */
+:root {
+  --bg: #f1f4f6; --surface: #ffffff; --ink: #14212b; --muted: #5a6975; --rule: #ccd4db;
+  --tx: #1c8246; --rx: #2460c4; --data: #b85a08; --pwr: #bb3527; --chg: #a1178c; --ok: #1c8246; --bad: #bb3527;
+  --zone: #dcefe3;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --cond: "IBM Plex Sans Condensed", "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f151a; --surface: #172029; --ink: #e2e9ef; --muted: #93a2ae; --rule: #2d3a45;
+  --tx: #50c583; --rx: #74a6f6; --data: #f0a252; --pwr: #f07d70; --chg: #e572d6; --ok: #50c583; --bad: #f07d70;
+  --zone: #1c3527; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f151a; --surface: #172029; --ink: #e2e9ef; --muted: #93a2ae; --rule: #2d3a45;
+  --tx: #50c583; --rx: #74a6f6; --data: #f0a252; --pwr: #f07d70; --chg: #e572d6; --ok: #50c583; --bad: #f07d70;
+  --zone: #1c3527; color-scheme: dark }
+
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--sans);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 56px; }
+.sheet { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 34px; }
+header { display: flex; flex-direction: column; gap: 10px; border-bottom: 2px solid var(--ink); padding-bottom: 16px; }
+h1 { font: 600 34px/1.1 var(--cond); margin: 0; letter-spacing: .01em; text-wrap: balance; }
+h2 { font: 600 21px/1.2 var(--cond); margin: 0; text-wrap: balance; }
+p { margin: 0; max-width: 68ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 22px; font: 12.5px var(--mono); color: var(--muted); }
+.meta b { color: var(--ink); font-weight: 500; }
+.status { font-weight: 500; }
+.status span { color: var(--ok); font-weight: 600; }
+section { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+figure { margin: 0; background: var(--surface); border: 1px solid var(--rule); display: flex; flex-direction: column; }
+.draw { overflow-x: auto; padding: 10px; }
+.draw svg { display: block; width: 100%; height: auto; min-width: 640px; }
+figcaption { border-top: 1px solid var(--rule); padding: 9px 12px; font-size: 13px; color: var(--muted); }
+figcaption b { color: var(--ink); font-weight: 600; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; background: var(--surface); }
+th, td { border: 1px solid var(--rule); padding: 7px 10px; text-align: left; vertical-align: top; }
+th { font: 600 11.5px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+td.m, td code, p code, li code { font-family: var(--mono); font-size: 12.5px; }
+td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.good { color: var(--ok); font-weight: 600; } .badv { color: var(--bad); font-weight: 600; } .chgt { color: var(--chg); font-weight: 600; }
+ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 7px; max-width: 72ch; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.two > * { min-width: 0; }
+
+/* drawing marks */
+svg text { font: 12px var(--mono); fill: var(--ink); }
+svg .lbl { fill: var(--muted); }
+svg .sec { fill: var(--muted); font-size: 11px; letter-spacing: .12em; }
+svg .w { stroke: var(--ink); stroke-width: 1.6; fill: none; }
+svg .part { fill: var(--surface); stroke: var(--ink); stroke-width: 1.6; }
+svg .dot { fill: var(--ink); stroke: none; }
+svg .tx { stroke: var(--tx); } svg .rx { stroke: var(--rx); } svg .dat { stroke: var(--data); } svg .pw { stroke: var(--pwr); }
+svg .ttx { fill: var(--tx); } svg .trx { fill: var(--rx); } svg .tdat { fill: var(--data); } svg .tpw { fill: var(--pwr); }
+svg .c { stroke: var(--chg); } svg .tc { fill: var(--chg); font-weight: 600; }
+svg .ghost { stroke: var(--muted); stroke-dasharray: 4 4; fill: none; stroke-width: 1.3; }
+svg .big { font-size: 20px; font-weight: 600; }
+svg .tbad { fill: var(--bad); } svg .tok { fill: var(--ok); }
+svg .zone { fill: var(--zone); stroke: none; }
+svg .body { fill: var(--surface); stroke: var(--ink); stroke-width: 1.6; }
+</style>
+
+<div class="sheet">
+
+<header>
+  <h1>EE2 servo bus buffer, as working</h1>
+  <div class="meta">
+    <span><b>Date</b> 2026-11-26</span>
+    <span><b>Board</b> 74LS125AN half-duplex buffer, XIAO ESP32-C5 (EE2, 10:BD:A3:CD:D1:B8)</span>
+    <span><b>Servo</b> STS3215, ID 2</span>
+    <span><b>Based on</b> drawing TC-EE2-BUF-001 rev C and the Discord diagram</span>
+  </div>
+  <p class="status"><span>Working.</span> Servo ID 2 swung 30° each way from the Mac, through Board 10 over ESP-NOW to EE2, and every leg landed within 0.7° of its target.</p>
+</header>
+
+<section>
+  <h2>What changed from the Discord version</h2>
+  <p>The Discord diagram shows the transmitter, the receiver and the IC power. It does not show the 1.1 kΩ pull-up or name the ESP pins. As first built, the pull-up went from the servo DATA line to +5V and the TX wire sat on D9. Two wires moved on the board, and EE2 got new firmware.</p>
+  <div class="tbl"><table>
+    <tr><th>Change</th><th>As first built</th><th>Now</th><th>Why</th></tr>
+    <tr><td><span class="chgt">1.1 kΩ pull-up</span></td><td>From servo DATA (U1 pin 4 side of the 220 Ω) to +5V</td><td>From U1 pin 3 (chip side of the 220 Ω) to +5V</td><td>The pull-up current flowed through the 220 Ω, so a low on DATA only reached 1.04 V. The servo's spec sheet wants under 0.45 V. Now a low is 0.13 V.</td></tr>
+    <tr><td><span class="chgt">TX wire</span></td><td>XIAO D9</td><td>XIAO D7 (GPIO12)</td><td>The EE2 firmware sends on D7, as drawing TC-EE2-BUF-001 has it. On D9 its bytes never reached U1 pin 2.</td></tr>
+    <tr><td><span class="chgt">EE2 firmware</span></td><td>Hansi's buffered build (source not published)</td><td>Build <code>xiao_c5_ee2_buf</code>: the published end-effector source with a buffered bus on D7/D6/D8, plus debug commands over the radio</td><td>So the build can be reproduced from source, and so any servo ID can be driven by hand through Board 10.</td></tr>
+  </table></div>
+  <p>Unchanged: R1 and R2 330 Ω, R3 10 kΩ, R4 220 Ω, R5 2.2 kΩ, D1 1N5819, C1 100 nF, RX on D6, DIR on D8.</p>
+  <p>The three changes were not tested one at a time. The servo first answered after all the wiring changes were in and EE2 was back on board power, so this page cannot say which of them was strictly needed. The 1.04 V low was outside the servo's spec either way.</p>
+
+  <figure>
+    <div class="draw">
+    <svg viewBox="0 0 900 250" role="img" aria-label="Before, the 1.1 kilohm pull-up sat on the servo side of the 220 ohm resistor and a low on DATA measured 1.04 volts. After, it sits on the chip side and a low measures 0.13 volts.">
+      <!-- before -->
+      <text x="20" y="26" class="sec">AS FIRST BUILT</text>
+      <text x="20" y="128" class="lbl">U1 pin 3</text>
+      <line class="w" x1="20" y1="140" x2="150" y2="140"/>
+      <rect class="part" x="150" y="132" width="60" height="16"/>
+      <text x="180" y="124" text-anchor="middle">220 Ω</text>
+      <line class="w dat" x1="210" y1="140" x2="400" y2="140"/>
+      <text x="400" y="128" text-anchor="end" class="tdat">servo DATA</text>
+      <circle class="dot" cx="270" cy="140" r="3.5"/>
+      <line class="w" x1="270" y1="140" x2="270" y2="112"/>
+      <rect class="part" x="262" y="72" width="16" height="40"/>
+      <line class="w" x1="270" y1="72" x2="270" y2="58"/>
+      <line class="w pw" x1="258" y1="58" x2="282" y2="58"/>
+      <text x="270" y="50" text-anchor="middle" class="tpw">+5V</text>
+      <text x="286" y="96">1.1 kΩ</text>
+      <text x="60" y="166" text-anchor="middle" class="lbl">0.21 V</text>
+      <text x="330" y="170" text-anchor="middle" class="big tbad">1.04 V</text>
+      <text x="20" y="208" class="lbl">3.6 mA of pull-up current crosses the 220 Ω</text>
+      <text x="20" y="226" class="lbl">and lifts DATA 0.8 V above the chip's output.</text>
+      <line class="w" x1="440" y1="14" x2="440" y2="236" style="stroke-dasharray:2 5"/>
+      <!-- after -->
+      <text x="480" y="26" class="sec">NOW</text>
+      <text x="480" y="128" class="lbl">U1 pin 3</text>
+      <line class="w" x1="480" y1="140" x2="640" y2="140"/>
+      <rect class="part" x="640" y="132" width="60" height="16"/>
+      <text x="670" y="124" text-anchor="middle">220 Ω</text>
+      <line class="w dat" x1="700" y1="140" x2="880" y2="140"/>
+      <text x="880" y="128" text-anchor="end" class="tdat">servo DATA</text>
+      <circle class="dot" cx="580" cy="140" r="3.5"/>
+      <line class="w c" x1="580" y1="140" x2="580" y2="112"/>
+      <rect class="part c" x="572" y="72" width="16" height="40"/>
+      <line class="w c" x1="580" y1="72" x2="580" y2="58"/>
+      <line class="w pw" x1="568" y1="58" x2="592" y2="58"/>
+      <text x="580" y="50" text-anchor="middle" class="tpw">+5V</text>
+      <text x="596" y="96" class="tc">1.1 kΩ</text>
+      <text x="800" y="170" text-anchor="middle" class="big tok">0.13 V</text>
+      <text x="480" y="208" class="lbl">The pull-up current goes straight into the chip.</text>
+      <text x="480" y="226" class="lbl">Almost none crosses the 220 Ω.</text>
+    </svg>
+    </div>
+    <figcaption><b>Figure 1.</b> The pull-up moved one node to the left. Voltages are multimeter readings with DATA held low: 0.21 V at U1 pin 3 and 1.04 V at pin 4 before; 0.13 V at pin 4 and at the servo's signal pin after.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="draw">
+    <svg viewBox="0 0 900 130" role="img" aria-label="Scale of the DATA line's low level from 0 to 1.2 volts. The servo's limit is 0.45 volts and the 74LS limit is 0.8 volts. Before the change the low was 1.04 volts, above both. Now it is 0.13 volts, below both.">
+      <rect class="zone" x="60" y="56" width="292.5" height="28"/>
+      <text x="206" y="75" text-anchor="middle" class="tok">servo reads this as low</text>
+      <line class="w" x1="60" y1="84" x2="840" y2="84"/>
+      <g class="w">
+        <line x1="60" y1="84" x2="60" y2="90"/><line x1="190" y1="84" x2="190" y2="90"/><line x1="320" y1="84" x2="320" y2="90"/>
+        <line x1="450" y1="84" x2="450" y2="90"/><line x1="580" y1="84" x2="580" y2="90"/><line x1="710" y1="84" x2="710" y2="90"/><line x1="840" y1="84" x2="840" y2="90"/>
+      </g>
+      <g class="lbl" text-anchor="middle">
+        <text x="60" y="106" class="lbl">0 V</text><text x="190" y="106" class="lbl">0.2</text><text x="320" y="106" class="lbl">0.4</text>
+        <text x="450" y="106" class="lbl">0.6</text><text x="580" y="106" class="lbl">0.8</text><text x="710" y="106" class="lbl">1.0</text><text x="840" y="106" class="lbl">1.2 V</text>
+      </g>
+      <line class="w" x1="352.5" y1="44" x2="352.5" y2="84"/>
+      <text x="358" y="50" class="lbl">0.45 V servo limit</text>
+      <line class="w" x1="580" y1="44" x2="580" y2="84" style="stroke-dasharray:3 3"/>
+      <text x="574" y="50" text-anchor="end" class="lbl">0.8 V 74LS limit</text>
+      <circle cx="144.5" cy="84" r="6" fill="var(--ok)"/>
+      <text x="144.5" y="22" text-anchor="middle" class="tok" style="font-weight:600">now 0.13 V</text>
+      <line class="w" x1="144.5" y1="28" x2="144.5" y2="78" style="stroke:var(--ok)"/>
+      <circle cx="736" cy="84" r="6" fill="var(--bad)"/>
+      <text x="736" y="22" text-anchor="middle" class="tbad" style="font-weight:600">before 1.04 V</text>
+      <line class="w" x1="736" y1="28" x2="736" y2="78" style="stroke:var(--bad)"/>
+    </svg>
+    </div>
+    <figcaption><b>Figure 2.</b> DATA's low level against the two limits it has to meet. The servo limit is from the ST-3215-C018 spec sheet (low 0 to 0.45 V). The 0.8 V line is the highest level a 74LS input is guaranteed to read as low; the receive gate's enable (U1 pin 4) reads DATA too.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>Schematic</h2>
+  <figure>
+    <div class="draw">
+    <svg viewBox="0 0 940 510" role="img" aria-label="Schematic of the buffer as working. ESP TX on D7 drives gate U1A through 330 ohms. DIR on D8 enables it, with a 10 kilohm pull-up to 3.3 volts. U1 pin 3 has the 1.1 kilohm pull-up to 5 volts and feeds servo DATA through 220 ohms. DATA enables gate U1B, which pulls ESP RX on D6 low through a 1N5819 diode against a 2.2 kilohm pull-up.">
+      <text x="16" y="40" class="sec">TRANSMIT · ESP TX → SERVO DATA WHILE DIR IS LOW</text>
+      <!-- TX -->
+      <text x="16" y="98" class="ttx">TX · D7 (GPIO12)</text>
+      <line class="w tx" x1="16" y1="110" x2="170" y2="110"/>
+      <rect class="part" x="170" y="102" width="60" height="16"/>
+      <text x="200" y="94" text-anchor="middle">R1 330 Ω</text>
+      <line class="w tx" x1="230" y1="110" x2="330" y2="110"/>
+      <polygon class="part" points="330,82 330,138 386,110"/>
+      <text x="358" y="70" text-anchor="middle">U1A</text>
+      <text x="322" y="102" text-anchor="end" class="lbl">2</text>
+      <text x="394" y="102" class="lbl">3</text>
+      <text x="368" y="152" class="lbl">1</text>
+      <!-- DIR -->
+      <circle class="part" cx="358" cy="128" r="4"/>
+      <polyline class="w dat" points="358,132 358,200 230,200"/>
+      <text x="16" y="188" class="tdat">DIR · D8 (GPIO8)</text>
+      <line class="w dat" x1="16" y1="200" x2="170" y2="200"/>
+      <rect class="part" x="170" y="192" width="60" height="16"/>
+      <text x="200" y="184" text-anchor="middle">R2 330 Ω</text>
+      <circle class="dot" cx="290" cy="200" r="3.5"/>
+      <line class="w" x1="290" y1="200" x2="290" y2="218"/>
+      <rect class="part" x="282" y="218" width="16" height="40"/>
+      <line class="w" x1="290" y1="258" x2="290" y2="272"/>
+      <line class="w pw" x1="278" y1="272" x2="302" y2="272"/>
+      <text x="290" y="288" text-anchor="middle" class="tpw">+3V3</text>
+      <text x="304" y="242">R3 10 kΩ</text>
+      <!-- output, pull-up, R4 -->
+      <line class="w" x1="386" y1="110" x2="480" y2="110"/>
+      <circle class="dot" cx="440" cy="110" r="3.5"/>
+      <line class="w c" x1="440" y1="110" x2="440" y2="84"/>
+      <rect class="part c" x="432" y="44" width="16" height="40"/>
+      <line class="w c" x1="440" y1="44" x2="440" y2="30"/>
+      <line class="w pw" x1="428" y1="30" x2="452" y2="30"/>
+      <text x="440" y="22" text-anchor="middle" class="tpw">+5V</text>
+      <text x="454" y="60" class="tc">R6 1.1 kΩ</text>
+      <text x="454" y="76" class="tc">moved here</text>
+      <rect class="part" x="480" y="102" width="60" height="16"/>
+      <text x="510" y="94" text-anchor="middle">R4 220 Ω</text>
+      <line class="w dat" x1="540" y1="110" x2="770" y2="110"/>
+      <circle class="dot" cx="620" cy="110" r="3.5"/>
+      <text x="700" y="102" text-anchor="middle" class="tdat">DATA</text>
+      <!-- old pull-up position -->
+      <line class="ghost" x1="620" y1="106" x2="620" y2="84"/>
+      <rect class="ghost" x="612" y="44" width="16" height="40"/>
+      <line class="ghost" x1="620" y1="44" x2="620" y2="30"/>
+      <text x="634" y="60" class="lbl">was here</text>
+      <!-- J2 -->
+      <text x="830" y="76" text-anchor="middle">J2 → STS3215, ID 2</text>
+      <rect class="part" x="770" y="86" width="120" height="124"/>
+      <text x="782" y="114">3 DATA</text>
+      <text x="782" y="154">2 V+</text>
+      <text x="782" y="194">1 GND</text>
+      <line class="w pw" x1="770" y1="150" x2="706" y2="150"/>
+      <text x="700" y="154" text-anchor="end" class="tpw">3S pack +</text>
+      <polyline class="w" points="770,190 730,190 730,216"/>
+      <line class="w" x1="718" y1="216" x2="742" y2="216"/><line class="w" x1="723" y1="221" x2="737" y2="221"/><line class="w" x1="727" y1="226" x2="733" y2="226"/>
+      <text x="730" y="246" text-anchor="middle" class="lbl">pack − joined to ESP GND</text>
+
+      <text x="16" y="345" class="sec">RECEIVE · ESP RX FOLLOWS SERVO DATA</text>
+      <!-- DATA down to U1B enable -->
+      <polyline class="w dat" points="620,110 620,330 358,330 358,378"/>
+      <polygon class="part" points="386,372 386,428 330,400"/>
+      <circle class="part" cx="358" cy="382" r="4"/>
+      <text x="358" y="452" text-anchor="middle">U1B</text>
+      <text x="368" y="368" class="lbl">4</text>
+      <text x="394" y="392" class="lbl">5</text>
+      <text x="324" y="392" text-anchor="end" class="lbl">6</text>
+      <polyline class="w" points="386,400 450,400 450,424"/>
+      <line class="w" x1="438" y1="424" x2="462" y2="424"/><line class="w" x1="443" y1="429" x2="457" y2="429"/><line class="w" x1="447" y1="434" x2="453" y2="434"/>
+      <text x="466" y="428" class="lbl">GND</text>
+      <!-- diode and RX -->
+      <line class="w rx" x1="330" y1="400" x2="276" y2="400"/>
+      <polygon class="part" points="252,390 252,410 276,400"/>
+      <line class="w" x1="276" y1="388" x2="276" y2="412"/>
+      <text x="264" y="380" text-anchor="middle">D1 1N5819</text>
+      <text x="250" y="428" text-anchor="middle" class="lbl">A</text>
+      <text x="278" y="428" text-anchor="middle" class="lbl">K</text>
+      <line class="w rx" x1="252" y1="400" x2="16" y2="400"/>
+      <text x="16" y="388" class="trx">RX · D6 (GPIO11)</text>
+      <circle class="dot" cx="200" cy="400" r="3.5"/>
+      <line class="w" x1="200" y1="400" x2="200" y2="438"/>
+      <rect class="part" x="192" y="438" width="16" height="40"/>
+      <line class="w" x1="200" y1="478" x2="200" y2="490"/>
+      <line class="w pw" x1="188" y1="490" x2="212" y2="490"/>
+      <text x="200" y="505" text-anchor="middle" class="tpw">+3V3</text>
+      <text x="124" y="462" class="lbl">R5 2.2 kΩ</text>
+      <!-- power note -->
+      <text x="540" y="398">U1 · SN74LS125AN</text>
+      <text x="540" y="418" class="lbl">pin 14 → +5V (XIAO 5V pad)</text>
+      <text x="540" y="436" class="lbl">pin 7 → GND</text>
+      <text x="540" y="454" class="lbl">C1 100 nF across pins 14 and 7</text>
+      <text x="540" y="472" class="lbl">spare gates (pins 8–13): see open items</text>
+    </svg>
+    </div>
+    <figcaption><b>Figure 3.</b> The buffer as it works now. Magenta marks the moved pull-up; the dashed outline is where it sat before. DIR low turns on U1A so TX drives DATA. DATA low turns on U1B, which pulls RX low through D1; DATA high lets R5 pull RX up. The ESP hears its own bytes as an echo, and the firmware checks and skips them.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>Wiring</h2>
+  <figure>
+    <div class="draw">
+    <svg viewBox="0 0 760 320" role="img" aria-label="XIAO ESP32-C5 seen from above with USB-C at the top. Right column from the top: 5V, GND, 3V3, D10, D9, D8, D7. D8 is DIR and D7 is TX. D9 is where the TX wire used to be. Left column bottom pin D6 is RX.">
+      <rect class="body" x="300" y="50" width="160" height="240" rx="6"/>
+      <rect class="body" x="350" y="30" width="60" height="28" rx="4"/>
+      <text x="380" y="49" text-anchor="middle" class="lbl">USB-C</text>
+      <text x="380" y="178" text-anchor="middle">XIAO ESP32-C5</text>
+      <text x="380" y="196" text-anchor="middle" class="lbl">top view</text>
+      <g class="w">
+        <line x1="288" y1="80" x2="300" y2="80"/><line x1="288" y1="110" x2="300" y2="110"/><line x1="288" y1="140" x2="300" y2="140"/><line x1="288" y1="170" x2="300" y2="170"/><line x1="288" y1="200" x2="300" y2="200"/><line x1="288" y1="230" x2="300" y2="230"/>
+        <line x1="460" y1="170" x2="472" y2="170"/>
+      </g>
+      <line class="w rx" x1="288" y1="260" x2="300" y2="260"/>
+      <line class="w pw" x1="460" y1="80" x2="472" y2="80"/><line class="w" x1="460" y1="110" x2="472" y2="110"/><line class="w pw" x1="460" y1="140" x2="472" y2="140"/>
+      <line class="ghost" x1="460" y1="200" x2="472" y2="200"/>
+      <line class="w dat" x1="460" y1="230" x2="472" y2="230"/><line class="w tx" x1="460" y1="260" x2="472" y2="260"/>
+      <g text-anchor="end">
+        <text x="282" y="84" class="lbl">D0</text><text x="282" y="114" class="lbl">D1</text><text x="282" y="144" class="lbl">D2</text><text x="282" y="174" class="lbl">D3</text><text x="282" y="204" class="lbl">D4</text><text x="282" y="234" class="lbl">D5</text>
+        <text x="282" y="264" class="trx" style="font-weight:600">D6</text>
+        <text x="248" y="264" class="trx">RX ← D1 ← U1 pin 6</text>
+        <text x="248" y="174" class="lbl">LED ring data (firmware)</text>
+      </g>
+      <text x="478" y="84" class="tpw">5V</text><text x="530" y="84" class="lbl">→ U1 pin 14, R6</text>
+      <text x="478" y="114">GND</text><text x="530" y="114" class="lbl">→ U1 pin 7, servo GND, pack −</text>
+      <text x="478" y="144" class="tpw">3V3</text><text x="530" y="144" class="lbl">→ R3, R5</text>
+      <text x="478" y="174" class="lbl">D10</text><text x="530" y="174" class="lbl">not used</text>
+      <text x="478" y="204" class="lbl">D9</text><text x="530" y="204" class="tc">TX wire was here</text>
+      <text x="478" y="234" class="tdat" style="font-weight:600">D8</text><text x="530" y="234" class="tdat">DIR → R2 → U1 pin 1</text>
+      <text x="478" y="264" class="ttx" style="font-weight:600">D7</text><text x="530" y="264" class="ttx">TX → R1 → U1 pin 2</text>
+      <text x="530" y="282" class="tc">moved here</text>
+    </svg>
+    </div>
+    <figcaption><b>Figure 4.</b> ESP pins with USB-C at the top. D0 to D5 and D9, D10 carry no bus wiring. D2, the single-wire bus pin of the older builds, is not used on this board.</figcaption>
+  </figure>
+
+  <div class="two">
+    <div class="tbl"><table>
+      <tr><th>Net</th><th>Connects</th></tr>
+      <tr><td class="m">TX</td><td>XIAO D7 (GPIO12) → R1 330 Ω → U1 pin 2</td></tr>
+      <tr><td class="m">DIR</td><td>XIAO D8 (GPIO8) → R2 330 Ω → U1 pin 1; R3 10 kΩ from pin 1 to +3V3</td></tr>
+      <tr><td class="m">Y</td><td>U1 pin 3 · R4 · <span class="chgt">R6 1.1 kΩ to +5V</span></td></tr>
+      <tr><td class="m">DATA</td><td>R4 220 Ω (other end) · U1 pin 4 · servo signal</td></tr>
+      <tr><td class="m">RX</td><td>XIAO D6 (GPIO11) · R5 2.2 kΩ to +3V3 · D1 anode; D1 cathode → U1 pin 6</td></tr>
+      <tr><td class="m">+5V</td><td>XIAO 5V pad · U1 pin 14 · C1 · R6</td></tr>
+      <tr><td class="m">GND</td><td>XIAO GND · U1 pins 7 and 5 · C1 · servo GND · pack −</td></tr>
+      <tr><td class="m">+VBAT</td><td>3S pack + → servo V+ only, never the XIAO</td></tr>
+    </table></div>
+    <div class="tbl"><table>
+      <tr><th>U1 pin</th><th>Net</th><th>Idle</th></tr>
+      <tr><td class="n">1</td><td>DIR (high = driver off)</td><td class="n">3.3 V</td></tr>
+      <tr><td class="n">2</td><td>TX</td><td class="n">3.3 V</td></tr>
+      <tr><td class="n">3</td><td>Y, pulled up by R6</td><td class="n">~5 V</td></tr>
+      <tr><td class="n">4</td><td>DATA</td><td class="n">4–5 V</td></tr>
+      <tr><td class="n">5</td><td>GND</td><td class="n">0 V</td></tr>
+      <tr><td class="n">6</td><td>RX through D1</td><td class="n">off</td></tr>
+      <tr><td class="n">7</td><td>GND</td><td class="n">0 V</td></tr>
+      <tr><td class="n">14</td><td>+5V</td><td class="n">4.6–5.1 V</td></tr>
+    </table></div>
+  </div>
+  <p>Power rules from the team notes still hold: the XIAO runs from USB or from the buck on its 5V pad, never both. The servo's GND and the pack's − must be joined to the XIAO's GND, whichever way the XIAO is powered. On this board that link comes through the buck, so it is missing when the XIAO runs from the Mac's USB with the buck disconnected.</p>
+</section>
+
+<section>
+  <h2>Measurements and tests</h2>
+  <div class="tbl"><table>
+    <tr><th>Check</th><th>Before</th><th>Now</th></tr>
+    <tr><td>DATA held low, at U1 pin 4</td><td class="n badv">1.04 V</td><td class="n good">0.13 V</td></tr>
+    <tr><td>DATA held low, at the servo's signal pin</td><td class="n">not measured</td><td class="n good">0.13 V</td></tr>
+    <tr><td>U1 pin 3 while driving low</td><td class="n">0.21 V</td><td class="n">not measured</td></tr>
+    <tr><td>Loop test (RX follows TX with DIR low)</td><td>Failed on EE2 with TX on D9</td><td class="good">Passes on EE2 with TX on D7</td></tr>
+    <tr><td>Ping echo</td><td>0 bytes</td><td>Clean, e.g. <code>FF FF 02 02 01 FA</code></td></tr>
+    <tr><td>Servo replies</td><td>None, IDs 0–253, 8 baud rates</td><td class="good">ID 2 answers at 1 Mbit/s</td></tr>
+  </table></div>
+  <div class="tbl"><table>
+    <tr><th>Swing leg (servo ID 2, 150 steps/s, 30 % cap)</th><th>Target</th><th>Reached</th><th>Peak load</th></tr>
+    <tr><td>+30°</td><td class="n">186.4°</td><td class="n">185.8°</td><td class="n">7.2 %</td></tr>
+    <tr><td>Back to start</td><td class="n">156.4°</td><td class="n">156.9°</td><td class="n">7.6 %</td></tr>
+    <tr><td>−30°</td><td class="n">126.5°</td><td class="n">127.2°</td><td class="n">6.8 %</td></tr>
+    <tr><td>Back to start</td><td class="n">156.4°</td><td class="n">155.7°</td><td class="n">7.6 %</td></tr>
+  </table></div>
+  <p>The swing ran from the Mac through Board 10 over ESP-NOW (5 GHz, channel 36) with EE2 on board power. The servo was free on the bench, read 12.4 V and 25 °C, and ended with torque off.</p>
+</section>
+
+<section>
+  <h2>Firmware and tools</h2>
+  <div class="tbl"><table>
+    <tr><th>Item</th><th>Where</th><th>State</th></tr>
+    <tr><td>EE2 firmware, env <code>xiao_c5_ee2_buf</code></td><td class="m">tether_controls, branch steve/ee-buf-debug, bench/boards/xiao-esp32-c5/sts3215_led_test</td><td>Flashed on EE2. Pushed, commit 93450d0.</td></tr>
+    <tr><td>Radio debug tool</td><td class="m">tether_ros, tools/ee_debug.py</td><td>Pushed on branch steve/single-ee-spacemouse, commit aa820b5. Commands: scan, stat, move, jog, swing, relax, rd, wr, stop.</td></tr>
+    <tr><td>Hansi's original EE2 build</td><td class="m">tether_controls, bench/backups/ee2_10BDA3CDD1B8_hansi_buf_2026-11-26.bin</td><td>Full 8 MB flash backup on Steve's Mac only. Not pushed.</td></tr>
+    <tr><td>S3 bench sketch (loop test, hold-low, baud sweep)</td><td class="m">tether_controls, bench/boards/xiao-esp32-s3/sts3215_buf_test</td><td>Pushed with the EE2 build. Its TX pin was changed from D9 to D7 after the board change and not re-run.</td></tr>
+  </table></div>
+  <p>Debug commands ride inside the existing end-effector command frame and replies come back inside the servo report frame, so Board 10 needed no reflash. Debug moves ignore the dock travel limits but keep a torque cap (5 to 60 %), a speed cap, the load and stall stop, and a 10-second torque-off after the last command.</p>
+</section>
+
+<section>
+  <h2>Open items</h2>
+  <ul>
+    <li><b>On the Mac's USB there is no shared ground.</b> With EE2 powered from the Mac, the loop test passes and the echo is clean, but servo ID 2 stays silent. Steve confirmed the cause: the pack's − is not joined to the XIAO's GND in that setup. On board power the buck provides the link and the servo answers. To use USB, add a wire from pack − (or the servo's GND pin) to the XIAO's GND.</li>
+    <li><b>Reply rate.</b> With Hansi's build on board power, servo 2 answered about two in three telemetry reads (404 of 602). The rate with the new build was not measured.</li>
+    <li><b>Spare gates.</b> Drawing TC-EE2-BUF-001 ties U1 pins 9 and 12 to GND and pins 10 and 13 to +5V. Pin 13 read 1.6 V on this board earlier in the day, which suggests it is not connected. Tie the spare enables to +5V as drawn.</li>
+    <li><b>The drawing has the same pull-up position.</b> Rev C puts R6 (1 kΩ) from DATA to +5V. By the same arithmetic that gives a low of about 1.1 V, so the drawing should move R6 to U1 pin 3 too.</li>
+    <li><b>The header is labelled for servo ID 2.</b> Nothing answers at ID 1 on this board.</li>
+    <li><b>Hansi's buffered source is still unpublished.</b> The new build replaces it on EE2; the two were not compared line by line.</li>
+  </ul>
+</section>
+
+</div>
