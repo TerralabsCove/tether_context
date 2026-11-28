@@ -1,0 +1,21 @@
+Simulated pack: true capacity 85-100 % of nominal, true loss model differs from repo constants,
+start charge 85-100 %, 3 h walking-style session, 300 random packs per row.
+
+A. repo today: count energy from 100 %, never corrected
+   at 30 min: SoC error median +16.1 % (|err| P90 31.5 %)   time-left error median  +42.4 min (|err| P90 158.9 min)
+   at 60 min: SoC error median +11.5 % (|err| P90 30.5 %)   time-left error median  +34.8 min (|err| P90 143.7 min)
+   at 90 min: SoC error median  -1.4 % (|err| P90 19.8 %)   time-left error median   -3.0 min (|err| P90  59.3 min)
+   'land now' at conservative SoC <= 20 %: failed (no warning, or < 5 min left) in 23.0 % of runs; true SoC when it fired: median 36 %
+
+B. one typed voltage at plug-in, then counting
+   at 30 min: SoC error median  +6.4 % (|err| P90 20.6 %)   time-left error median  +31.5 min (|err| P90 131.4 min)
+   at 60 min: SoC error median  +3.8 % (|err| P90 21.5 %)   time-left error median  +24.7 min (|err| P90 111.1 min)
+   at 90 min: SoC error median  -6.3 % (|err| P90 23.4 %)   time-left error median   -8.9 min (|err| P90  53.5 min)
+   'land now' at conservative SoC <= 20 %: failed (no warning, or < 5 min left) in  8.7 % of runs; true SoC when it fired: median 38 %
+
+C. B plus a resting voltage about every 15 min, learns gain g
+   at 30 min: SoC error median  +3.0 % (|err| P90 13.4 %)   time-left error median  +16.4 min (|err| P90 112.8 min)
+   at 60 min: SoC error median  +0.4 % (|err| P90  7.9 %)   time-left error median  +14.5 min (|err| P90 112.6 min)
+   at 90 min: SoC error median  -1.8 % (|err| P90  7.3 %)   time-left error median   +1.3 min (|err| P90  57.6 min)
+   'land now' at conservative SoC <= 20 %: failed (no warning, or < 5 min left) in 14.3 % of runs; true SoC when it fired: median 25 %
+
