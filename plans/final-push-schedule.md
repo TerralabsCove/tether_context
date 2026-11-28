@@ -1,127 +1,168 @@
 ---
 status: active
 owner: John Peng, Steve Lu
-last_reviewed: 2026-11-22
+last_reviewed: 2026-11-27
 ---
 
 # Final push schedule: 11/22 to 12/3
 
 **Demo day: Thursday 12/3, at Watt Hall B1. Be there from 5:00 PM.** (D-051)
 
-**Goal for the end of Thanksgiving break (Sunday 11/29): the arm running on the setup.** 8 days.
+**Goal for the end of Thanksgiving break (Sunday 11/29): the arm running on the setup.** Kept on 11/27 (John).
 
-**Revised 2026-11-22.** The rear holes on the four DM-J4340s get retapped to M4, and the motors get epoxied to their mounts, by end of day Monday 11/23. Everything that needs a powered arm moves about one day later. The full run is now Sunday 11/29. The shell goes on Monday 11/30. See [Changes](#changes).
+**Revised 2026-11-27.** The arm is assembled and wired, and it has been driven. It has not docked between two ports yet. **By the end of Friday 11/27, both end effectors are to be fully manufactured and working electrically (John, 11/27).** End effector 1 is complete mechanically. Its electronics wait on the servo buffer board, due around midday Friday. End effector 2's TAG-Mech-005 is machined and still has to be tapped. That waits on an M2.5 tap that arrives around midday Friday. The camera tags must reach the laptop by the end of Friday (John, 11/27). All 7 ports are mounted. Watt Hall B1 is open every day. The full run stays on Sunday 11/29, and the shell still goes on Monday 11/30 (John, 11/27). What is left before Sunday is under [Friday](#friday-1127) and [Saturday](#saturday-1128). The days those items land on were proposed on 11/27. Owners are not set. See [Changes](#changes).
 
 Set at the [2026-11-21 planning meeting](../meetings/2026-11-21-final-push-planning.md) (D-050). The day lists below started as the whiteboard from that meeting: [11/22 to 11/25](../assets/2026-11-21-final-push-whiteboard-nov22-25.jpg), [11/26 to 11/29](../assets/2026-11-21-final-push-whiteboard-nov26-29.jpg). Indented lines add detail from the [transcript](../meetings/2026-11-21-final-push-planning-transcript.md). Items that moved say where they were.
 
 This plan is tight on purpose. Things will spill over. When they do, move the item here and note it under [Changes](#changes). Tick items off as they finish.
 
-- Monday and Tuesday are planned at half speed. People have class.
-- Both ends use Ming's end effector (D-052). The plan assumes it works the first time. See [risks](#risks-and-backups).
+- Both ends use Ming's end effector (D-052). See [risks](#risks-and-backups).
 - People: JC is Jack Carpino. CK is Caroline Kim. "Castle" is Ming's house.
+
+## Where things stand (11/27)
+
+From John's answers on 11/27, the notes from 11/24 to 11/27, and the Tether Discord. Discord lines are unverified.
+
+| Area | Status |
+|---|---|
+| Arm | Assembled. All three modules wired. All 7 motors streamed at about 200 Hz on 5 GHz channel 36 on 11/26 ([Steve's 11-26 note](../notes/2026-11-26-steve-single-ee-spacemouse-arm7-bringup.md)). Driven. Not docked between two ports yet (John, 11/27). |
+| Firmware | Boards 10 to 13 run tethersmall `main`, merged 11/27 through tethersmall #9. It carries the IMU code and `COMMAND_FF` ([Steve's 11-27 note](../notes/2026-11-27-steve-imu-merged-laptop-reader.md)). The `COMMAND_FF` limits (80 Nm big motors, 25 Nm small, kp 500) are still proposals. |
+| IMUs | One BNO08X on each module, at 100 Hz, forwarded by the gateway. Tested with the arm at rest only ([on-arm note](../notes/2026-11-26-john-imu-on-arm-bringup.md)). tether_ros decodes them ([Steve's 11-27 note](../notes/2026-11-27-steve-imu-merged-laptop-reader.md)). Getting the IMU data streaming was in progress at 1 AM Friday 11/27 (John). |
+| Dock play | The arm test on Wednesday night, 11/25, showed the arm is far too wobbly, from play in the system (John, 11/27). The sim treats the dock as rigid. Not measured ([IMU wiring note](../notes/2026-11-26-john-imu-bno08x-module-wiring.md)). The plan: feed the IMU data into PID tuning and into policy training (John, 11/27). |
+| End effector 1 | Complete mechanically (John, 11/27). Earlier tests with it worked. Electrical waits on the buffer board, due around midday Friday (John, 11/27). In Steve's 11/26 session the board marked EE1 sent no radio packets. Its firmware was not checked ([Steve's EE2 note](../notes/2026-11-26-steve-ee2-servo-buffer-debug.md)). |
+| End effector 2 | TAG-Mech-005 is machined and needs tapping, then full assembly. The M2.5 tap arrives around midday Friday (John, 11/27). Its servo moved over the radio, through a buffer board, on the bench on 11/26 ([Steve's EE2 note](../notes/2026-11-26-steve-ee2-servo-buffer-debug.md)). |
+| Servo bus | The STS3215 bus servos need a 74LS125 half-duplex buffer board between them and the C5, so the C5 does not get fried (John, 11/27). The board for the robot is a work in progress, due around midday Friday. The direct GPIO wiring that worked on the bench on 11/24 ([note](../notes/2026-11-24-john-sts3215-c5-bench.md)) is not what goes on the robot. |
+| Camera tags | The reCamera sends tags to the EE C5 over USB. The EE servo firmware does not forward them. Board 10 got none ([Steve's EE2 note](../notes/2026-11-26-steve-ee2-servo-buffer-debug.md)). The deterministic track needs them. Must reach the laptop by the end of Friday (John, 11/27). |
+| Ports | All 7 mounted (John, 11/27). |
+| Site | Watt Hall B1 is open every day (John, 11/27). |
+| Shell | A direction sketch was posted on Discord on 11/24. Manufacturing has not started (John, 11/27). |
+| ESPs | Three have died since 11/24 (Discord, 11/25). One died from running on the buck and USB at once ([note](../notes/2026-11-24-john-sts3215-c5-bench.md)). How many spare C5s are left is not recorded. |
 
 ## Day by day
 
 ### Saturday 11/21 (night of the meeting)
 
-- [ ] Print docking boards at MakerZone, in PETG. About 2 per machine, about 6 boards.
+- [ ] Print docking boards at MakerZone, in PETG. About 2 per machine, about 6 boards. Not recorded.
   - PETG from Robo. If Robo has none, borrow from Makers.
 - [ ] Send Jack CAD screenshots to confirm which end effector parts are made.
-  - Jack answered during the meeting: one part is still missing, the one from Yang. See [parts](#parts-status-as-of-1121).
+  - Jack answered during the meeting: one part is still missing, the one from Yang. See [parts](#parts-status-as-of-1127).
 
 ### Sunday 11/22
 
 - [x] ROS nodes talk to the motors over ESP-NOW, all in ROS. Working on 11/22, ahead of Monday's ROS task (John, 11/22).
   - On the bench: motor 0x01 was turned and swept through ROS while two other motors held. Three motors, no load, not the arm ([Hansi's work, summary note](../notes/2026-11-22-john-tether-ros-bench-and-sim.md)).
 - [x] Sim connected to ROS, in sim only. The sim speaks the robot's own protocols, and the tether_ros container and a ros2_control driver run against it ([Steve's note](../notes/2026-11-22-steve-tethersim-ros.md)). Nothing in that work has touched the robot. Was Monday.
-- [ ] Center module final wiring. Pretty much fully wired on 11/22 (John).
+- [x] Center module final wiring. Pretty much fully wired on 11/22 (John). All three modules streamed on 11/26.
 - [ ] Train a policy. Test it with docking and human interaction. (Steve)
   - In sim. The policy should notice a person nearby and react.
 - [ ] Talk through the end effector backup with Jack and Ming in the room. See [risks](#risks-and-backups).
 - [ ] Ask JC how many days he has over Thanksgiving for the shell.
 - Center spacer was on the CNC on 11/21. Assumed ready Sunday.
-- Moved off Sunday:
-  - Final wiring on the two side modules, arm assembly and the comms test. They wait for the retap and epoxy. Now Wednesday.
-  - Pizza slices. Now Monday.
-  - End effector hand test. No M2.5 hand tap for TAG-Mech-003. Now Tuesday.
 
 ### Monday 11/23 (half speed)
 
-- [ ] **Retap the rear holes on all four DM-J4340s to M4. Prepare the surfaces. Epoxy the motor bottoms to the mounts. Done by end of day.**
-  - The 4340s are the two rolls and the two gripper spins.
+- [ ] **Retap the rear holes on all four DM-J4340s to M4. Prepare the surfaces. Epoxy the motor bottoms to the mounts.**
+  - The JB Weld arrived Tuesday, not Monday (Ming, on Discord 11/23). Epoxy was curing on the night of 11/24 (Discord). The arm was driven by 11/27. Not recorded whether all four were retapped and epoxied. Confirm.
   - Tap type, torque, epoxy and what to check: [rear mount loads note](../notes/2026-11-22-john-dm4340-rear-mount-loads.md) (draft, calculated, not measured).
-- [ ] **Go to IYA with CK. Drill all holes. At least 2 mounted ports. Bring to Ming's.**
-  - Drill the holes for every port. Attach at least 2.
-  - Bring 1 or 2 plates and a table to Ming's house. IYA is closed over Thanksgiving, and Ming's house is empty.
-  - Table port drawings and plywood circle sizes are in tethersim, `docs/drawings/table_ports.pdf` ([Steve's note](../notes/2026-11-22-steve-tethersim-ros.md)). The positions are fitted to the hall model, not measured on site.
-- [ ] Ming CAMs and cuts the pizza slices. Might be fully done Monday (John, 11/22). Was Sunday.
-  - They block the first metal end effector. 4 slices are enough to build one.
-- [ ] Tap TAG-Mech-003 with an M2.5 hand tap, at BHE. It blocks the end effector hand test.
-- [ ] Start machining the missing part, TAG-Mech-005, at the Castle.
-  - One was finished 11/21 at the Castle. The other was Yang's. It will be machined at the Castle instead (John, 2026-11-22).
-- [ ] **ROS: act on what the sim found.** The sim is connected as of 11/22 ([Steve's note](../notes/2026-11-22-steve-tethersim-ros.md)). Left to do:
-  - The gateway frame has one kp/kd for all motors and no torque field. In sim the arm sags 5° at the highest gains and would fold at tethersmall's gains. It needs per-motor gains, a feedforward torque, or gravity compensation on the node. Sim only, not seen on the robot.
-  - Two arm URDFs disagree: tethersim's (16.6 kg) and tether_controls' (14.35 kg). Joint names, axes and zeros differ. Settle which is current.
-  - Confirm the assumptions in the note: EE_1 is node 1, the driver gains, the 1 s telemetry timeout.
-  - Run the ROS stack on the robot. The 7-motor config is still a placeholder: motor-to-joint mapping, signs and zeros.
-  - The camera link moved to 5 GHz channel 36 and can share the gateway C5. Tested against a fake only. Measure it on 5 GHz ([note](../notes/2026-11-22-john-tether-ros-bench-and-sim.md)).
-  - Hansi's newer work sits in three open pull requests: tether_ros #1, tethersmall #6, tether_camera #5.
+- [x] **Go to IYA with CK. Drill all holes. At least 2 mounted ports. Bring to Ming's.** All 7 ports mounted by 11/27 (John).
+  - Table port drawings and plywood circle sizes are in tethersim, `docs/drawings/table_ports.pdf` ([Steve's note](../notes/2026-11-22-steve-tethersim-ros.md)).
+- [x] Ming CAMs and cuts the pizza slices. Enough for end effector 1, which is complete mechanically (John, 11/27).
+- [x] Tap TAG-Mech-003 with an M2.5 hand tap. Done, since end effector 1 is complete mechanically. Day not recorded.
+- [x] Start machining the missing part, TAG-Mech-005, at the Castle. Machined by 11/27 (John). Tapping it is Friday.
+- [ ] **ROS: act on what the sim found.** Where each item stands on 11/27:
+  - Gains and feedforward: `COMMAND_FF` (per-motor gains plus a feedforward torque) is on tethersmall `main`. Steve's host script `robot_control.py` sends it with gravity feedforward. The ROS `gateway_node` does not carry it yet ([Steve's 11-26 note](../notes/2026-11-26-steve-single-ee-spacemouse-arm7-bringup.md)).
+  - Two arm URDFs disagree: tethersim's (16.6 kg) and tether_controls' (14.35 kg). Not settled.
+  - The 7-motor map, board by board, is in [Steve's 11-26 note](../notes/2026-11-26-steve-single-ee-spacemouse-arm7-bringup.md). Signs and zeros against the sim are not checked. Now Friday.
+  - The camera link on 5 GHz channel 36 is not measured. The camera relay was not tested after the 11/26 reflash.
+  - Hansi's end effector forwarding is on tethersmall `main` through #9.
 
 ### Tuesday 11/24 (half speed)
 
-- Epoxy cure day. No load and no torque on the side modules until Tuesday night. 24 hours is assumed, from the [load note](../notes/2026-11-22-john-dm4340-rear-mount-loads.md). Check the epoxy's own cure time.
-- [ ] **1 end effector done mechanically.** Was Monday. Needs the pizza slices and TAG-Mech-003.
-- [ ] End effector test with a port. Mechanical only: turn it by hand and see if there are any issues. Was Sunday.
-- [ ] Shell start: JC.
+- [x] **1 end effector done mechanically.** By 11/27 (John). Day not recorded.
+- [x] End effector test with a port. The motor tests in the port on 11/25 showed play in the dock ([IMU wiring note](../notes/2026-11-26-john-imu-bno08x-module-wiring.md)).
+- [ ] Shell start: JC. A direction sketch was posted on Discord. Manufacturing not started (John, 11/27).
+- Added: the STS3215s and the LED ring ran on a C5 on the bench. One C5 died on the buck and USB at once ([note](../notes/2026-11-24-john-sts3215-c5-bench.md)). Docking on the end effector servo worked at 50 steps/s ([note](../notes/2026-11-24-john-nano-c5-docking-endurance.md)).
 
 ### Wednesday 11/25
 
-- [ ] **Final wiring, both side modules.** After the epoxy has cured, and after JC Loctites. No touching the wiring after this. Was Sunday.
-  - Then tie the wires down, assemble the arm, and test the electronics and basic comms.
-- [ ] **End effector 1 fully complete, including electrical.** Was Tuesday.
-- [ ] **End effector 2 mechanically done.** Was Tuesday. Needs TAG-Mech-005.
-- [ ] **Lock end effector 1 in a port and swing the arm around on it.** Night. Fully powered, with the end effector connected to the arm. Was Tuesday.
-  - This is also the first load on the epoxied mounts.
+- [x] **Final wiring, both side modules.** All three modules streamed on 11/26.
+- [ ] **End effector 1 fully complete, including electrical.** Needs the buffer board. Now Friday.
+- [ ] **End effector 2 mechanically done.** Not done (John, 11/27). Now Friday.
+- [x] **Lock end effector 1 in a port and swing the arm around on it.** Motor tests in the port on 11/25. Driven by 11/27 (John). On 11/26 Discord said the arm moved and nothing snapped. This was the first load on the epoxied mounts.
+- Added: a third ESP died (Discord).
 
 ### Thursday 11/26 (Thanksgiving)
 
-- [ ] **Mount all 7 ports.** Morning. (6 plates, 7 ports.)
-- [ ] **End effector 2 done, including electrical.** Was Wednesday.
-- [ ] **Final Tether, full arm.** No shell yet. Was Wednesday.
-- [ ] **Verify ROS. Test docking between 2 ports.** Night. Was Wednesday.
-  - Full software stack: ROS, comms, deterministic control. Bounce between the 2 ports if there is time.
-  - Docking will need PID tuning. The port tolerance is loose.
-- [ ] Ask a Roski student for access.
-- [ ] Shell design done.
-- [ ] Build interactive boxes. Whoever is free.
-  - Each box has a docking port on it, so Tether can grab it the way it grabs a dock.
-  - Magnets on the boxes make them stick to each other when Tether stacks one on another.
-  - Stacking boxes is a possible part of the demo.
-- After this, electrical people move to software.
+- [x] **Mount all 7 ports.** (John, 11/27.)
+- [ ] **End effector 2 done, including electrical.** Now Friday.
+- [x] **Final Tether, full arm.** Assembled and driven. No shell.
+- [ ] **Verify ROS. Test docking between 2 ports.** Driven, not docked (John, 11/27). The ROS gateway node has not run on the hardware ([Steve's 11-27 note](../notes/2026-11-27-steve-imu-merged-laptop-reader.md)). Now Friday.
+- [x] Ask a Roski student for access. Not needed: Watt Hall B1 is open every day (John, 11/27).
+- [ ] Shell design done. Not recorded.
+- [ ] Build interactive boxes. Not recorded. Now Saturday.
+- Added: an IMU on each module, and all four arm boards reflashed ([on-arm note](../notes/2026-11-26-john-imu-on-arm-bringup.md)). Reason: the play in the dock.
+- Added: the EE2 servo moved over the radio through the buffer board ([Steve's EE2 note](../notes/2026-11-26-steve-ee2-servo-buffer-debug.md)).
+- Added: all 7 motors mirrored live into tethersim while limp. SpaceMouse teleop and an E-stop in the sim ([Steve's 11-26 note](../notes/2026-11-26-steve-single-ee-spacemouse-arm7-bringup.md)).
 
 ### Friday 11/27
 
-- [ ] Maybe: go to Watt Hall B1, set up the environment, start walking on it. Was Thursday.
-- [ ] If not Watt Hall B1: move around on the mushrooms.
+**By the end of the day: both end effectors fully manufactured and working electrically, and the camera tags reaching the laptop (John, 11/27).**
+
+Overnight (1 AM):
+
+- [ ] **Stream the IMU data.** In progress (John). Added after the arm test on Wednesday night showed the arm is far too wobbly, from play in the system.
+  - The data feeds PID tuning and policy training (John).
+  - A `T_IMU` logger does not exist yet ([Steve's 11-27 note](../notes/2026-11-27-steve-imu-merged-laptop-reader.md)). Logging with the arm moving gives the swing and the base tilt.
+
+By midday:
+
+- [ ] **Finish the servo buffer board.** The half-duplex adapter between the C5 and the STS3215s. A work in progress. Done around midday (John).
+  - Fixes from EE2's bench board: pull-up on U1 pin 3, not on DATA. TX on D7. A ground wire from pack − to the XIAO's GND ([Steve's EE2 note](../notes/2026-11-26-steve-ee2-servo-buffer-debug.md)).
+- [ ] **M2.5 tap arrives.** Around midday (John).
+
+Afternoon:
+
+- [ ] **End effector 1 electrical,** on the buffer board. Was Wednesday. It is complete mechanically, and earlier tests with it worked.
+  - Find out why the EE1 board sent no radio packets on 11/26.
+- [ ] **End effector 2: tap TAG-Mech-005 (M2.5), then assemble it fully.** Waits on the tap. Was Wednesday.
+- [ ] **End effector 2 electrical.** Was Saturday.
+- [ ] **Mount both end effectors on the robot and get everything working.**
+- [ ] **Camera tags to the laptop. Must be done today (John).** The EE firmware has to forward the camera's tag data, or the camera needs its own C5 ([Steve's EE2 note](../notes/2026-11-26-steve-ee2-servo-buffer-debug.md)). Blocks the deterministic track.
+
+Evening, after both end effectors are on:
+
+- [ ] **PID tuning with the IMU feedback,** to take out some of the wobble (John).
+  - Before more torque: check each joint's sign and zero against tethersim, and which end is anchored ([Steve's 11-26 note](../notes/2026-11-26-steve-single-ee-spacemouse-arm7-bringup.md)).
+  - Agree the `COMMAND_FF` limits. The ones on `main` are proposals.
+- [ ] **Dock between 2 ports.** Was Thursday. Full stack if possible: ROS, comms, deterministic control. The port tolerance is loose, and the dock has play. Spills to Saturday if the end effectors are late.
+
+Also Friday:
+
+- [ ] **Set up the environment at Watt Hall B1 and start walking on it.** Was "maybe". It is open every day.
 - [ ] **Software debugging** starts, in two tracks:
   - Deterministic path: CV tuning, reCamera detection, the rest. Everyone but Steve.
   - Policy track: Steve.
-- [ ] Shell manufacturing.
+- [ ] **Shell manufacturing.** It has not started, and it needs about 2 days.
   - Print parts in parallel on the Prusas.
 
 ### Saturday 11/28
 
-- [ ] **Software debugging**, both tracks, second day.
+- [ ] **First step with both end effectors.** One end holds, the other swings and docks, then they swap. Needed before Sunday. Not on the 11/21 plan.
+- [ ] **Software debugging**, both tracks, second day. At Watt Hall B1, steps included (D-055).
+  - Policy: train with the IMU data (John, 11/27). Steve. The sim needs the dock play (a loose, sprung joint at the port), or the IMU reading only repeats the joint angles and the policy learns nothing from it ([IMU wiring note](../notes/2026-11-26-john-imu-bno08x-module-wiring.md)).
 - [ ] Shell manufacturing done.
+- [ ] Build interactive boxes. Whoever is free. Was Thursday.
+  - Each box has a docking port on it, so Tether can grab it the way it grabs a dock.
+  - Magnets on the boxes make them stick to each other when Tether stacks one on another.
 
 ### Sunday 11/29 (last day of break)
 
-- [ ] **Full run on the course.** Was Saturday. This is the goal for the break.
+- [ ] **Full run on the course.** This is the goal for the break. Kept on 11/27 (John).
 
 ### Monday 11/30
 
-- [ ] **Mount the shell.** First thing. Was Sunday.
-- [ ] **Test. Full run with the shell on.** Was Sunday.
+- [ ] **Mount the shell.** First thing.
+- [ ] **Test. Full run with the shell on.**
 
 ### Tuesday 12/1 and Wednesday 12/2
 
@@ -131,35 +172,40 @@ Not planned. These are the only spare days left.
 
 Demo day. Be at Watt Hall B1 from **5:00 PM**.
 
-## Parts status (as of 11/21)
+## Parts status (as of 11/27)
 
-From the meeting, with John's updates from 11/22 where marked. Not checked against the parts themselves.
+Rows marked 11/21 have no newer source. Not checked against the parts themselves.
 
 | Part | Status |
 |---|---|
-| End effector parts, most | In hand. Enough for one end effector, except the pizza slices. |
-| Pizza slices | Not finished. Might be fully done Monday 11/23 (John, 11/22). |
-| TAG-Mech-003 | Needs tapping with an M2.5 hand tap. To be done 11/23 at BHE (John, 11/22). |
-| TAG-Mech-005 | One finished 11/21 at the Castle. One outstanding. It will be machined at the Castle, starting 11/23 (John, 2026-11-22). |
-| DM-J4340 rear mounts | Rear holes to be retapped to M4, then the motor bottoms epoxied to the mounts. By end of 11/23 (John, 11/22). |
-| Center module | Pretty much fully wired on 11/22 (John). |
-| Center spacer | On the CNC on 11/21. Holes may not be drilled yet. |
-| One center part | 3D printed, not machined. |
-| Camera mounts | Enough in hand. |
-| Belts | In hand. |
-| End effector electronics | Not finished. Hansi is needed. |
-| Docking boards | Printing 11/21 night. |
-| Floor plates and tables | At IYA. 6 plates. |
-| Ring LEDs | Ordered. Each LED can be switched on its own. |
+| End effector 1 | Complete mechanically (John, 11/27). Electrical waits on the buffer board. |
+| End effector 2 | TAG-Mech-005 left to tap, then full assembly. Waits on the M2.5 tap, arriving around midday 11/27 (John). |
+| M2.5 tap | Not in hand. Arrives around midday 11/27 (John). |
+| Pizza slices | Enough for end effector 1. The rest not recorded. |
+| TAG-Mech-003 | Done for end effector 1. |
+| TAG-Mech-005 | Both machined (John, 11/27). The one for end effector 2 still needs an M2.5 tap, on Friday 11/27. |
+| DM-J4340 rear mounts | The JB Weld arrived 11/24, not 11/23 (Discord). The arm was driven by 11/27. Whether all four were retapped and epoxied is not recorded. |
+| Modules | All three wired and streaming on 11/26. |
+| Center spacer | 11/21: on the CNC. The arm is assembled now. |
+| One center part | 11/21: 3D printed, not machined. |
+| Camera mounts | 11/21: enough in hand. |
+| Belts | 11/21: in hand. |
+| End effector electronics | Each needs a 74LS125 buffer board for the servos. EE2's bench board works. The board for the robot is a work in progress, due around midday 11/27 (John). Parts list posted on Discord 11/25. |
+| IMUs | One GY-BNO08X on each module (11/26). |
+| ESP32-C5s | Three ESPs died since 11/24. Spares not recorded. |
+| Docking boards | 11/21: printing that night. Not recorded since. |
+| Ports | All 7 mounted (John, 11/27). |
+| Ring LEDs | Lit on a C5 on 11/24. A second loom stayed dark, maybe from 3.3 V data into a 5 V ring ([note](../notes/2026-11-24-john-nano-c5-docking-endurance.md)). |
 
 ## Software plan
 
 - As of 11/22 the ROS nodes talk to the motors over ESP-NOW (John).
 - With the event-driven gateway node, ROS adds about 1 ms over the serial port, measured on the bench ([note](../notes/2026-11-22-john-tether-ros-bench-and-sim.md)).
-- As of 11/22 the sim is connected to ROS, tested in sim only ([Steve's note](../notes/2026-11-22-steve-tethersim-ros.md)). It also mirrors the real arm's telemetry into the sim as a digital twin.
+- As of 11/26 the sim mirrors all 7 real motors live, and SpaceMouse teleop runs in a one-dock sim scene ([Steve's 11-26 note](../notes/2026-11-26-steve-single-ee-spacemouse-arm7-bringup.md)).
+- As of 11/27 tethersmall `main` is the firmware on the arm, and tether_ros publishes the IMUs ([Steve's 11-27 note](../notes/2026-11-27-steve-imu-merged-laptop-reader.md)). Torque commands with feedforward go through Steve's host script, not the ROS gateway node.
 - ROS runs on a laptop. The sim connects to it as a topic. The wireless link to the modules is hidden behind a master and slave layer.
 - Two tracks, so one can stand in if the other fails:
-  - **Deterministic.** A planned path. Works as long as the AprilTags are detected. Mostly CV tuning and detection accuracy.
+  - **Deterministic.** A planned path. Works as long as the AprilTags are detected. Mostly CV tuning and detection accuracy. Needs the camera tags to reach the laptop.
   - **Policy.** A trained policy. Also covers the boxes and human interaction. Steve.
 - About 2 people per track.
 - Walking alone may take 1 to 2 days of testing.
@@ -168,18 +214,20 @@ From the meeting, with John's updates from 11/22 where marked. Not checked again
 
 ## Risks and backups
 
-- **End effector lock.** Turned by hand on Tuesday. Not tested under power until Wednesday night. If it fails, about 8 days are left. An electromagnet backup was raised and not chosen: it needs extra ESPs and relays, battery power for the magnets, and changes to the sim and software. There is no budget for it. Decide with Jack and Ming.
-- **4340 rear mounts.** The retap and epoxy are Monday. The first load on them is Wednesday night. Epoxy is permanent, so check each motor powers up and reports before bonding it. A spare motor has M2.5 holes. The [load note](../notes/2026-11-22-john-dm4340-rear-mount-loads.md) says M4 only helps if cut with a bottoming tap, and that M4 with epoxy holds floor and step loads on paper but not a drop. Calculated, not measured.
-- **Holding the arm over the gateway.** In sim, the gateway protocol cannot hold the full arm stiffly ([Steve's note](../notes/2026-11-22-steve-tethersim-ros.md)). Hansi's test through ROS found the same: the stance pitch joint sagged 5.2° ([note](../notes/2026-11-22-john-tether-ros-bench-and-sim.md)). If the powered test on Wednesday night runs over that path, this needs fixing first. Not seen on the robot.
+- **No dock between two ports yet.** Sunday's full run needs docking, a step with both ends, and walking. Two days are left for all of it.
+- **Play in the dock.** The arm is far too wobbly (John, 11/27). The sim is rigid, so the policy may not cope. The IMUs measure it. The plan is PID tuning and policy training with the IMU data. Nothing logs it yet, and the sim does not model the play.
+- **Camera tags do not reach the laptop.** The EE firmware drops them. Without them the deterministic track cannot run. Due by the end of Friday.
+- **Both end effectors hang on midday Friday.** The buffer board and the M2.5 tap are both due around then. If either is late, mounting, PID tuning and docking slip into Saturday, and Saturday already holds the first step with both ends.
+- **End effector lock.** Seen in a port on 11/25, with play. An electromagnet backup was raised and not chosen: it needs extra ESPs and relays, battery power for the magnets, and changes to the sim and software. There is no budget for it.
+- **ESPs dying.** Three since 11/24. Never power a C5 from USB and the buck at once. Plug the pack in last ([power order](../notes/2026-11-24-john-nano-c5-docking-endurance.md)). The spare count is not recorded.
+- **`COMMAND_FF` limits.** 80 Nm, 25 Nm and kp 500 are on `main` as proposals, not agreed numbers.
+- **Battery.** Nothing reads pack voltage. The motors' undervoltage setting has not been read ([open question 25](../truth/open-questions.md)).
+- **4340 rear mounts.** The arm has been driven on them. The [load note](../notes/2026-11-22-john-dm4340-rear-mount-loads.md) says M4 with epoxy holds floor and step loads on paper but not a drop. Calculated, not measured.
 - **Two arm URDFs.** The sim and tether_ros use different arm files. The [4340 load note](../notes/2026-11-22-john-dm4340-rear-mount-loads.md) used the 14.35 kg one.
-- **Monday is overloaded.** It is a half-speed day and now holds the retap, the epoxy, the IYA trip, the BHE tapping and TAG-Mech-005. Who does which is not set.
-- **Wednesday has no slack.** The arm and end effector 1 both become ready that day, and the powered test is that night. If the pizza slices or TAG-Mech-003 slip past Monday, the test slips too.
-- **Watt Hall B1 access over Thanksgiving.** Unknown. Asking a Roski student. If there is no access, practice at Ming's on the plates, table and mushrooms. Ming's front steps are too shallow to stand in for the real steps.
-- **Yang's part (TAG-Mech-005).** Will be machined at the Castle (John, 2026-11-22). Open until it is cut.
-- **Shell.** Low priority next to everything else, but it matters for how the robot looks. Needs about 2 days to manufacture. JC's availability over Thanksgiving is not confirmed.
+- **Friday is overloaded.** It holds both end effectors, the camera path, the IMU streaming, PID tuning, docking, the Watt Hall setup and the shell start. Who does which is not set.
+- **Shell.** Not started, and it needs about 2 days. To go on Monday it has to start Friday. It matters for how the robot looks.
 - **Shell and the center joint.** The back electronics make one side thicker than planned, and the spacer can't get thicker. The shell will be asymmetric. Software should swing the full 360° only on the flat side.
-- **Time for software.** After the full arm exists (Thursday), about 3 days are left before the shell goes on Monday 11/30.
-- **Spillover.** Two spare days are left before demo day, 12/1 and 12/2. There were three.
+- **Spillover.** Two spare days are left before demo day, 12/1 and 12/2.
 
 ## Changes
 
@@ -194,3 +242,9 @@ Add a line when something moves.
 | 2026-11-22 | John's status for 11/22: ROS nodes talk to the motors over ESP-NOW. Center module pretty much fully wired. Pizza slices might be done 11/23. Hand test blocked by a missing M2.5 hand tap for TAG-Mech-003, to be tapped 11/23 at BHE. TAG-Mech-005 machining starts 11/23. End effector 1 mechanical and the hand test move to Tue 11/24. End effector 1 electrical and end effector 2 mechanical move to Wed 11/25. End effector 2 electrical moves to Thu 11/26. |
 | 2026-11-22 | From Steve's 11-22 note: the sim is connected to ROS (sim only), so Monday's ROS item becomes follow-ups from the sim findings. Added two risks: holding the arm over the gateway protocol, and the two arm URDFs. Added the table port drawings to the IYA item. |
 | 2026-11-22 | From Hansi's tether_ros work (unmerged branch): the bench run behind "ROS nodes talk to the motors", the 1 ms ROS latency, the camera link on 5 GHz channel 36, and a second confirmation of the gateway holding risk. No days moved. |
+| 2026-11-27 | John's status for 11/27: arm driven, not docked. End effector 1 complete mechanically. End effector 2 not complete. All 7 ports mounted. Watt Hall B1 open every day. Shell manufacturing not started. The servos need a 74LS125 buffer board. Full run kept on Sun 11/29, shell kept on Mon 11/30. |
+| 2026-11-27 | Moved: the 2-port docking test and end effector 1 electrical to Fri 11/27. End effector 2 mechanical and TAG-Mech-005 to Fri 11/27. End effector 2 electrical and the interactive boxes to Sat 11/28. Watt Hall setup on Friday is no longer a maybe. |
+| 2026-11-27 | Added from the 11-24 to 11-27 notes: camera tags to the laptop, IMU logging, joint signs and zeros, the `COMMAND_FF` limits, dock play in the sim, and a first step with both ends on Saturday. New risks: no dock yet, play in the dock, the camera path, end effector 2, ESPs dying, `COMMAND_FF` limits, battery. Removed past risks: Monday overloaded, Wednesday has no slack, Watt Hall access, holding the arm over the gateway, time for software. Yang's part (TAG-Mech-005) is now under the end effector 2 risk. |
+| 2026-11-27 | The days for the carried and added items were proposed by John's AI agent on 11/27. Owners are not set. |
+| 2026-11-27 | John, about 1 AM Friday: both end effectors fully manufactured and working electrically by the end of Friday. The servo buffer board is due around midday. End effector 2 has one part left to tap, waiting on an M2.5 tap due around midday. End effector 2 electrical moves from Saturday to Friday. IMU streaming is in progress, after Wednesday night's test showed the arm far too wobbly. The IMU data feeds PID tuning and policy training. The camera tags must reach the laptop by the end of Friday. Friday is now split into overnight, midday, afternoon and evening. Docking between 2 ports is Friday evening and spills to Saturday if the end effectors are late. |
+| 2026-11-27 | John: the part left to tap on end effector 2 is TAG-Mech-005. Both are machined. Yang's part is no longer outstanding. |
