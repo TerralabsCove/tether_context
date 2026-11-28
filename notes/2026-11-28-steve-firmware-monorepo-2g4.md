@@ -13,9 +13,9 @@ Follows the [11-27 arm session note](2026-11-27-steve-arm-calibration-imu-sim-co
 [14 and 15](../truth/open-questions.md) (radio margin, nodes on one channel) and [25](../truth/open-questions.md)
 (battery frames), and adds [32](../truth/open-questions.md) (two end cameras, one gateway).
 
-**State of the arm right now:** only the center module has the new 2.4 GHz firmware. The gateway, boards 11 and 13,
-EE1 and EE2 are still on 5 GHz channel 36 and must be reflashed before the arm runs again. See
-[Reflash status](#reflash-status).
+**State of the arm at the end of 11-28:** every board (gateway 10, modules 11, 12 and 13, EE1, EE2) is flashed from
+tether-firmware `6f526e3` on 2.4 GHz channel 11. Each was checked on the bench on USB only. Nothing has run with the
+arm powered. See [Reflash status](#reflash-status) and [Flashing, 11-28](#flashing-11-28).
 
 ## One firmware repo
 
@@ -85,16 +85,17 @@ tether_ros `tools/flash_dryrun.py` flashes by MAC. It was changed locally and **
 `~/git/tether-firmware` (override with env `TETHER_FIRMWARE`), has the S3 as board 12, and reads MACs with
 PlatformIO's own esptool.
 
-| Board | MAC | Env | On 2.4 GHz ch 11? |
-|---|---|---|---|
-| 10, gateway | 10:BD:A3:C7:FC:5C | `gateway_cam_c5_5g` | **Not yet flashed** |
-| 11 | 10:BD:A3:CA:2F:C0 | `arm7_11_c5_5g_imu` | **Not yet flashed** |
-| 12 role, center (S3) | 7C:E8:B1:A1:43:4C | `arm7_12_s3_imu` | Flashed, boots **[verified]** |
-| 13 | 10:BD:A3:CA:23:D8 | `arm7_13_c5_5g_imu` | **Not yet flashed** |
-| EE1 (C5 #3) | 10:BD:A3:CD:BE:54 | `xiao_c5_ee1` | **Not yet flashed** with the 2.4 GHz build |
-| EE2 (C5 #2) | 10:BD:A3:CD:D1:B8 | `xiao_c5_ee2_buf` (on the board now) | **Not yet flashed** |
+All flashed from tether-firmware `6f526e3`. Each board's MAC was read with esptool before flashing, and every flash
+reported "Hash of data verified". Bench checks are in [Flashing, 11-28](#flashing-11-28).
 
-MACs for 10, 11 and 13 are from [John's 11-26 note](2026-11-26-john-imu-on-arm-bringup.md).
+| Board | MAC | Was running | Now (env) | On 2.4 GHz ch 11? |
+|---|---|---|---|---|
+| 10, gateway | 10:BD:A3:C7:FC:5C | `steve/battery-telemetry` build, 5 GHz | `gateway_cam_c5_5g` | Flashed **[as built]** (channel fixed by the build, not reported by the board) |
+| 11 | 10:BD:A3:CA:2F:C0 | `steve/battery-telemetry` IMU build, channel 36 | `arm7_11_c5_5g_imu` | Flashed **[verified]** (boot line) |
+| 12 role, center (S3) | 7C:E8:B1:A1:43:4C | S3 servo buffer test | `arm7_12_s3_imu` | Flashed **[verified]** (boot line) |
+| 13 | 10:BD:A3:CA:23:D8 | `module-imu` IMU build, channel 36 | `arm7_13_c5_5g_imu` | Flashed **[verified]** (boot line) |
+| EE1 (C5 #3) | 10:BD:A3:CD:BE:54 | `xiao_c5_ee1` from 11-27, no camera link | `xiao_c5_ee1` (servos + camera link) | Flashed **[as built]** |
+| EE2 (C5 #2) | 10:BD:A3:CD:D1:B8 | tether_camera `camera_slave`, not EE firmware (below) | `xiao_c5_ee2_buf` (buffer board, servos + camera link) | Flashed **[as built]** |
 
 ## Center module is now a XIAO ESP32-S3
 
@@ -124,11 +125,12 @@ both are expected. **Not tested in the arm.**
 | | Board | MAC | Since |
 |---|---|---|---|
 | EE1 | C5 #3 | `10:BD:A3:CD:BE:54` (SoftAP `:55`) | 2026-11-27 |
-| EE2 (unchanged) | C5 #2 | `10:BD:A3:CD:D1:B8` | |
+| EE2 (same board) | C5 #2 | `10:BD:A3:CD:D1:B8` | |
 | No longer EE1 | C5 #1 | `38:44:BE:1F:F9:DC` | |
 
 C5 #3 arrived with Seeed's factory test firmware and was flashed with `xiao_c5_ee1` on 2026-11-27: servo 1 disabled
-for ROS, servo 2 limited to 20..400 steps. **[as built]** It still has to be flashed with the 2.4 GHz build.
+for ROS, servo 2 limited to 20..400 steps. **[as built]** Reflashed on 11-28 with the 2.4 GHz build that also carries
+the camera link ([Flashing, 11-28](#flashing-11-28)).
 
 Still open: EE1's servo 1 rests at 4092, at the 4095 → 0 wrap. It needs `ofs 1 <n>` before ROS uses it.
 
@@ -140,7 +142,8 @@ packets, was most likely C5 #1. **[assumed]**, not checked.
 The C5 at each end of the arm is wired to both the STS3215 servos and the end reCamera's USB-C. So the EE builds
 (`xiao_c5_ee1`, `xiao_c5_ee2`, `xiao_c5_ee2_buf`) now also do tether_camera's `camera_slave` job. This closes the
 gap in the [11-26 note](2026-11-26-steve-ee2-servo-buffer-debug.md), where 30,922 camera messages reached the EE C5
-and stopped there. **[as built]**, builds for all EE envs; **not tested on hardware.**
+and stopped there. **[as built]**, builds for all EE envs. Bench-tested on EE1 and EE2 with fake camera lines over
+USB, not with a camera and not on the arm ([Flashing, 11-28](#flashing-11-28)).
 
 - USB lines that start with a digit are the camera's `<port> <message>` lines from `espbridge`. The C5 sends them
   over ESP-NOW as TetherLink packets, also during servo moves.
@@ -164,19 +167,56 @@ question 32.
 
 tethersmall `steve/battery-telemetry` (`T_POWER`, `0x08`, battery frames) was never merged; its PR #10 was closed
 unmerged and the branch sits in the archived repo. tether_ros already decodes `T_POWER`, but tether-firmware does
-not send it. Boards 10 and 11 run that branch now (11-27 note), so reflashing them from tether-firmware removes the
-battery frames until the work is brought into tether-firmware.
+not send it. Boards 10 and 11 ran that branch until 11-28 and were then reflashed from tether-firmware, so **the arm
+no longer sends battery frames**. The only flashed copies of that build are the two local backups listed in
+[Flashing, 11-28](#flashing-11-28).
+
+## Flashing, 11-28
+
+All bench checks were on laptop USB only, with no motor or servo power and no other board powered.
+
+| Board | Bench check | Tag |
+|---|---|---|
+| 10, gateway | Sends a `T_DIAG` frame every second. Heard no other board (none was powered). It does not report its channel until a camera `STAT` arrives; the build fixes it at 11 (`static_assert(LINK_CHANNEL == ESPNOW_CHANNEL)`, `LINK_CHANNEL` 11). | as built (channel) |
+| 11 | Boot: `node A (motor 0) ... channel 11 (radio 11)`. IMU 11 found at 0x4B and reading, same pose as before the flash. Motor 0x01 no answer, CAN `tx_err` 128, the same before and after the flash. | verified |
+| 12, center (S3) | Channel 11. No motor or IMU attached. | verified (boot line, above) |
+| 13 | Boot: `node E (motor 4) ... channel 11 (radio 11)`. IMU 13 found at 0x4B and reading. Motor 0x03 no answer, the same before and after. | verified |
+| EE1 | Camera path: 20 fake `<port> <message>` lines over USB (10 on port 5005, 10 on 5006) gave lines 20, bad 0, ESP-NOW sent 22 (20 data + 2 `STAT`), failed 0. Bench output had the `# ` prefix while lines came in and went back to normal 2 s after the last one. `ee` showed "gateway not yet" (the gateway was still on channel 36 at the time). Servos: scan found none, `stat 2` no reply (no servo power on USB). | verified |
+| EE2 | Camera path: same result as EE1. `bustest` **failed** ("driver off: ... RX never goes low") and scan found no servos. Likely cause: with the buck off, the buffer board and servo ground are not powered or grounded on laptop USB; the [11-26 note](2026-11-26-steve-ee2-servo-buffer-debug.md) says EE2's servo ground reaches the XIAO's ground only through the buck. Re-run `bustest` with the buck on before trusting the servo bus. | verified (failure); assumed (cause) |
+
+The motors not answering on 11 and 13 is expected with no motor power, and it was the same before the flash.
+
+**EE2 was running tether_camera `camera_slave`, not EE firmware.** It printed `# camera 0 ... computer no`, which
+means it was sending fake tags. Who flashed it, and when, is not known. That fits the
+[11-26 note](2026-11-26-steve-ee2-servo-buffer-debug.md)'s open item, "camera tag data has no path to Board 10
+while the EE C5 runs the servo firmware": the combined EE build now does both. That item is addressed in firmware
+and not yet tested on the arm.
+
+Firmware images saved before flashing, on Steve's Mac only (`~/git/tether_controls/bench/backups/`, not in any
+repo):
+
+- `board10_10BDA3C7FC5C_battery-telemetry_5g_2026-11-28.bin`
+- `board11_10BDA3CA2FC0_battery-telemetry_5g_2026-11-28.bin`
+- `ee2_10BDA3CDD1B8_camera_slave_before_2026-11-28.bin`
+- `s3_7CE8B1A1434C_buf_test_before_center_2026-11-28.bin`
+
+Boards 13 and EE1 were not backed up; their old builds can be rebuilt from git.
+
+tether_ros `tools/flash_dryrun.py` (local, still uncommitted) now maps boards 11 and 13 to their `_imu` envs.
 
 ## Not tested
 
-- Any board other than the S3 on 2.4 GHz channel 11, and the arm on 2.4 GHz at all: loss, RTT, range.
+- Anything with the arm powered. The arm on 2.4 GHz at all: loss, RTT, range.
+- Next check, on the arm: gateway on the laptop; tether_ros sees `STATE` from 11, 12 and 13, IMU frames, and EE
+  frames from both ends; `ee` on each end C5 shows "gateway known"; camera tags arrive as `T_CAM_DATA`; EE2
+  `bustest` passes with the buck on.
 - The S3 with its CAN transceiver, motor and IMU wired.
-- The end C5 carrying the camera link: no hardware run, on bench or arm, on either end.
-- tether_ros `flash_dryrun.py` against tether-firmware beyond flashing the S3.
+- The end C5 camera link with a real camera, on either end.
 
 ## Open
 
-- Reflash 10, 11, 13, EE1 and EE2.
+- Run the check above with the arm powered.
+- EE2 `bustest` with the buck on.
 - Measure the arm link on 2.4 GHz channel 11 (open questions [14](../truth/open-questions.md) and
   [15](../truth/open-questions.md)).
 - Two end cameras through one gateway peer (open question 32).
