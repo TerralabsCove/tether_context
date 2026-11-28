@@ -1,0 +1,40 @@
+== 1. Deterministic main-module runtimes (usable = 85% of nominal Wh) ==
+scenario                     mod11                 mod12                 mod13
+standby           4.5 W  21.00 h         2.7 W  44.32 h         4.5 W  21.00 h   
+hold-mid         20.5 W   4.60 h        10.6 W  11.39 h        20.5 W   4.60 h   
+hold-full        68.9 W   1.37 h        33.1 W   3.65 h        68.9 W   1.37 h   
+step            101.4 W   0.93 h        50.6 W   2.39 h       101.4 W   0.93 h   
+walking mix      45.6 W   2.07 h        23.0 W   5.24 h        45.6 W   2.07 h   
+
+   module 12 if only ONE 3200 mAh pack is in use (71 Wh nominal):
+   standby        2.7 W  22.16 h
+   hold-mid      10.6 W   5.70 h
+   hold-full     33.1 W   1.82 h
+   step          50.6 W   1.19 h
+   walking mix   23.0 W   2.62 h
+
+== 2. Monte Carlo, walking mix, 40000 draws ==
+   varied: torque scale (lognormal, mean x1.08 for unweighed wiring/boards), motor efficiency 0.70-0.90,
+   idle draw x0.5-2.0, copper-loss coefficient x0.5-1.5, usable fraction 0.75-0.95, real capacity 0.90-1.00,
+   walking mix Dirichlet around 20/45/35
+   mod11            P10  1.01 h   P50  1.77 h   P90  3.02 h
+   mod12            P10  2.60 h   P50  4.46 h   P90  7.46 h
+   mod13            P10  1.01 h   P50  1.77 h   P90  3.02 h
+   mod12 (1 pack)   P10  1.30 h   P50  2.23 h   P90  3.73 h
+
+== 3. Replay of measured bench data through the estimator (motor 0 = 4340, module 11) ==
+   2026-11-22_ros_sweep_0x01: 8.5 s, mean module-11 draw 4.28 W (idle 4.0 + motor 0.28), -> 22.0 h if repeated forever. Only one motor was loaded; this is the bench, not the arm.
+   2026-11-22_ros_turn_0x01: 18.0 s, mean module-11 draw 4.13 W (idle 4.0 + motor 0.13), -> 22.8 h if repeated forever. Only one motor was loaded; this is the bench, not the arm.
+
+== 4. End effector, 3S 450 mAh (4.995 Wh nominal) ==
+   standby (camera off, no ring)              median draw  2.1 W   P10    82 min   P50   112 min   P90   170 min
+   normal (camera + C5 + servos)              median draw  5.3 W   P10    34 min   P50    43 min   P90    57 min
+   show mode (camera + ring + docking 10%)    median draw  6.4 W   P10    29 min   P50    36 min   P90    46 min
+
+== 5. Voltage sag check, worst module (module 11, 'hold-full') ==
+   69 W at 25.2 V open-circuit:  2.7 A, sag 0.14 V at 50 mOhm -> 25.06 V under load
+   69 W at 25.2 V open-circuit:  2.7 A, sag 0.33 V at 120 mOhm -> 24.87 V under load
+   69 W at 22.2 V open-circuit:  3.1 A, sag 0.16 V at 50 mOhm -> 22.04 V under load
+   69 W at 22.2 V open-circuit:  3.1 A, sag 0.37 V at 120 mOhm -> 21.83 V under load
+   69 W at 19.8 V open-circuit:  3.5 A, sag 0.17 V at 50 mOhm -> 19.63 V under load
+   69 W at 19.8 V open-circuit:  3.5 A, sag 0.42 V at 120 mOhm -> 19.38 V under load
