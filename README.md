@@ -24,7 +24,7 @@ The shared source of truth for the Tether project (Terra Labs, fall 2026). If yo
 5. **Every file has a header** with status, owner, and last-reviewed date. Meetings use the template in [meetings/_template.md](meetings/_template.md).
 6. **Tag robot facts** as verified, as built, decided, or assumed. Nothing is "verified" without a measurement artifact.
 7. **No new top-level folders** without talking to a PM first.
-8. **Code docs stay with the code.** Architecture docs and anything that goes stale when code changes live in the [tether repo](https://github.com/TerralabsCove/tether). Link to them from here instead of copying.
+8. **Code docs stay with the code.** Architecture docs and anything that goes stale when code changes live in the code repos ([tether-firmware](https://github.com/TerralabsCove/tether-firmware), [tether_ros](https://github.com/TerralabsCove/tether_ros), [tethersim](https://github.com/TerralabsCove/tethersim); the archived [tether repo](https://github.com/TerralabsCove/tether) for the COVE2 sim). Link to them from here instead of copying.
 
 ## File naming
 

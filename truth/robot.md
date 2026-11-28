@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng (hardware)
-last_reviewed: 2026-11-26
+last_reviewed: 2026-11-28
 ---
 
 # Robot: Cove and Tether
@@ -40,12 +40,12 @@ Nothing about Cove or Tether is **[verified]** yet. Gate G0 is what changes that
 | Motor identities | Master slot 0: slave `0x04`, previously measured feedback `0x14`. Remote slots are big / near-master / far-end. Node 1 slave IDs: `0x02` / `0x05` / `0x01`. Node 2: `0x06` / `0x03` / `0x07`. Remote feedback IDs and limits are not yet scanned. | decided D-028; feedback IDs open |
 | Inter-module wiring | None. Fully wireless. | decided D-006 |
 | Inter-module link | ESP-NOW first, NRF ESB as fallback (BLE ruled out) | decided D-019 |
-| Radio board | Seeed XIAO ESP32-C5 on every module and on the master. U.FL external antenna only; no on-board antenna. Band, channel, antenna type, and mounting are open and go through the test matrix in the [antenna and RF plan](../notes/2026-10-19-john-esp32c5-antenna-rf-plan.md). | decided D-029; band and antenna open |
+| Radio board | Seeed XIAO ESP32-C5 on every module and on the master. U.FL external antenna only; no on-board antenna. Exception since 2026-11-27: the center module (board 12's job, esc 0x04) is a XIAO ESP32-S3, which has no 5 GHz radio; no decision records this (see [conflicts](open-questions.md#conflicts-between-sources)). Because of the S3, every ESP-NOW link (motors, end cameras, end effectors) is set to 2.4 GHz channel 11 at 1 Mbit/s 802.11b "for now", from 5 GHz channel 36 at 6 Mbit/s 802.11a. Only the S3 runs that firmware so far ([11-28 note](../notes/2026-11-28-steve-firmware-monorepo-2g4.md)). Antenna type and mounting are open and go through the test matrix in the [antenna and RF plan](../notes/2026-10-19-john-esp32c5-antenna-rf-plan.md). | decided D-029; as built (S3, channel 11 settings); band not measured on the arm; antenna open |
 | Batteries | Layout planned for 5 modules, needs rework for 3 (see open questions). 3 sizes, 5–6 total, 5,000 mAh main modules, ~2 h runtime target, ~$50 per small battery. Middle module has two (D-036). | decided D-004, D-036 |
 | Battery protection | No BMS. Motors have built-in min-voltage shutoff. DC-DC converter for ESPs. | decided D-008 |
 | Module power | Battery splits to the motors and a 24 V to 5 V buck. ESP and CAN transceiver on the big motor side, enclosed. | decided D-033 |
 | Module IMU | One GY-BNO08X on each module, on the module's ESP over I2C: SDA D4, SCL D5, INT D0, RST D1. Added 2026-11-26 to measure dock play and arm sway; no decision number. Chip variant not confirmed. Each was calibrated off the arm, and each reads gravity about 1 % off once mounted. See the [on-arm note](../notes/2026-11-26-john-imu-on-arm-bringup.md). | as built |
-| Arm firmware | Boards 12 and 13 run tethersmall `john/module-imu` at `45c56ff` (in `main` since 2026-11-27, `5aad32a`): `steve/cmd-feedforward` plus an IMU task; the `COMMAND_FF` limits in it are still proposals. Boards 10 (gateway) and 11 were reflashed on 2026-11-27 from the unmerged `steve/battery-telemetry` at `26bb68e`, which adds a 1 Hz battery frame (`T_POWER`). The arm was driven on this mix for one 11.5 min teleop take with no motor fault; its full-rate log was lost. tether_ros `main` decodes the IMU and battery frames. See the [on-arm note](../notes/2026-11-26-john-imu-on-arm-bringup.md) and the [11-27 session note](../notes/2026-11-27-steve-arm-calibration-imu-sim-controllers.md). | as built |
+| Arm firmware | Since 2026-11-28 all ESP firmware is in [tether-firmware](https://github.com/TerralabsCove/tether-firmware) (private). Its README maps each board to its firmware and env. tethersmall, tether_controls and tether_camera are archived; their code is in folders of the same names, paths unchanged. On 2026-11-27 the arm was driven for one 11.5 min teleop take with no motor fault (its full-rate log was lost) on this mix: boards 12 (then a C5) and 13 on tethersmall `john/module-imu` at `45c56ff` (in `main` since 11-27, `5aad32a`: `steve/cmd-feedforward` plus an IMU task; the `COMMAND_FF` limits in it are still proposals), and boards 10 (gateway) and 11 on the unmerged `steve/battery-telemetry` at `26bb68e`, which adds a 1 Hz battery frame (`T_POWER`). Since then the center module's job moved to a XIAO ESP32-S3 on 2.4 GHz (`arm7_12_s3_imu`), flashed and booted on the bench only, not in the arm. Boards 10, 11 and 13 and both end-effector C5s are still on 5 GHz channel 36 and must be reflashed from tether-firmware before the arm runs again. tether-firmware does not include `T_POWER`, so reflashing 10 and 11 drops the battery frames. tether_ros `main` decodes the IMU and battery frames. See the [on-arm note](../notes/2026-11-26-john-imu-on-arm-bringup.md), the [11-27 session note](../notes/2026-11-27-steve-arm-calibration-imu-sim-controllers.md) and the [11-28 note](../notes/2026-11-28-steve-firmware-monorepo-2g4.md). | as built |
 | Mounts | Loads go through interlocking geometry, not bolts | decided D-042 |
 | Slip ring | None (D-047). The earlier plan (D-044) put a Taidacent hollow 6-wire slip ring (TTH-058) at the end effector. That part is on site. | decided D-047 |
 | End effectors | Ming's end effector on both ends (D-052). CAD: [end effector](../assets/2026-11-21-MingEE-male-v3.step), [dock](../assets/2026-11-21-MingEE-female-v3.step). Docking is servo-driven pins on the arm into passive holes on the structure (D-043). No metal end effector is assembled or tested yet as of 11-21. The earlier servo claw (D-005) is replaced. | decided D-052, D-043 |
@@ -56,11 +56,11 @@ Nothing about Cove or Tether is **[verified]** yet. Gate G0 is what changes that
 | Localization | AprilTags on the docks, read by the end cameras, plus joint states. No motion capture (D-054). LiDAR is out (D-034). | decided D-054 |
 | Control approach | Two tracks: a deterministic AprilTag path and a trained policy (D-050, D-053). | decided D-050, D-053 |
 | Electronics build | Breadboard, no PCB yet | decided D-007 |
-| End-effector power | Powered on its own, with its own radio (D-048). Each end effector has its own 3S 450 mAh battery, stepped down to 5 V by an LM2596 buck converter. The radio is a Seeed XIAO ESP32-C5. Runtime is long enough for our use. (John, 2026-11-20.) Neither the 450 mAh pack nor an active LM2596 row is on the BOM: TTH-018 (LM2596 5-pack) is marked Cancelled. | decided D-048; as stated (battery, buck, C5, runtime) |
+| End-effector power | Powered on its own, with its own radio (D-048). Each end effector has its own 3S 450 mAh battery, stepped down to 5 V by an LM2596 buck converter. The radio is a Seeed XIAO ESP32-C5. Runtime is long enough for our use. (John, 2026-11-20.) Neither the 450 mAh pack nor an active LM2596 row is on the BOM: TTH-018 (LM2596 5-pack) is marked Cancelled. Each end C5 is wired to its servos and to the end camera's USB-C; the camera, as USB host, powers the C5, so the buck's 5 V must stay off the C5's 5V pad (a C5 on USB and buck together died on 11-24). (Steve, 2026-11-28, [note](../notes/2026-11-28-steve-firmware-monorepo-2g4.md).) | decided D-048; as stated (battery, buck, C5, runtime, C5 power from the camera) |
 
 ## tethersmall testbed (2026-10-11)
 
-Two Cove pitch modules (DM10010) and their brackets, with no other joints, driven by an RL policy on a Mac over ESP-NOW. It is the Tether wireless architecture in miniature. Details live with the code: [docs/ESPNOW_BRINGUP.md](https://github.com/TerralabsCove/tethersmall/blob/main/docs/ESPNOW_BRINGUP.md). Artifacts: [deploy/hardware_logs/](https://github.com/TerralabsCove/tethersmall/tree/main/deploy/hardware_logs).
+Two Cove pitch modules (DM10010) and their brackets, with no other joints, driven by an RL policy on a Mac over ESP-NOW. It is the Tether wireless architecture in miniature. Details live with the code: [docs/ESPNOW_BRINGUP.md](https://github.com/TerralabsCove/tethersmall/blob/main/docs/ESPNOW_BRINGUP.md). Artifacts: [deploy/hardware_logs/](https://github.com/TerralabsCove/tethersmall/tree/main/deploy/hardware_logs). The tethersmall repo is archived as of 2026-11-28; the same paths are under `tethersmall/` in [tether-firmware](https://github.com/TerralabsCove/tether-firmware).
 
 | Item | Value | Tag |
 |---|---|---|
@@ -75,6 +75,7 @@ Two Cove pitch modules (DM10010) and their brackets, with no other joints, drive
 | Straight-line arm, 3 motors (2026-10-19/20) | USB gateway: 11/11 straight, RTT p95 20–26 ms. On-robot SoftAP master: 3/5 passed, RTT p95 159–642 ms. Layouts differed. | verified ([run logs](../notes/2026-10-20-hansi-straightline-run-logs.md)) |
 | All-C5 arm link (2026-10-28) | 5 GHz channel 36, USB gateway, damped motors: RTT p50 12–13 ms, p95 19–22 ms, bench to 5–6 m through a wall | verified ([range test](../notes/2026-10-28-hansi-c5-range-test.md)) |
 | Arm at rest with IMUs (2026-11-26) | 5 GHz channel 36, USB gateway, listening only, 58 s. 7 motors: 197–199 Hz each, status OK, 0.3–1.3 % of reports lost. 3 IMUs: 94–100 Hz, 0.6–5.7 % of frames lost. No run without the IMU frames to compare with. | verified ([on-arm note](../notes/2026-11-26-john-imu-on-arm-bringup.md)) |
+| Arm link band (2026-11-28) | Firmware now sets every link to 2.4 GHz channel 11, 1 Mbit/s 802.11b, for now. The two rows above were on 5 GHz channel 36 and are not re-measured. Only the center module runs the 2.4 GHz build so far. | as built (settings); not measured ([11-28 note](../notes/2026-11-28-steve-firmware-monorepo-2g4.md)) |
 
 ## Simulation model
 
@@ -83,7 +84,7 @@ Two Cove pitch modules (DM10010) and their brackets, with no other joints, drive
 - **B-end contact point:** 49.5 mm along +Z from `wrist_link`, taken from the mesh envelope. **[assumed]**
 - **Not modeled:** contact stability, friction and grip force, torque and current, cable fatigue, payload dynamics.
 - **Note:** the sim models Cove's geometry. It does not yet reflect the offset layout (D-002) or the 3-module wireless design (D-020).
-- **Tether arm model:** `description/terra_arm_description/urdf/arm.urdf` in [tether_controls](https://github.com/TerralabsCove/tether_controls), masses corrected 2026-10-31 (moved from cove-controls 2026-11-01). The step-reach sim (`sim/step_reach_sim/` there) uses it, not Cove's URDF. Results: [2026-10-28 step-reach note](../notes/2026-10-28-john-step-reach-sim.md), re-run 2026-10-31 at 14.35 kg. **[assumed]**
+- **Tether arm model:** `description/terra_arm_description/urdf/arm.urdf` in [tether_controls](https://github.com/TerralabsCove/tether_controls) (archived as of 2026-11-28; now `tether_controls/description/...` in tether-firmware), masses corrected 2026-10-31 (moved from cove-controls 2026-11-01). The step-reach sim (`sim/step_reach_sim/` there) uses it, not Cove's URDF. Results: [2026-10-28 step-reach note](../notes/2026-10-28-john-step-reach-sim.md), re-run 2026-10-31 at 14.35 kg. **[assumed]**
 
 ### Wire-routing comparison (sim, 2026-09-27)
 

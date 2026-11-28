@@ -35,8 +35,16 @@ Never create new top-level folders. Never delete files. Move superseded files to
 
 ## Related repos
 
-- [TerralabsCove/tether](https://github.com/TerralabsCove/tether): the COVE2 sim and code. Code-coupled docs live there.
+Live:
+
+- [TerralabsCove/tether-firmware](https://github.com/TerralabsCove/tether-firmware) (private): every Tether ESP firmware and the code around it, since 2026-11-28. Holds tethersmall, tether_controls and tether_camera as folders of the same names, paths unchanged, so `tethersmall/firmware/...`, `tether_controls/bench/...`, `tether_camera/esp/...`. Its `README.md` maps each board to its firmware and env. Firmware and camera code go there, not here.
+- [TerralabsCove/tether_ros](https://github.com/TerralabsCove/tether_ros): ROS 2 container and laptop tools for the gateway, the end effectors and the end cameras.
+- [TerralabsCove/tethersim](https://github.com/TerralabsCove/tethersim): the Tether simulator.
+
+Archived (read-only) as of 2026-11-28. Older notes link to them; the links still work for anyone with access.
+
+- [TerralabsCove/tethersmall](https://github.com/TerralabsCove/tethersmall): two-motor ESP-NOW + Damiao testbed (RL policy, module firmware, hardware logs). Start at `docs/ESPNOW_BRINGUP.md`. Now `tethersmall/` in tether-firmware.
+- [TerralabsCove/tether_controls](https://github.com/TerralabsCove/tether_controls): Tether motor firmware and bench tools, the Tether arm URDF (`description/`) and the step-reach sim (`sim/step_reach_sim/`). Now `tether_controls/` in tether-firmware.
+- [TerralabsCove/tether_camera](https://github.com/TerralabsCove/tether_camera): code that runs on, or tests, the end cameras (reCamera): the on-camera AprilTag program `tagstream`, its tests and raw results. Now `tether_camera/` in tether-firmware.
+- [TerralabsCove/tether](https://github.com/TerralabsCove/tether): the COVE2 sim and code.
 - [TerralabsCove/cove-controls](https://github.com/TerralabsCove/cove-controls): Cove's controls code and URDF.
-- [TerralabsCove/tether_controls](https://github.com/TerralabsCove/tether_controls): Tether motor firmware and bench tools, the Tether arm URDF (`description/`) and the step-reach sim (`sim/step_reach_sim/`).
-- [TerralabsCove/tethersmall](https://github.com/TerralabsCove/tethersmall): two-motor ESP-NOW + Damiao testbed (RL policy, module firmware, hardware logs). Start at `docs/ESPNOW_BRINGUP.md`.
-- [TerralabsCove/tether_camera](https://github.com/TerralabsCove/tether_camera): code that runs on, or tests, the end cameras (reCamera): the on-camera AprilTag program `tagstream`, its tests and raw results. Camera code goes there, not here. This repo keeps only a summary note that links to it.

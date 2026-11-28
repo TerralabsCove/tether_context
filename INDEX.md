@@ -47,10 +47,17 @@ Every current doc, one line each. Start here.
 
 ## In other repos
 
-- [tether](https://github.com/TerralabsCove/tether): COVE2 sim. See `PROJECT_SUMMARY.md`, `docs/VALIDATION_PLAN.md`, `docs/EDITOR_ARCHITECTURE.md`.
-- [cove-controls](https://github.com/TerralabsCove/cove-controls): Cove controls code and URDF
-- [tether_controls](https://github.com/TerralabsCove/tether_controls): Tether firmware and bench tools; Tether arm URDF in `description/`, step-reach sim in `sim/step_reach_sim/`
-- [tethersmall](https://github.com/TerralabsCove/tethersmall): two-motor ESP-NOW + Damiao testbed; RL policy over ESP-NOW. See `docs/ESPNOW_BRINGUP.md` and the [2026-10-11 note](notes/2026-10-11-john-tethersmall-rl-over-espnow.md).
+Live:
+
+- [tether-firmware](https://github.com/TerralabsCove/tether-firmware) (private): every Tether ESP firmware and the code around it, since 2026-11-28. tethersmall, tether_controls and tether_camera were copied in without history, each into a folder of its own name with paths unchanged. Its `README.md` has a board → firmware → env table. See the [2026-11-28 note](notes/2026-11-28-steve-firmware-monorepo-2g4.md).
 - [tether_ros](https://github.com/TerralabsCove/tether_ros): ROS 2 Docker container that connects the laptop to the ESP-NOW motor gateway and the end-camera C5. See its `README.md` and the [2026-11-22 summary note](notes/2026-11-22-hansi-ros-container.md). Later bench and sim work: [2026-11-22 summary](notes/2026-11-22-john-tether-ros-bench-and-sim.md).
 - [tethersim](https://github.com/TerralabsCove/tethersim): Tether simulator. MuJoCo physics with a Unity scene editor, policy training, and ROS 2 code. It speaks the robot's own protocols. See `docs/ROS.md` and the [2026-11-22 summary note](notes/2026-11-22-steve-tethersim-ros.md).
-- [tether_camera](https://github.com/TerralabsCove/tether_camera): end camera code (reCamera): on-camera AprilTag program `tagstream`, tests and results. See its `README.md` and the [2026-11-13 summary note](notes/2026-11-13-john-recamera-tag-tracking.md).
+
+Archived on GitHub (read-only) as of 2026-11-28. Older notes link here; the code of the first three now lives in tether-firmware.
+
+- [tethersmall](https://github.com/TerralabsCove/tethersmall): two-motor ESP-NOW + Damiao testbed; RL policy over ESP-NOW. See `docs/ESPNOW_BRINGUP.md` and the [2026-10-11 note](notes/2026-10-11-john-tethersmall-rl-over-espnow.md). Now `tethersmall/` in tether-firmware.
+- [tether_controls](https://github.com/TerralabsCove/tether_controls): Tether firmware and bench tools; Tether arm URDF in `description/`, step-reach sim in `sim/step_reach_sim/`. Now `tether_controls/` in tether-firmware.
+- [tether_camera](https://github.com/TerralabsCove/tether_camera): end camera code (reCamera): on-camera AprilTag program `tagstream`, tests and results. See its `README.md` and the [2026-11-13 summary note](notes/2026-11-13-john-recamera-tag-tracking.md). Now `tether_camera/` in tether-firmware.
+- [tether](https://github.com/TerralabsCove/tether): COVE2 sim. See `PROJECT_SUMMARY.md`, `docs/VALIDATION_PLAN.md`, `docs/EDITOR_ARCHITECTURE.md`.
+- [cove-controls](https://github.com/TerralabsCove/cove-controls): Cove controls code and URDF
+- Also archived: tethertests, terra-arm-locomotion-analysis.

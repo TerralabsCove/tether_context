@@ -1,7 +1,7 @@
 ---
 status: active
 owner: John Peng, Steve Lu
-last_reviewed: 2026-11-22
+last_reviewed: 2026-11-28
 ---
 
 # Tether: Project Overview
@@ -77,8 +77,9 @@ Full gate definitions live in the code repo: `docs/VALIDATION_PLAN.md` in [tethe
 | Who does what | [team.md](team.md) |
 | Every decision and why | [decisions.md](decisions.md) |
 | What's unresolved | [open-questions.md](open-questions.md) |
-| Sim codebase snapshot | `PROJECT_SUMMARY.md` in the tether repo |
-| ESP-NOW + Damiao testbed (RL over ESP-NOW) | [tethersmall repo](https://github.com/TerralabsCove/tethersmall), `docs/ESPNOW_BRINGUP.md` |
+| Sim codebase snapshot | `PROJECT_SUMMARY.md` in the tether repo (archived as of 2026-11-28) |
+| ESP-NOW + Damiao testbed (RL over ESP-NOW) | [tethersmall repo](https://github.com/TerralabsCove/tethersmall) (archived), `docs/ESPNOW_BRINGUP.md` |
+| Every ESP's firmware, and which env goes on which board | [tether-firmware](https://github.com/TerralabsCove/tether-firmware) (private), its `README.md` |
 | Kickoff deck | [assets/2026-09-27-tether-kickoff.pptx](../assets/2026-09-27-tether-kickoff.pptx) |
 | BOM (canonical, D-031) | [Tether BOM (F26 - Terra Labs)](https://docs.google.com/spreadsheets/d/16mWqcQNEYmytco0OLClecacfsPCy_qwmkcIXcmFBWYw/edit) |
 | Rolling status from Discord (unverified) | [Notion: Tether and Terra Everything](https://app.notion.com/p/407b37231fea8062a1b0f09d333779b4), [digest](../notes/2026-11-06-john-notion-digest.md) |
